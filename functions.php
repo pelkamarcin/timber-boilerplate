@@ -38,10 +38,13 @@ require_once( $functions_path . 'theme-setup/register-thumbnail-sizes.php' );
 require_once( $functions_path . 'frontend-hooks.php' );
 require_once( $functions_path . 'frontend-functions.php' );
 require_once( $functions_path . 'admin-hooks.php' );
+require_once( $functions_path . 'blocks.php' );
+require_once( $functions_path . 'shortcodes.php' );
 
 // Plugins dependent functions and hooks
 require_once( $functions_path . 'plugins/custom-fields.php' );
 require_once( $functions_path . 'plugins/acf.php' );
+require_once( $functions_path . 'plugins/polylang.php' );
 require_once( $functions_path . 'plugins/plugin.php' );
 
 // Alter main query for specific templates (aka pre_get_posts)

@@ -1,12 +1,12 @@
 <?php
 /**
-* Blog posts page
-*/
+ * Blog posts page
+ */
 
 $context = Timber::get_context();
 
 // get queried loop
-$timber_posts = Timber::get_posts( false, 'CommonPost' );
+$timber_posts     = Timber::get_posts( false, 'CommonPost' );
 $context['posts'] = $timber_posts;
 
 $context['pagination'] = Timber::get_pagination();

@@ -6,39 +6,40 @@
 #}
 
 {% if menu %}
-  {% spaceless %}
-    {% set listclass = [] %}
-    {% if is_submenu is defined and is_submenu == true %}
-      {% set listclass = listclass|merge([ baseclass ~ '__submenu' ]) %}
-      {% set first_subitem = menu|first %}
-      {% set listclass = listclass|merge([ baseclass ~ '__menu_level-' ~ (first_subitem.level + 1) ]) %}
-    {% else %}
-      {% set listclass = listclass|merge([ baseclass ~ '__list', baseclass ~ '__menu_level-1' ]) %}
-    {% endif %}
-    
-    <ul class="{{ listclass | join(' ') }}">
-    {% for item in menu %}
-      {# {% set itemclasses = item.classes %} #}
-      {% set itemclasses = [] %}
-      {% if is_submenu is defined and is_submenu == true %}
-        {% set itemclasses = itemclasses|merge([ baseclass ~ '__item', baseclass ~ '__subitem', baseclass ~ '__item_level-' ~ (item.level + 1) ]) %}
-      {% else %}
-        {% set itemclasses = itemclasses|merge([ baseclass ~ '__item', baseclass ~ '__item_level-1' ]) %}
-      {% endif %}
-      {% if item.current %}
-        {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_current' ]) %}
-      {% endif %}
-      {% if item.current_item_parent %}
-        {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_current-parent' ]) %}
-      {% endif %}
-      {% if item.get_children %}
-        {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_has-submenu' ]) %}
-      {% endif %}
-      <li class="{{ itemclasses | join(' ') }}">
-        <a class="{{ baseclass }}__link" href="{{item.get_link}}">{{item.title}}</a>
-        {% include 'partials/menu.twig' with {'menu':item.get_children, is_submenu:true } %}
-      </li>
-    {% endfor %}
-    </ul>
-  {% endspaceless %}
+    {% spaceless %}
+        {% set listclass = [] %}
+        {% if is_submenu is defined and is_submenu == true %}
+            {% set listclass = listclass|merge([ baseclass ~ '__submenu' ]) %}
+            {% set first_subitem = menu|first %}
+            {% set listclass = listclass|merge([ baseclass ~ '__menu_level-' ~ (first_subitem.level + 1) ]) %}
+        {% else %}
+            {% set listclass = listclass|merge([ baseclass ~ '__list', baseclass ~ '__menu_level-1' ]) %}
+        {% endif %}
+
+        <ul class="{{ listclass | join(' ') }}">
+            {% for item in menu %}
+                {# {% set itemclasses = item.classes %} #}
+                {% set itemclasses = [] %}
+                {% if is_submenu is defined and is_submenu == true %}
+                    {% set itemclasses = itemclasses|merge([ baseclass ~ '__item', baseclass ~ '__subitem', baseclass ~ '__item_level-' ~ (item.level + 1) ]) %}
+                {% else %}
+                    {% set itemclasses = itemclasses|merge([ baseclass ~ '__item', baseclass ~ '__item_level-1' ]) %}
+                {% endif %}
+                {% if item.current %}
+                    {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_current' ]) %}
+                {% endif %}
+                {% if item.current_item_parent %}
+                    {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_current-parent' ]) %}
+                {% endif %}
+                {% if item.get_children %}
+                    {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_has-submenu' ]) %}
+                {% endif %}
+                <li class="{{ itemclasses | join(' ') }}">
+                    <a class="{{ baseclass }}__link"
+                       href="{{ item.get_link }}">{{ item.title }}</a>
+                    {% include 'partials/menu.twig' with {'menu':item.get_children, is_submenu:true } %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endspaceless %}
 {% endif %}

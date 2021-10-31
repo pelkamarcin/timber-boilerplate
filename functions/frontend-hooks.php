@@ -1,7 +1,7 @@
 <?php
 /**
-* Hooks responsible for everything displayed on frontend
-*/
+ * Hooks responsible for everything displayed on frontend
+ */
 
 function themeprefix_add_namespaced_body_classes( $classes ) {
   if ( is_array( $classes ) ) {
@@ -9,11 +9,11 @@ function themeprefix_add_namespaced_body_classes( $classes ) {
       $classes[ $k ] = 'p-' . $v;
     }
   }
+
   return $classes;
 }
 
 add_filter( 'body_class', 'themeprefix_add_namespaced_body_classes' );
-
 
 
 function themeprefix_add_slug_to_body_class( $classes ) {
@@ -29,14 +29,12 @@ function themeprefix_add_slug_to_body_class( $classes ) {
 add_filter( 'body_class', 'themeprefix_add_slug_to_body_class' );
 
 
-
 // Remove WP emoji code
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
-
 
 
 // Remove Gutenberg default styles

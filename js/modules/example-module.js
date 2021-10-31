@@ -6,23 +6,16 @@
  */
 export const example_module = () => {
 
-  // !Set vars
+	// !Set vars
 
 
+	// !Append HTML
 
 
-  // !Append HTML
+	// !Events
 
 
-
-
-  // !Events
-        
-
-
-
-  // !Functions
-
+	// !Functions
 
 
 };

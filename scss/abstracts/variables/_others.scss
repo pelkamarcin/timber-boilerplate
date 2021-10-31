@@ -18,17 +18,16 @@ $unit-y: $unit-x;
 // Excluded selectors (only simple selectors)
 // use @include t-focused with arguments to set your own styling when element is focused
 $classes-exclude-from-focus: (
-  'c-selector-1'
-  'c-selector-2'
+  'c-selector-1' 'c-selector-2'
 );
 
 
 // Breakpoints
 // usage: @include mq($from: xlarge) {}
 $mq-breakpoints: (
-  small:  380px,
+  small: 380px,
   medium: 768px,
-  large:  1024px,
+  large: 1024px,
   xlarge: 1280px,
 );
 

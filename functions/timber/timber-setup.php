@@ -1,12 +1,12 @@
 <?php
 /**
-* Setup Timber environment
-*/
+ * Setup Timber environment
+ */
 
-if ( !class_exists( 'Timber' ) ) {
-  add_action( 
-    'admin_notices', 
-    function() {
+if ( ! class_exists( 'Timber' ) ) {
+  add_action(
+    'admin_notices',
+    function () {
       echo '
         <div class="error">
           <p>
@@ -16,8 +16,8 @@ if ( !class_exists( 'Timber' ) ) {
       ';
     }
   );
-  
+
   return;
 }
 
-Timber::$dirname = ['templates', 'img'];
+Timber::$dirname = [ 'templates', 'img' ];

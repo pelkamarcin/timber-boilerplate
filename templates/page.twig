@@ -1,13 +1,9 @@
 {% extends "singular.twig" %}
 
 
-{% block singular_article_class ' c-article-beta' %}
+{% block singular_article_class ' c-article-page' %}
 
 
 {% block content_area_inner_content %}
-  
-  {{ __('Something here...', 'theme_domain') }}
-
-  {{ parent() }}
-
+    {{ post.content }}
 {% endblock %}

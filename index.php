@@ -7,7 +7,7 @@
  * E.g., it puts together the home page when no home.php file exists
  */
 
-$context = Timber::get_context();
+$context          = Timber::get_context();
 $context['posts'] = Timber::get_posts( false, 'CommonPost' );
 
 Timber::render( 'base.twig', $context );

@@ -10,23 +10,18 @@ $font-size-base: rem-calc(16px);
 
 /* stylelint-disable indentation */
 $font-styles: (
-  
-  'body': ( // aka Helvetica Neue
-
+  'body': (// aka Helvetica Neue
     'regular': (
       font-size: $font-size-base,
       line-height: 1.6
     ),
   ),
-
   // 'heading': ( // aka heading font
-
   //   'section-title': (
   //     font-size:16px,
   //     line-height:1
   //   ),
   // )
-
 );
 
 /* stylelint-enable indentation */

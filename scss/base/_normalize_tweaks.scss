@@ -2,12 +2,12 @@
 // Tweaks for Normalize 3.0
 h1, h2, h3, h4, h5, h6, p, dl, dd, ul, ol, li, figure {
   margin: 0;
-  padding: 0; 
+  padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {  
-  font-weight: normal; 
-  font-size: 100%; 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-size: 100%;
 }
 
 ul {
@@ -23,7 +23,7 @@ html {
 }
 
 ol, ul {
-  list-style-position: inside; 
+  list-style-position: inside;
 }
 
 textarea {
@@ -32,15 +32,15 @@ textarea {
 }
 
 fieldset {
-  border: none; 
-  margin: 0; 
-  padding: 0; 
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 
 select {
-  color: black; 
+  color: black;
 }
 
 iframe {
-  border: none; 
+  border: none;
 }
