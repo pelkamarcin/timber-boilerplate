@@ -8,13 +8,15 @@ Text Domain:  themeprefix
 Domain Path:  /languages/
 */
 
+@import 'abstracts/variables/colors';
+@import 'abstracts/variables/dependencies';
+
 // !Dependencies
 @import 'dependencies';
 @import 'vendors';
 
 // !Site abstracts
 @import 'abstracts/functions';
-@import 'abstracts/variables/colors';
 @import 'abstracts/variables/typography';
 @import 'abstracts/variables/others';
 @import 'abstracts/mixins';
