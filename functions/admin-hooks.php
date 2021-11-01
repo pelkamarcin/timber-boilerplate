@@ -18,24 +18,22 @@ add_action( 'customize_register', 'themeprefix_edit_customizer' );
 
 
 function themeprefix_add_custom_gutenberg_color_palette() {
-
   global $common_config;
-  add_theme_support(
-    'editor-color-palette',
-    [
+  if ( $common_config->colors ) {
+    $items = [];
+    foreach ( $common_config->colors as $key => $color ) {
+      array_push( $items, [
+        'name'  => esc_html__( ucfirst( $key ), 'themeprefix' ),
+        'slug'  => $key,
+        'color' => $color,
+      ] );
+    }
 
-      [
-        'name'  => esc_html__( 'White', 'themeprefix' ),
-        'slug'  => 'white',
-        'color' => $common_config->color_white,
-      ],
-      [
-        'name'  => esc_html__( 'Black', 'themeprefix' ),
-        'slug'  => 'black',
-        'color' => '#000000',
-      ]
-    ]
-  );
+    add_theme_support(
+      'editor-color-palette',
+      $items
+    );
+  }
 }
 
-//add_action( 'after_setup_theme', 'themeprefix_add_custom_gutenberg_color_palette' );
+add_action( 'after_setup_theme', 'themeprefix_add_custom_gutenberg_color_palette' );

@@ -1,8 +1,16 @@
 /* stylelint-disable color-no-hex */
-$color-pomegranate: #ee2d29;
-$color-concrete: #f3f3f3;
 
-$color-accent: $color-pomegranate;
+$color-accent: map-get($colors, 'accent');
 
 $color-link: $color-accent;
 $color-bg: white;
+
+
+@each $name, $color in $colors {
+  .has-#{$name}-color {
+    color: $color;
+  }
+  .has-#{$name}-background-color {
+    background: $color;
+  }
+}

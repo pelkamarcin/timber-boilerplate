@@ -1,5 +1,9 @@
 {
   "avatar_width": 80,
   "avatar_height": 80,
-  "color_white": "#FFFFFF"
+  "colors": {
+	"white": "#ffffff",
+	"black": "#000000",
+	"accent": "#ff0000"
+  }
 }
