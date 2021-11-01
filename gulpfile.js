@@ -77,7 +77,7 @@ const _babelify = require('babelify');
 const _modernizr = require('gulp-modernizr');
 
 // Injects variables from config file to Sass
-const _sassvariables = require('gulp-sass-variables');
+const _sassvariables = require('gulp-sass-vars');
 
 // Allows to import Sass npm modules with a shorter notation
 const _packageimporter = require('node-sass-package-importer');
@@ -131,11 +131,8 @@ const svgsprite_config = {
 
 
 // Injecting config variables into Sass
-let config_sass_vars = {};
-for (var variable in _projectconfig) {
-	config_sass_vars['$_' + variable] = _projectconfig[variable];
-}
-config_sass_vars['$_is-env-dev'] = is_env_dev;
+let config_sass_vars = _projectconfig;
+config_sass_vars['$is-env-dev'] = is_env_dev;
 
 
 // TASKS
