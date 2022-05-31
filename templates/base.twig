@@ -22,7 +22,7 @@
 
         {% block content_area_inner %}
             {% if posts %}
-                {% include 'partials/post-section-partial.twig' with {'posts':posts} %}
+                {% include 'partials/posts-section-partial.twig' with {'posts':posts} %}
             {% else %}
                 {{ __('Sorry, no content', 'themeprefix') }}
             {% endif %}
