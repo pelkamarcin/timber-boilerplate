@@ -1,0 +1,32 @@
+
+.t-anim-1 {
+  &.t-anim-self,
+  *[class*='t-anim-elem-'] {
+    opacity: 0;
+    transform: translateY(130px);
+  }
+
+  &.is-in-view-first {
+    &.t-anim-self {
+      animation: anim1 400ms ease-in-out forwards;
+    }
+
+    *[class*='t-anim-elem-'] {
+      animation: anim1 750ms ease-in-out forwards;
+    }
+
+    $animationStep: 150ms;
+    @for $i from 1 through 10 {
+      .t-anim-elem-#{$i} {
+        animation-delay: $animationStep + $animationStep * $i;
+      }
+    }
+  }
+}
+
+@keyframes anim1 {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,10 +1,11 @@
 <?php
 // Check if function exists and hook into setup.
-if ( function_exists( 'acf_register_block_type' ) ) {
-  add_action( 'acf/init', 'themeprefix_register_acf_block_types' );
+if (function_exists('acf_register_block_type')) {
+    add_action('acf/init', 'themeprefix_register_acf_block_types');
 }
 
-function themeprefix_register_acf_block_types() {
+function themeprefix_register_acf_block_types()
+{
 
 //  acf_register_block_type( array(
 //    'name'            => 'hero',
@@ -23,23 +24,25 @@ function themeprefix_register_acf_block_types() {
 
 }
 
-function themeprefix_base_block_render_callback( $block, $content = '', $is_preview = false ) {
-  $context = Timber::context();
+function themeprefix_base_block_render_callback($block, $content = '', $is_preview = false)
+{
+    $context = Timber::context();
 
-  // Store block values.
-  $context['block'] = $block;
+    // Store block values.
+    $context['block'] = $block;
 
-  // Store field values.
-  $context['fields'] = get_fields();
+    // Store field values.
+    $context['fields'] = get_fields();
 
-  // Store $is_preview value.
-  $context['is_preview'] = $is_preview;
+    // Store $is_preview value.
+    $context['is_preview'] = $is_preview;
 
-  return $context;
+    return $context;
 }
 
-function themeprefix_hero_block_render_callback( $block, $content = '', $is_preview = false ) {
-  $context = themeprefix_base_block_render_callback( $block, $content, $is_preview );
+function themeprefix_hero_block_render_callback($block, $content = '', $is_preview = false)
+{
+    $context = themeprefix_base_block_render_callback($block, $content, $is_preview);
 
-  Timber::render( 'block/hero.twig', $context );
+    Timber::render('block/hero.twig', $context);
 }

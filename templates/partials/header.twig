@@ -1,6 +1,9 @@
 <header class="c-header">
-
-    <a href="#main-content">{{ __('Skip to content', 'themeprefix') }}</a>
+    <a href="{{ site.url }}">
+        <img src="{{ theme.link }}/images/logo.svg"
+             class="c-header__logo"
+             alt="{{ site.name }}"/>
+    </a>
 
     <nav>
         {% include 'partials/menu.twig' with {'menu': mainmenu.get_items, 'baseclass': 'c-mainmenu'} %}

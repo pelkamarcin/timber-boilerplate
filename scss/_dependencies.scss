@@ -1,9 +1,9 @@
 /* stylelint-disable plugin/at-rule-import-path */
 
 // SASS compile-time dependencies
-@import '~sass-mq/_mq.scss';
 @import '~common-sass-utilities';
 @import '~sass-rem';
-@import '~gridlex/src/gridlex';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/utilities';
 
 /* stylelint-enable plugin/at-rule-import-path */

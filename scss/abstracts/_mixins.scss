@@ -1,3 +1,5 @@
+@use '~sass-mq/mq' as *;
+@use 'variables/mq-settings';
 // Project mixins
 
 // !Utilities
@@ -16,7 +18,7 @@
   }
 
   @each $property, $value in $this-style {
-    @if map-has-key($mq-breakpoints, $property) and type-of($value) == 'map' {
+    @if map-has-key(mq-settings.$breakpoints, $property) and type-of($value) == 'map' {
       @include mq($from: $property) {
         @each $subproperty, $subvalue in $value {
           @if $subproperty == 'font-size' {
@@ -40,8 +42,11 @@
 // pure appearance (typographic/cosmetic) styles
 
 @mixin t-link-base {
-  color: $color-link;
   text-decoration: none;
+  color: var(--themeprefix-link-color, #{$color-link});
+  &:hover {
+    color: var(--themeprefix-link-color-hover);
+  }
 }
 
 

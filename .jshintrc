@@ -23,10 +23,10 @@
   "node": true,
   // Globals:
   "predef": [
-	"ga",
-	"ajaxurl",
-	"localized_strings",
-	"script_data",
-	"Modernizr"
+    "ga",
+    "ajaxurl",
+    "localized_strings",
+    "script_data",
+    "Modernizr"
   ]
 }

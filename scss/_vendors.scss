@@ -6,4 +6,11 @@
 @import '~swiper/swiper-bundle.css';
 @import '~hamburgers/_sass/hamburgers/hamburgers';
 
+@import "~@wordpress/base-styles/variables";
+@import "~@wordpress/base-styles/mixins";
+@import "~@wordpress/base-styles/animations";
+@import "~@wordpress/base-styles/z-index";
+
+@import "~@wordpress/block-library/src/common";
+@import "~@wordpress/block-library/src/columns/style";
 /* stylelint-enable plugin/at-rule-import-path */

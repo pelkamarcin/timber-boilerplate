@@ -8,6 +8,6 @@
  */
 
 $context          = Timber::get_context();
-$context['posts'] = Timber::get_posts( false, 'CommonPost' );
+$context['posts'] = Timber::get_posts(false, 'CommonPost');
 
-Timber::render( 'base.twig', $context );
+Timber::render('base.twig', $context);

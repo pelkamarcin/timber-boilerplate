@@ -1,0 +1,20 @@
+@use "~sass-mq/mq" as *;
+
+@mixin c-footer($base:&) {
+
+
+  & {
+
+
+  }
+  @at-root {
+    #{$base}_modifier {
+    }
+
+    #{$base}__element {
+    }
+
+    #{$base}__element_modifier {
+    }
+  }
+}

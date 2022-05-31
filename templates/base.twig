@@ -21,7 +21,11 @@
         {% block content_area_prepend '' %}
 
         {% block content_area_inner %}
-            {{ __('Sorry, no content', 'themeprefix') }}
+            {% if posts %}
+                {% include 'partials/post-section-partial.twig' with {'posts':posts} %}
+            {% else %}
+                {{ __('Sorry, no content', 'themeprefix') }}
+            {% endif %}
         {% endblock %}
 
         {% block content_area_append '' %}

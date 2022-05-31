@@ -1,9 +1,10 @@
 <?php
 /**
- * The template for displaying 404 pages (Not Found)
+ * Singular pages (pages and posts of any type)
  */
 
-$context = Timber::get_context();
-// $context['title'] = __( 'Error','themeprefix' ) . ' 404 (' . __( 'page not found', 'themeprefix' ) . ')';
-// $context['subtitle'] = sprintf( __( 'Sorry, we couldn\'t find what you\'re looking for', 'themeprefix' ), '<a href="' . get_bloginfo( 'url' ) . '">', '</a>' );
-Timber::render( 'message.twig', $context );
+$context         = Timber::get_context();
+$timber_post     = Timber::query_post(false, 'CommonPost');
+$context['post'] = $timber_post;
+
+Timber::render('404.twig', $context);

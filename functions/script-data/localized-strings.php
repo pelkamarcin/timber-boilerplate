@@ -4,10 +4,11 @@
  */
 
 
-function themeprefix_localized_strings() {
-  $localized_strings = [
-    'load_more' => __( 'Load more', 'themeprefix' ),
-  ];
+function themeprefix_localized_strings()
+{
+    $localized_strings = [
+        'load_more' => __('Load more', 'themeprefix'),
+    ];
 
-  return $localized_strings;
+    return $localized_strings;
 }

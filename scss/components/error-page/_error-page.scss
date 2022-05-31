@@ -1,0 +1,23 @@
+// @z-index space: 80-90
+@mixin c-error-page($base:&) {
+
+  & {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+  }
+
+  @at-root {
+    #{$base}_modifier {
+    }
+
+    #{$base}__element {
+    }
+
+    #{$base}__element_modifier {
+    }
+  }
+}

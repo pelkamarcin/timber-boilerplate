@@ -11,14 +11,25 @@ $hamburger-active-layer-color: #000;
 
 $hamburger-types: (collapse);
 
-$gl-gutter: 30px;
-$gl-mq-list: (
-  small: 380px,
-  medium: 768px,
-  large: 1024px,
-  xlarge: 1280px,
-  xmlarge: 1400px,
-  xxlarge: 1700px,
+
+$grid-breakpoints: (
+        xs: 0,
+        small: 380px,
+        medium: 768px,
+        large: 1024px,
+        xlarge: 1280px,
+        xmlarge: 1430px,
+        xxlarge: 1700px,
 );
+
+
+$break-huge: 1440px;
+$break-wide: 1280px;
+$break-xlarge: 1080px;
+$break-large: 1023px;
+$break-medium: 1023px;
+$break-small: 1023px;
+$break-mobile: 480px;
+$break-zoomed-in: 280px;
 
 /* stylelint-enable meowtec/no-px */
