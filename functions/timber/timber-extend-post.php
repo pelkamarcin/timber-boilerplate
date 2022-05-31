@@ -4,8 +4,7 @@
  */
 
 
-class CommonPost extends TimberPost
-{
+class CommonPost extends TimberPost {
 
     // we should fully rewrite default functions readding their original functionality as well
     // public function thumbnail() {

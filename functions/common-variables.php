@@ -6,5 +6,5 @@
 
 global $common_config;
 
-$file          = file_get_contents(get_template_directory() . '/common_config.json');
-$common_config = json_decode($file);
+$file          = file_get_contents( get_template_directory() . '/common_config.json' );
+$common_config = json_decode( $file );

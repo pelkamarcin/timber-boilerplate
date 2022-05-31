@@ -4,8 +4,7 @@
  */
 
 // Fields registration
-function themeprefix_acf_add_php_fields()
-{
+function themeprefix_acf_add_php_fields() {
     global $functions_path;
     $fields_path = $functions_path . 'plugins/fields/';
 
@@ -22,4 +21,4 @@ function themeprefix_acf_add_php_fields()
     // }
 }
 
-add_action('acf/init', 'themeprefix_acf_add_php_fields');
+add_action( 'acf/init', 'themeprefix_acf_add_php_fields' );

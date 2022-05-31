@@ -5,6 +5,6 @@
 
 register_nav_menus(
     [
-        'mainmenu' => __('Menu in the header', 'themeprefix'),
+        'mainmenu' => __( 'Menu in the header', 'themeprefix' ),
     ]
 );

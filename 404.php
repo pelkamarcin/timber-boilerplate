@@ -4,7 +4,7 @@
  */
 
 $context         = Timber::get_context();
-$timber_post     = Timber::query_post(false, 'CommonPost');
+$timber_post     = Timber::query_post( false, 'CommonPost' );
 $context['post'] = $timber_post;
 
-Timber::render('404.twig', $context);
+Timber::render( '404.twig', $context );

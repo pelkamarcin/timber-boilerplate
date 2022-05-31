@@ -25,7 +25,7 @@
     "sass": "^1.52.1",
     "sass-module-importer": "^1.4.0",
     "sass-mq": "^6.0.0",
-    "sass-rem": "^2.0.0",
+    "sass-rem": "^3.0.0",
     "stylelint-at-rule-import-path": "^1.0.2",
     "stylelint-config-recommended-scss": "^5.0.2",
     "stylelint-no-px": "^1.0.1",

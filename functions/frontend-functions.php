@@ -4,14 +4,13 @@
  */
 
 
-function themeprefix_excerpt_function($post_content, $search_phrase)
-{
+function themeprefix_excerpt_function( $post_content, $search_phrase ) {
     $pos     = 0;
-    $cleaned = strip_tags($post_content);
-    if (false !== strpos($post_content, $search_phrase)) {
-        $pos = strpos($cleaned, $search_phrase);
+    $cleaned = strip_tags( $post_content );
+    if ( false !== strpos( $post_content, $search_phrase ) ) {
+        $pos = strpos( $cleaned, $search_phrase );
     }
-    $found = substr($cleaned, $pos, 400);
-    echo (0 === $pos ? '' : '...') . $found . ' ...';
+    $found = substr( $cleaned, $pos, 400 );
+    echo esc_html( ( 0 === $pos ? '' : '...' ) . $found . ' ...' );
 
 }
