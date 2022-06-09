@@ -19,6 +19,9 @@ class CurrentTheme extends TimberSite {
 
         $context['common_config'] = $common_config;
         $context['site']          = $this;
+        if ( function_exists( 'acf_add_options_page' ) ) {
+            $context['lang'] = pll_current_language( 'slug' );
+        }
 
         return $context;
     }
