@@ -1,10 +1,11 @@
 <?php
+
+use Timber\Site;
+
 /**
  * Setup variables that should be available via $context in all the templates
  */
-
-
-class CurrentTheme extends TimberSite {
+class CurrentTheme extends Site {
     public function __construct() {
 
         add_filter( 'timber_context', [ $this, 'themeprefix_add_to_context_global' ] );
@@ -28,7 +29,7 @@ class CurrentTheme extends TimberSite {
 
     public function themeprefix_add_to_context_header( $context ) {
         // add menus
-        $context['mainmenu'] = new TimberMenu( 'mainmenu' );
+        $context['mainmenu'] = Timber::get_menu( 'mainmenu' );
 
         return $context;
     }

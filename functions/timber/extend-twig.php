@@ -1,12 +1,15 @@
 <?php
+
+use Twig\TwigFilter;
+
 /**
  * Setup Timber environment
  */
 
 function themeprefix_add_to_twig( $twig ) {
 
-    $twig->addFilter( new Twig_SimpleFilter( 'merge_recursive', 'themeprefix_array_merge_recursive' ) );
-    $twig->addFilter( new Twig_SimpleFilter( 'slugify', 'themeprefix_string_slugify' ) );
+    $twig->addFilter( new TwigFilter( 'merge_recursive', 'themeprefix_array_merge_recursive' ) );
+    $twig->addFilter( new TwigFilter( 'slugify', 'themeprefix_string_slugify' ) );
 
     return $twig;
 }

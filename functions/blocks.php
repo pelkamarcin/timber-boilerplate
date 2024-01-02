@@ -28,9 +28,10 @@ function themeprefix_base_block_render_callback( $block, $content = '', $is_prev
     // Store block values.
     $context['block'] = $block;
 
-    // Store field values.
-    $context['fields'] = get_fields();
-
+    if ( function_exists( 'get_fields' ) ) {
+        // Store field values.
+        $context['fields'] = get_fields();
+    }
     // Store $is_preview value.
     $context['is_preview'] = $is_preview;
 

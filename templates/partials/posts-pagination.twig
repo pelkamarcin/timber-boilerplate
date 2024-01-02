@@ -5,7 +5,7 @@
         {% set classes = classes|merge(additional_classes) %}
     {% endif %}
 
-    {% spaceless %}
+    {% apply  spaceless %}
         <nav{{ ' class="' ~ classes|join(' ') ~ '"' }}>
 
             {% if before_after and pagination.prev %}
@@ -52,6 +52,6 @@
             {% endif %}
 
         </nav>
-    {% endspaceless %}
+    {% endapply  %}
 
 {% endif %}

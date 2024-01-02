@@ -3,6 +3,8 @@
  * Theme functions
  * See descriptions in each `require`d file
  */
+require_once __DIR__ . '/vendor/autoload.php';
+Timber\Timber::init();
 
 $functions_path = get_template_directory() . '/functions/';
 
@@ -19,7 +21,6 @@ require_once( $functions_path . 'common-variables.php' );
 require_once( $functions_path . 'timber/timber-setup.php' );
 require_once( $functions_path . 'timber/extend-twig.php' );
 require_once( $functions_path . 'timber/timber-extend-site.php' );
-require_once( $functions_path . 'timber/timber-extend-post.php' );
 
 // Client side PHP data (script localization, AJAX, etc.)
 require_once( $functions_path . 'script-data/localized-strings.php' );

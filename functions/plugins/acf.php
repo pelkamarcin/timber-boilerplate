@@ -25,9 +25,10 @@ add_action( 'acf/init', 'themeprefix_add_options_pages' );
 
 function themeprefix_acf_global_settings_context( $context ) {
 
-    // make ACF options page fields available in every Twig file
-    $context['options'] = get_fields( 'option' );
-
+    if ( function_exists( 'get_fields' ) ) {
+        // make ACF options page fields available in every Twig file
+        $context['options'] = get_fields( 'option' );
+    }
     return $context;
 }
 

@@ -6,7 +6,7 @@ __level-x-item -- all items on specific level
 #}
 
 {% if menu %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% set listclass = [] %}
         {% if is_submenu is defined and is_submenu == true %}
             {% set listclass = listclass|merge([ baseclass ~ '__submenu' ]) %}
@@ -18,8 +18,8 @@ __level-x-item -- all items on specific level
 
         <ul class="{{ listclass | join(' ') }}">
             {% for item in menu %}
-                {# {% set itemclasses = item.classes %} #}
-                {% set itemclasses = [] %}
+                {% set itemclasses = item.classes %}
+                {#                {% set itemclasses = [] %} #}
                 {% if is_submenu is defined and is_submenu == true %}
                     {% set itemclasses = itemclasses|merge([ baseclass ~ '__item', baseclass ~ '__subitem', baseclass ~ '__item_level-' ~ (item.level + 1) ]) %}
                 {% else %}
@@ -41,5 +41,5 @@ __level-x-item -- all items on specific level
                 </li>
             {% endfor %}
         </ul>
-    {% endspaceless %}
+    {% endapply %}
 {% endif %}
