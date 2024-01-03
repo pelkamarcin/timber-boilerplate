@@ -1,9 +1,9 @@
+@use '../abstracts/variables/mq-settings';
 @use "sass-mq/mq" as *;
 
 .c-example-block {
 
   & {
-
   }
 
   @at-root {
