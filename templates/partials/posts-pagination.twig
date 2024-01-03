@@ -10,10 +10,10 @@
 
             {% if before_after and pagination.prev %}
                 {# A workaround for Loco Translate to be able to scan strings that are located inside HTML attributes #}
-                {% set prev_label = __('Go to previous page', 'themeprefix') %}
+                {% set prev_label = __('Go to previous page', 'sfy') %}
                 <a href="{{ pagination.prev.link }}"
                    aria-label="{{ prev_label }}"
-                   class="c-posts-pagination__item c-posts-pagination__item_prev c-posts-pagination__item_link">{{ __('Previous', 'themeprefix') }}</a>
+                   class="c-posts-pagination__item c-posts-pagination__item_prev c-posts-pagination__item_link">{{ __('Previous', 'sfy') }}</a>
             {% endif %}
 
             {% if numbered %}
@@ -22,14 +22,14 @@
 
                     {% if page.link %}
                         {# use page.class to assign Wordpress classes #}
-                        {% set page_label = __('Page', 'themeprefix') ~ ' ' ~ page.title %}
+                        {% set page_label = __('Page', 'sfy') ~ ' ' ~ page.title %}
                         <a href="{{ page.link }}"
                            aria-label="{{ page_label }}"
                            class="c-posts-pagination__item c-posts-pagination__item_link">{{ page.title }}</a>
                     {% endif %}
 
                     {% if page.current %}
-                        {% set current_label = __('Current page', 'themeprefix') ~ ', ' ~ __('page', 'themeprefix') ~ ' ' ~ page.title %}
+                        {% set current_label = __('Current page', 'sfy') ~ ', ' ~ __('page', 'sfy') ~ ' ' ~ page.title %}
                         <span tabindex="0"
                               aria-label="{{ current_label }}"
                               aria-current="true"
@@ -45,10 +45,10 @@
             {% endif %}
 
             {% if before_after and pagination.next %}
-                {% set next_label = __('Go to next page', 'themeprefix') %}
+                {% set next_label = __('Go to next page', 'sfy') %}
                 <a href="{{ pagination.next.link }}"
                    aria-label="{{ next_label }}"
-                   class="c-posts-pagination__item c-posts-pagination__item_next c-posts-pagination__item_link">{{ __('Next', 'themeprefix') }}</a>
+                   class="c-posts-pagination__item c-posts-pagination__item_next c-posts-pagination__item_link">{{ __('Next', 'sfy') }}</a>
             {% endif %}
 
         </nav>

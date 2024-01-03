@@ -65,7 +65,7 @@
         <properties>
             <property name="text_domain"
                       type="array"
-                      value="themeprefix"/>
+                      value="sfy"/>
         </properties>
     </rule>
 
@@ -78,7 +78,7 @@
         <properties>
             <property name="prefixes"
                       type="array"
-                      value="themeprefix"/>
+                      value="sfy"/>
         </properties>
     </rule>
 

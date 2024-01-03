@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bundle name="themeprefix">
-    <domain name="themeprefix">
+<bundle name="Theme name">
+    <domain name="sfy">
         <project>
             <source>
                 <directory>.</directory>
@@ -9,11 +9,12 @@
                 <directory>languages</directory>
             </target>
             <template>
-                <file>languages/themeprefix.pot</file>
+                <file>languages/sfy.pot</file>
             </template>
         </project>
     </domain>
     <exclude>
         <directory>node_modules</directory>
+        <directory>vendor</directory>
     </exclude>
 </bundle>
