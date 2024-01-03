@@ -45,7 +45,7 @@
   text-decoration: none;
   color: var(--sfy-link-color);
   &:hover {
-    color: var(--sfy-link-color-hover);
+    color: var(--sfy-link-color-hover, var(--sfy-link-color));
   }
 }
 
