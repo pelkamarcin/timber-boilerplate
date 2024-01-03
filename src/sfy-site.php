@@ -7,7 +7,6 @@ use Site\Blocks\SfyBlocks;
 use Site\Shortcodes\SfyShortcodes;
 use Site\Taxonomies\SfyTaxonomies;
 use Timber\Site;
-use Timber\Timber;
 
 /**
  * Class SfySite
@@ -23,7 +22,6 @@ class SfySite extends Site {
 
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_filter( 'timber_context', [ $this, 'add_to_context_global' ] );
-        add_filter( 'timber_context', [ $this, 'add_to_context_header' ] );
         add_filter( 'login_head', [ $this, 'custom_login_logo' ] );
         add_filter( 'body_class', [ $this, 'add_body_classes' ] );
         add_filter( 'automatic_updates_is_vcs_checkout', '__return_false', 1 );
@@ -54,13 +52,6 @@ class SfySite extends Site {
         return $context;
     }
 
-
-    public function add_to_context_header( $context ) {
-        // add menus
-        $context['mainmenu'] = Timber::get_menu( 'mainmenu' );
-
-        return $context;
-    }
 
     public function custom_login_logo() {
         $url = get_theme_file_uri( 'favicon.svg' );
