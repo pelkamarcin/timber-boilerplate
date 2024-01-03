@@ -1,0 +1,102 @@
+{
+  "$schema" : "https:\/\/schemas.wp.org\/trunk\/theme.json",
+  "version" : 2,
+  "settings" : {
+    "appearanceTools" : false,
+    "color" : {
+      "palette" : [
+        {
+          "name" : "Blue",
+          "slug" : "blue",
+          "color" : "#004F7F"
+        },
+        {
+          "name" : "Green",
+          "slug" : "green",
+          "color" : "#468300"
+        },
+        {
+          "name" : "Grey",
+          "slug" : "grey",
+          "color" : "#515E63"
+        },
+        {
+          "name" : "Dark",
+          "slug" : "dark",
+          "color" : "#001019"
+        }
+      ]
+    },
+    "typography" : {
+      "customFontSize" : true,
+      "lineHeight" : true,
+      "dropCap" : false,
+      "fontSizes" : [
+        {
+          "name" : "Regular text",
+          "slug" : "regular-text",
+          "size" : "18px"
+        }
+      ],
+      "fontFamilies" : [
+        {
+          "name" : "Noto Serif",
+          "slug" : "noto-serif",
+          "fontFamily" : "Noto Serif"
+        },
+        {
+          "name" : "Mulish",
+          "slug" : "mulish",
+          "fontFamily" : "Mulish"
+        }
+      ]
+    },
+    "spacing" : {
+      "blockGap" : true,
+      "padding" : true,
+      "margin" : true,
+      "units" : [
+        "px",
+        "em",
+        "rem",
+        "vh",
+        "vw"
+      ],
+      "spacingScale" : {
+        "operator" : "*",
+        "increment" : 1.5,
+        "steps" : 7,
+        "mediumStep" : 1.5,
+        "unit" : "rem"
+      },
+      "spacingSizes" : [
+        {
+          "slug" : "40",
+          "size" : "1rem",
+          "name" : "Small"
+        },
+        {
+          "slug" : "50",
+          "size" : "1.5rem",
+          "name" : "Medium"
+        },
+        {
+          "slug" : "60",
+          "size" : "2rem",
+          "name" : "Large"
+        }
+      ]
+    },
+    "layout" : {
+      "contentSize" : "840px",
+      "wideSize" : "1100px"
+    },
+    "custom" : {
+      "baseFont" : 18,
+      "line-height" : {
+        "body" : 1.55,
+        "heading" : 1.33
+      }
+    }
+  }
+}
