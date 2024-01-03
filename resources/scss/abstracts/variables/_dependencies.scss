@@ -15,6 +15,7 @@ $hamburger-types: (collapse);
 
 $grid-breakpoints: map-merge((xs: 0), mq-settings.$breakpoints);
 
+// Wordpress breakpoints
 $break-huge: 1440px;
 $break-wide: 1280px;
 $break-xlarge: 1080px;

@@ -16,7 +16,7 @@
     }
 
     $animationStep: 150ms;
-    @for $i from 1 through 10 {
+    @for $i from 1 through 30 {
       .t-anim-elem-#{$i} {
         animation-delay: $animationStep + $animationStep * $i;
       }
