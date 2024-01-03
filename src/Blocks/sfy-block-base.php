@@ -8,10 +8,10 @@ class SfyBlockBase {
     public string $name;
     public string $title;
     public string $icon     = '';
-    public string $category = TEXT_DOMAIN . '-blocks';
+    public string $category = 'sfy' . '-blocks';
 
     public array $supports = [];
-    public array $keywords = [ TEXT_DOMAIN ];
+    public array  $keywords = [ 'sfy' ];
 
     public function __construct() {
 

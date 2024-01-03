@@ -1,0 +1,106 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UJ Vinci\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-03 21:25+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2\n"
+"X-Domain: sfy"
+
+#: src/Taxonomies/sfy-example-taxonomy.php:9
+msgid "Categories"
+msgstr ""
+
+#: src/Taxonomies/sfy-example-taxonomy.php:10
+msgid "Category"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:32
+msgid "Current page"
+msgstr ""
+
+#: templates/404.twig:10
+msgid "Error 404"
+msgstr ""
+
+#: src/Blocks/sfy-example-block.php:13
+msgid "Example block"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:48
+msgid "Go to next page"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:13
+msgid "Go to previous page"
+msgstr ""
+
+#. URI of the theme
+msgid "https://www.urbanjungle.agency/"
+msgstr ""
+
+#: src/sfy-scripts.php:54
+msgid "Load more"
+msgstr ""
+
+#: src/sfy-menus.php:15
+msgid "Menu in the footer"
+msgstr ""
+
+#: src/sfy-menus.php:14
+msgid "Menu in the header"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:51
+msgid "Next"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:25
+msgid "Page"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:32
+msgid "page"
+msgstr ""
+
+#: templates/partials/posts-pagination.twig:16
+msgid "Previous"
+msgstr ""
+
+#: src/PostTypes/sfy-example-post-type.php:12
+msgid "Product"
+msgstr ""
+
+#: src/PostTypes/sfy-example-post-type.php:11
+msgid "Products"
+msgstr ""
+
+#: search.php:15
+msgid "Search results for "
+msgstr ""
+
+#: src/sfy-plugins.php:72
+msgid "Site Settings"
+msgstr ""
+
+#: templates/base.twig:27
+msgid "Sorry, no content"
+msgstr ""
+
+#. Author of the theme
+msgid "Urban Jungle"
+msgstr ""
+
+#. Name of the theme
+#. Description of the theme
+msgid "Urban Jungle Vinci"
+msgstr ""

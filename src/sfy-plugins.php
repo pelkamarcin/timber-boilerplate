@@ -69,7 +69,7 @@ class SfyPlugins {
 
             acf_add_options_page(
                 [
-                    'page_title' => __( 'Site Settings', TEXT_DOMAIN ),
+                    'page_title' => __( 'Site Settings', 'sfy' ),
                     'menu_slug' => 'site-settings',
                     'capability' => 'edit_posts',
                     'redirect' => false,
@@ -78,7 +78,7 @@ class SfyPlugins {
 
         }
         if ( function_exists( 'acf_update_setting' ) ) {
-            acf_update_setting( 'l10n_textdomain', TEXT_DOMAIN );
+            acf_update_setting( 'l10n_textdomain', 'sfy' );
         }
     }
 

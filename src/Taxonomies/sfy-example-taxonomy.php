@@ -6,8 +6,8 @@ class SfyExampleTaxonomy extends SfyTaxonomyBase {
 
     public function __construct() {
         $this->labels             = [
-            'name' => __( 'Categories', TEXT_DOMAIN ),
-            'singular_name' => __( 'Category', TEXT_DOMAIN ),
+            'name' => __( 'Categories', 'sfy' ),
+            'singular_name' => __( 'Category', 'sfy' ),
         ];
         $this->taxonomy_name      = 'example-taxonomy';
         $this->related_post_types = [ 'sfy-example-name' ];

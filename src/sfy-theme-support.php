@@ -59,7 +59,7 @@ class SfyThemeSupport {
     }
 
     public function loadTextDomain() {
-        load_theme_textdomain( TEXT_DOMAIN, get_template_directory() . '/languages' );
+        load_theme_textdomain( 'sfy', get_template_directory() . '/languages' );
     }
 
 

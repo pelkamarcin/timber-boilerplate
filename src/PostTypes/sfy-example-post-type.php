@@ -8,8 +8,8 @@ class SfyExamplePostType extends SfyPostTypeBase {
         $this->post_type_name = 'example-name';
 
         $this->labels         = [
-            'name' => __( 'Products', TEXT_DOMAIN ),
-            'singular_name' => __( 'Product', TEXT_DOMAIN ),
+            'name' => __( 'Products', 'sfy' ),
+            'singular_name' => __( 'Product', 'sfy' ),
         ];
 
         $this->options = [

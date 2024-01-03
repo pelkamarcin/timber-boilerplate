@@ -4,7 +4,7 @@
  */
 
 $context         = Timber::context();
-$timber_post     = Timber::get_post( false, 'CommonPost' );
+$timber_post = Timber::get_post( false );
 $context['post'] = $timber_post;
 
 if ( post_password_required( $timber_post->ID ) ) {

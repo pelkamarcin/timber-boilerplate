@@ -51,7 +51,7 @@ class SfyScripts {
 
     public function localized_strings() {
         return [
-            'load_more' => __( 'Load more', TEXT_DOMAIN ),
+            'load_more' => __( 'Load more', 'sfy' ),
         ];
     }
 

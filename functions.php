@@ -14,8 +14,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 require_once __DIR__ . '/src/sfy-site.php';
 
-define('TEXT_DOMAIN', 'sfy');
-
 if (!defined('WP_POST_REVISIONS')) {
     define('WP_POST_REVISIONS', 5);
 }

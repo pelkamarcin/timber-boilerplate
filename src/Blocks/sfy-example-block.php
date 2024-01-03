@@ -10,7 +10,7 @@ class SfyExampleBlock extends SfyBlockBase {
     public function __construct() {
 
         $this->name     = 'example-block';
-        $this->title    = __( 'Example block', TEXT_DOMAIN );
+        $this->title = __( 'Example block', 'sfy' );
         $this->supports = [
             //      'align' => false,
             //      'mode'  => false,
