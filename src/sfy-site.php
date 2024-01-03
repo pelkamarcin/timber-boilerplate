@@ -21,7 +21,7 @@ class SfySite extends Site {
     public function bootstrap() {
 
         add_action( 'init', array( $this, 'register_post_types' ) );
-        add_filter( 'timber_context', [ $this, 'add_to_context_global' ] );
+        add_filter( 'timber/context', [ $this, 'add_to_context_global' ] );
         add_filter( 'login_head', [ $this, 'custom_login_logo' ] );
         add_filter( 'body_class', [ $this, 'add_body_classes' ] );
         add_filter( 'automatic_updates_is_vcs_checkout', '__return_false', 1 );
@@ -36,7 +36,7 @@ class SfySite extends Site {
         new SfyMenus();
     }
 
-    public function register_post_types() {
+    public function register_post_types(): void {
         new SfyPostTypes();
         new SfyTaxonomies();
     }
@@ -44,7 +44,6 @@ class SfySite extends Site {
 
     public function add_to_context_global( $context ) {
 
-        $context['site'] = $this;
         if ( function_exists( 'pll_current_language' ) ) {
             $context['lang'] = pll_current_language( 'slug' );
         }

@@ -31,13 +31,13 @@ __level-x-item -- all items on specific level
                 {% if item.current_item_parent %}
                     {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_current-parent' ]) %}
                 {% endif %}
-                {% if item.get_children %}
+                {% if item.children %}
                     {% set itemclasses = itemclasses|merge([ baseclass ~ '__item_has-submenu' ]) %}
                 {% endif %}
                 <li class="{{ itemclasses | join(' ') }}">
                     <a class="{{ baseclass }}__link"
                        href="{{ item.get_link }}">{{ item.title }}</a>
-                    {% include 'partials/menu.twig' with {'menu':item.get_children, is_submenu:true } %}
+                    {% include 'partials/menu.twig' with {'menu':item.children , is_submenu:true } %}
                 </li>
             {% endfor %}
         </ul>

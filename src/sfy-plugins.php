@@ -52,7 +52,7 @@ class SfyPlugins {
 
 
         add_action( 'acf/init', [ $this, 'acf_init' ] );
-        add_action( 'timber_context', [ $this, 'acf_timber' ] );
+        add_filter( 'timber/context', [ $this, 'acf_timber' ] );
     }
 
     public function acf_timber( $context ) {
