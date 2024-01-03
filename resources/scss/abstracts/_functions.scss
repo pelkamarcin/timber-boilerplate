@@ -1,0 +1,5 @@
+@use 'sass-rem' as rem;
+
+@function rem-calc($val) {
+  @return rem.convert($val);
+}

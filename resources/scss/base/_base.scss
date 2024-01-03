@@ -1,0 +1,25 @@
+/* stylelint-disable declaration-no-important, selector-max-universal */
+body {
+  @include u-set-typography;
+}
+
+a {
+  @include t-link-base;
+}
+
+.s-textcontent {
+  @include t-textcontent;
+}
+
+.is-page-loading * {
+  transition: none !important;
+}
+
+.u-link-button {
+  @include t-link-base;
+
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}

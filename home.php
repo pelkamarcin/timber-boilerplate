@@ -3,13 +3,11 @@
  * Blog posts page
  */
 
-$context = Timber::get_context();
+$context = Timber::context();
 
 // get queried loop
 $timber_posts     = Timber::get_posts( false, 'CommonPost' );
 $context['posts'] = $timber_posts;
-
-$context['pagination'] = Timber::get_pagination();
 
 $context['blogpage'] = Timber::get_post( get_option( 'page_for_posts', true ), 'CommonPost' );
 

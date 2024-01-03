@@ -10,5 +10,10 @@
     "allow-plugins": {
       "composer/installers": true
     }
+  },
+  "autoload": {
+    "classmap": [
+      "src"
+    ]
   }
 }

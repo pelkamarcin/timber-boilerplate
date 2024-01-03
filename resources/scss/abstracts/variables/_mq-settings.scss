@@ -1,0 +1,16 @@
+$breakpoints: (
+        small: 380px,
+        medium: 768px,
+        large: 1024px,
+        xlarge: 1280px,
+        xmlarge: 1430px,
+        xxlarge: 1700px,
+);
+$media-type: 'screen';
+
+@use 'sass-mq/mq' with (
+  $breakpoints: $breakpoints,
+  $media-type: $media-type,
+  // Uncomment for debugging breakpoints
+  // $show-breakpoints: (large, xlarge),
+);

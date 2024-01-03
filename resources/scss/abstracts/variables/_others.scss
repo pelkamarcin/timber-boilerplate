@@ -1,0 +1,27 @@
+@use 'sass-mq/mq' as *;
+/* stylelint-disable meowtec/no-px */
+
+
+// Breakpoints
+// usage: @include mq($from: xlarge) {}
+
+:root {
+  --gutter-size: 30px;
+  --gutter-size-x: var(--gutter-size);
+  --gutter-size-y: var(--gutter-size);
+
+  --sfy-text-color: black;
+  --sfy-link-color: red;
+  --sfy-heading-color: blue;
+
+  // --bs-gutter-x: 10px;
+  @include mq($from: large) {
+    //--bs-gutter-x: 40px;
+  }
+}
+
+.row {
+  //--bs-gutter-x: 20px;
+}
+
+/* stylelint-enable meowtec/no-px */

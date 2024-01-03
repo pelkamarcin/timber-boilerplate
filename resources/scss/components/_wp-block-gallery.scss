@@ -1,0 +1,19 @@
+@use "sass-mq/mq" as *;
+
+.wp-block-gallery {
+
+  & {
+
+  }
+
+  @at-root {
+    &_modifier {
+    }
+
+    &__element {
+    }
+
+    &__element_modifier {
+    }
+  }
+}

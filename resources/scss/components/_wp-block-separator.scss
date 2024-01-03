@@ -1,0 +1,26 @@
+@use "sass-mq/mq" as *;
+
+.wp-block-separator {
+
+  & {
+
+    &.is-style-wide {
+      width: 100%;
+    }
+
+    &:not(.is-style-wide) {
+      width: rem-calc(200px);
+    }
+  }
+
+  @at-root {
+    &_modifier {
+    }
+
+    &__element {
+    }
+
+    &__element_modifier {
+    }
+  }
+}

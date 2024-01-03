@@ -1,0 +1,48 @@
+@use 'sass-mq/mq' as *;
+// @z-index space: 80-90
+.c-mainmenu {
+
+  & {
+
+
+  }
+
+  @at-root {
+    &__list {
+      list-style: none !important;
+      @include mq($from: large) {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    &__item {
+      list-style: none !important;
+      @include u-set-typography('body', 'menu');
+
+      &:hover,
+      &_current {
+        // --sfy-link-color: red;
+
+        &__link {
+
+        }
+      }
+
+      &:hover {
+        &__link {
+        }
+      }
+
+      &_current {
+        &__link {
+        }
+      }
+    }
+
+    &__link {
+
+    }
+  }
+}

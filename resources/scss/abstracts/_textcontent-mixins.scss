@@ -1,0 +1,90 @@
+@use 'sass-mq/mq' as *;
+// pure appearance (typographic/cosmetic) styles
+// please keep here only those mixins that are related to single post styling 
+
+@mixin t-textcontent {
+  /* stylelint-disable selector-max-type, selector-max-compound-selectors */
+
+  // preventing text styles leaking into widgets pasted into content area via shortcodes
+  & {
+    blockquote {
+      font-style: italic;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--themeprefix-heading-color);
+    }
+
+    h1 {
+      @include t-heading-main;
+    }
+
+    h2 {
+      @include t-heading-second;
+    }
+
+    h3 {
+      @include t-heading-third;
+    }
+
+    h4 {
+      @include t-heading-fourth;
+    }
+
+    p, ul, ol {
+      color: var(--sfy-text-color);
+
+      &:not(:last-child),
+      &:not(:only-child) {
+        margin-bottom: var(--gutter-size-y);
+      }
+    }
+
+    h2, h3, h4, h5, h6, p, ul, ol {
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul li {
+      list-style-type: disc;
+    }
+
+    ul, ol {
+      li li {
+        padding-left: var(--gutter-size);
+      }
+    }
+  }
+  img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+    margin: 0;
+  }
+  iframe {
+    width: 100%;
+  }
+
+  /* stylelint-enable selector-max-type, selector-max-compound-selectors */
+}
+
+@mixin t-heading-main {
+  @include u-set-typography('heading', 'main-title');
+}
+
+@mixin t-heading-second {
+  @include u-set-typography('heading', 'second-title');
+}
+
+@mixin t-heading-third {
+  @include u-set-typography('heading', 'third-title');
+}
+
+@mixin t-heading-fourth {
+  @include u-set-typography('heading', 'fourth-title');
+}

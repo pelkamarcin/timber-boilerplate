@@ -4,6 +4,6 @@
 
 {% block content_area_append %}
 
-    {% include 'partials/posts-pagination.twig' with {'pagination': pagination,'numbered':true} %}
+    {% include 'partials/posts-pagination.twig' with {'pagination': posts.pagination,'numbered':true} %}
 
 {% endblock %}

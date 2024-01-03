@@ -1,0 +1,15 @@
+@use "sass-mq/mq" as *;
+
+// @z-index space: 80-90
+.c-header {
+
+  & {
+
+  }
+
+  @at-root {
+    &__logo {
+      width: rem-calc(200px);
+    }
+  }
+}

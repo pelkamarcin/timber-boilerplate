@@ -1,0 +1,24 @@
+@use "sass-mq/mq" as *;
+
+.c-error-page {
+
+  & {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+  }
+
+  @at-root {
+    &_modifier {
+    }
+
+    &__element {
+    }
+
+    &__element_modifier {
+    }
+  }
+}
