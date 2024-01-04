@@ -1,5 +1,7 @@
 @use '../abstracts/variables/mq-settings';
 @use "sass-mq/mq" as *;
+@import "../abstracts/functions";
+@import "../abstracts/mixins";
 
 .c-example-block {
 

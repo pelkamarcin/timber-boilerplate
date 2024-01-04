@@ -19,5 +19,6 @@ if ( !empty( $block['align'] ) ) {
     $context['class_name'] .= ' u-align-' . $block['align'];
 }
 $context['block'] = $block;
+$context['fields'] = get_fields();
 
 Timber::render( 'blocks/' . $block['name'] . '.twig', $context );
