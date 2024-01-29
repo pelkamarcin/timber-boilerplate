@@ -36,7 +36,7 @@ __level-x-item -- all items on specific level
                 {% endif %}
                 <li class="{{ itemclasses | join(' ') }}">
                     <a class="{{ baseclass }}__link"
-                       href="{{ item.get_link }}">{{ item.title }}</a>
+                       href="{{ item.link }}">{{ item.title }}</a>
                     {% include 'partials/menu.twig' with {'menu':item.children , is_submenu:true } %}
                 </li>
             {% endfor %}
