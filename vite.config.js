@@ -14,6 +14,10 @@ export default defineConfig({
     css: {
         devSourcemap: true,
     },
+    server: {
+        allowedHosts: ['.local'],
+        cors: true
+    },
     build: {
         sourcemap: 'hidden',
         assetsDir: '',
