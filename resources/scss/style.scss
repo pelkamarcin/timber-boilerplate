@@ -1,24 +1,19 @@
 //@use 'abstracts/variables/mq-settings';
 
-@import 'abstracts/variables/dependencies';
-//@import 'abstracts/variables/colors';
+@use 'base/dependencies';
 
 // !Dependencies
-@import 'vendors';
+@use 'vendors';
 
 // !Site abstracts
-@import 'abstracts/functions';
-@import 'abstracts/variables/typography';
-@import 'abstracts/variables/others';
+@use 'base/functions';
+@use 'typography';
 
-@import 'abstracts/mixins';
-@import 'abstracts/textcontent-mixins';
 
 // !Base
-@import 'base/fontface';
-@import 'base/normalize_tweaks';
-@import 'base/base';
+@use 'base/normalize_tweaks';
+@use 'base';
 
 
 // !Components 
-@import 'components/*';
+@use 'components/*';

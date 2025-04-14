@@ -1,6 +1,7 @@
-{% if pagination %}
+{% if pagination.pages is not empty %}
 
     {% set classes = ['c-posts-pagination'] %}
+
     {% if additional_classes is iterable %}
         {% set classes = classes|merge(additional_classes) %}
     {% endif %}
@@ -52,6 +53,6 @@
             {% endif %}
 
         </nav>
-    {% endapply  %}
+    {% endapply %}
 
 {% endif %}

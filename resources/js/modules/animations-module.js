@@ -1,5 +1,4 @@
 'use strict';
-// import common_config from '../../common_config.json';
 import enterView from 'enter-view'; // or...
 import jQuery from 'jquery';
 

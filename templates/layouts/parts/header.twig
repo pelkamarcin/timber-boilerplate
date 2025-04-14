@@ -1,0 +1,14 @@
+<header class="c-header">
+    <div class="container c-header__inner">
+
+        <a href="{{ site.url }}">
+            <img src="{{ theme.link }}/favicon.svg"
+                 class="c-header__logo"
+                 alt="{{ site.name }}"/>
+        </a>
+
+        <nav>
+            {% include 'partials/menu.twig' with {'menu': mainmenu.items, 'baseclass': 'c-mainmenu'} %}
+        </nav>
+    </div>
+</header>

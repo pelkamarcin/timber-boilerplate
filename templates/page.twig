@@ -1,9 +1,9 @@
-{% extends "singular.twig" %}
+{% extends 'layouts/base.twig' %}
 
 
-{% block singular_article_class ' c-article-page' %}
 
-
-{% block content_area_inner_content %}
-    {{ post.content }}
+{% block content %}
+    <article class="c-post_{{ post.type }} s-textcontent" id="post-{{ post.id }}">
+        {{ post.content }}
+    </article>
 {% endblock %}

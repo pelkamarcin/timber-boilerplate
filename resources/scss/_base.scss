@@ -1,0 +1,56 @@
+@use 'typography' as *;
+@use 'sass-mq/mq' as *;
+
+/* stylelint-disable declaration-no-important, selector-max-universal */
+
+
+:root {
+  --gutter-size: 30px;
+  --gutter-size-x: var(--gutter-size);
+  --gutter-size-y: var(--gutter-size);
+
+  --sfy-text-color: black;
+  --sfy-link-color: red;
+  --sfy-heading-color: blue;
+
+  // --bs-gutter-x: 10px;
+  @include mq($from: large) {
+    //--bs-gutter-x: 40px;
+  }
+}
+
+
+body {
+  @include u-set-typography;
+}
+
+a {
+  text-decoration: none;
+  color: var(--sfy-link-color);
+
+  &:hover {
+    color: var(--sfy-link-hover-color, var(--sfy-link-color));
+  }
+}
+
+.s-textcontent {
+  @include t-textcontent;
+}
+
+.is-page-loading * {
+  transition: none !important;
+}
+
+.u-link-button {
+  text-decoration: none;
+  color: var(--sfy-link-color);
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+
+  &:hover {
+    color: var(--sfy-link-hover-color, var(--sfy-link-color));
+  }
+
+}

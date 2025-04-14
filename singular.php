@@ -8,6 +8,7 @@ $timber_post = Timber::get_post( false );
 $context['post'] = $timber_post;
 
 if ( post_password_required( $timber_post->ID ) ) {
+    $context['password_form'] = get_the_password_form();
     Timber::render( 'single-password.twig', $context );
 } elseif ( get_post_type( $timber_post ) === 'page' ) {
     Timber::render( [ 'page.twig', 'singular.twig' ], $context );

@@ -1,4 +1,6 @@
 @use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
 
 .c-example-component {
 
@@ -7,13 +9,9 @@
   }
 
   @at-root {
-    &_modifier {
-    }
 
     &__element {
     }
 
-    &__element_modifier {
-    }
   }
 }

@@ -1,0 +1,158 @@
+@use '../../node_modules/sass-mq/mq' as *;
+@use 'base/mq-settings';
+
+$ff-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$ff-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+
+$font-size-base: rem-calc(16px);
+
+// A map containing the basic typography for all the site
+// The 2nd level of the map (body and heading) corresponds to the main typefaces.
+// The 3rd level of the map corresponds to font property combinations that frequently go together. Any arbitrary word goes as a group name. The properties are usually font-size and line-height but can be also any other. Please avoid including color and other non typography properties here, though.
+// Usage: @include u-set-typography($typeface, $style-name);
+
+/* stylelint-disable indentation */
+$font-styles: (
+        'body': (// aka Helvetica Neue
+                'regular': (
+                        font-size: $font-size-base,
+                        line-height: 1.6
+                ),
+                'menu':(
+                )
+        ),
+        'heading': (// aka heading font
+                'main-title': (
+                        font-size: rem-calc(20px),
+                        line-height:1,
+                        large: (
+                                font-size: rem-calc(30px)
+                        )
+                ),
+                'second-title':(
+                )
+        )
+);
+@mixin u-set-typography($typeface-name: 'body', $style-name: 'regular') {
+
+  $this-typeface: map-get($font-styles, $typeface-name);
+  $this-style: map-get($this-typeface, $style-name);
+
+  @if $typeface-name == 'body' {
+    font-family: $ff-body;
+  }
+  @if $typeface-name == 'heading' {
+    font-family: $ff-heading;
+    font-weight: 800;
+  }
+
+  @each $property, $value in $this-style {
+    @if map-has-key(mq-settings.$breakpoints, $property) and type-of($value) == 'map' {
+      @include mq($from: $property) {
+        @each $subproperty, $subvalue in $value {
+          @if $subproperty == 'font-size' {
+            $subvalue: rem-calc($subvalue);
+          }
+
+          #{$subproperty}: $subvalue;
+        }
+      }
+    } @else {
+      @if $property == 'font-size' {
+        $value: rem-calc($value);
+      }
+      #{$property}: $value;
+    }
+  }
+}
+
+
+@mixin t-textcontent {
+  /* stylelint-disable selector-max-type, selector-max-compound-selectors */
+
+  // preventing text styles leaking into widgets pasted into content area via shortcodes
+  & {
+    blockquote {
+      font-style: italic;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--sfy-heading-color);
+    }
+
+    h1 {
+      @include t-heading-main;
+    }
+
+    h2 {
+      @include t-heading-second;
+    }
+
+    h3 {
+      @include t-heading-third;
+    }
+
+    h4 {
+      @include t-heading-fourth;
+    }
+
+    p, ul, ol {
+      color: var(--sfy-text-color);
+
+      &:not(:last-child),
+      &:not(:only-child) {
+        margin-bottom: var(--gutter-size-y);
+      }
+    }
+
+    h2, h3, h4, h5, h6, p, ul, ol {
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul li {
+      list-style-type: disc;
+    }
+
+    ul, ol {
+      li li {
+        padding-left: var(--gutter-size);
+      }
+    }
+  }
+  img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+    margin: 0;
+  }
+  iframe {
+    width: 100%;
+  }
+
+  /* stylelint-enable selector-max-type, selector-max-compound-selectors */
+}
+
+@mixin t-heading-main {
+  @include u-set-typography('heading', 'main-title');
+}
+
+@mixin t-heading-second {
+  @include u-set-typography('heading', 'second-title');
+}
+
+@mixin t-heading-third {
+  @include u-set-typography('heading', 'third-title');
+}
+
+@mixin t-heading-fourth {
+  @include u-set-typography('heading', 'fourth-title');
+}
+
+/* stylelint-enable indentation */

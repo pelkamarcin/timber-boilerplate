@@ -1,21 +1,18 @@
+@use '../base/mq-settings';
 @use "sass-mq/mq" as *;
 @use "../base/functions" as *;
 @use "../typography" as *;
 
-.c-footer {
+.c-example-block {
 
   & {
 
   }
 
   @at-root {
-    &_modifier {
-    }
 
     &__element {
     }
 
-    &__element_modifier {
-    }
   }
 }

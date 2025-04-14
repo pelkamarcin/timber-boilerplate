@@ -8,7 +8,7 @@ $breakpoints: (
 );
 $media-type: 'screen';
 
-@use 'sass-mq/mq' with (
+@use '../../../node_modules/sass-mq/mq' with (
   $breakpoints: $breakpoints,
   $media-type: $media-type,
   // Uncomment for debugging breakpoints

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js is-page-loading" {{ site.language_attributes }}>
 <head>
     <meta charset="{{ site.charset }}">
@@ -6,9 +6,13 @@
           content="{{ site.description }}">
     <meta http-equiv="X-UA-Compatible"
           content="IE=edge">
-    <link rel="icon shortcut" href="{{ theme.link }}/favicon.svg"  type="image/vnd.microsoft.icon"/>
+    <link rel="icon shortcut" href="{{ theme.link }}/favicon.svg" type="image/vnd.microsoft.icon"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <link rel="pingback"
           href="{{ site.pingback_url }}">
+    <link rel="profile" href="http://gmpg.org/xfn/11"/>
+    {% do action('get_header') %}
     {{ fn('wp_head') }}
+    {% block head_append '' %}
+</head>

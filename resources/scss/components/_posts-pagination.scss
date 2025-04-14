@@ -1,0 +1,35 @@
+@use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
+
+.c-posts-pagination {
+
+  & {
+    display: flex;
+    gap: rem-calc(10px);
+  }
+
+  @at-root {
+    &__item {
+      padding: rem-calc(5px) rem-calc(10px);
+      border: 1px solid currentColor;
+
+      &_current {
+
+      }
+
+      &_prev {
+
+      }
+
+      &_next {
+
+      }
+
+      &_link {
+
+      }
+    }
+
+  }
+}

@@ -1,0 +1,11 @@
+<article class="c-tease c-tease_{{ post.type }}" id="tease-{{ post.id }}">
+    {% block content %}
+        {% include 'partials/thumbnail.twig' with {'post': post, 'size':'square', 'classes': 'c-tease__thumbnail'} %}
+        <h2 class="c-tease__heading"><a href="{{ post.link }}">{{ post.title }}</a></h2>
+        <p class="c-tease__excerpt">{{ post.excerpt({
+                words: 15,
+                read_more: 'Keep reading'
+            }) }}</p>
+
+    {% endblock %}
+</article>

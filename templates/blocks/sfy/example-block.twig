@@ -1,4 +1,6 @@
 <div {{ anchor }} class="c-example-block {{ class_name }} {{ block.className }} u-animated-block t-anim-1">
+    {% if is_preview %}
+        <h2 class="c-example-block__preview">{{ block.title }}</h2>
+    {% endif %}
     {#    {{ fields.test }} #}
-    test2
 </div>

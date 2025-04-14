@@ -1,4 +1,7 @@
 @use 'sass-mq/mq' as *;
+@use "../base/functions" as *;
+@use '../typography' as *;
+
 // @z-index space: 80-90
 .c-mainmenu {
 

@@ -12,13 +12,12 @@ if ( !empty( $block['anchor'] ) ) {
 
 // Create class attribute allowing for custom "className" and "align" values.
 $context['class_name'] = '';
-if ( !empty( $block['className'] ) ) {
-    $context['class_name'] .= ' ' . $block['className'];
-}
+
 if ( !empty( $block['align'] ) ) {
     $context['class_name'] .= ' u-align-' . $block['align'];
 }
 $context['block'] = $block;
+$context['is_preview'] = $is_preview ?? false;
 $context['fields'] = get_fields();
 
 Timber::render( 'blocks/' . $block['name'] . '.twig', $context );
