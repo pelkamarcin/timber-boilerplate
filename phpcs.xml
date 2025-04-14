@@ -21,6 +21,7 @@
       Exclude from checking package managers directiories
     -->
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>resources/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
 
     <!--

@@ -10,8 +10,33 @@
   }
 
   @at-root {
+    &__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     &__logo {
       width: rem-calc(200px);
+    }
+
+    &__mainmenu {
+      @include mq($until: xlarge) {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 999;
+        display: block;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: white;
+        transition: all 800ms ease-in-out;
+
+        &.is-active {
+          transform: translateX(0);
+        }
+      }
     }
   }
 }

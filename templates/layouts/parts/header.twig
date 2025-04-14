@@ -6,9 +6,15 @@
                  class="c-header__logo"
                  alt="{{ site.name }}"/>
         </a>
-
-        <nav>
-            {% include 'partials/menu.twig' with {'menu': mainmenu.items, 'baseclass': 'c-mainmenu'} %}
-        </nav>
+        <div class="c-mainmenu c-header__mainmenu" data-js="mainmenu">
+            <nav class="c-mainmenu__nav">
+                {% include 'partials/menu.twig' with {'menu': mainmenu.items, 'baseclass': 'c-mainmenu'} %}
+            </nav>
+        </div>
+        <div class="c-mainmenu__burger-wrapper">
+            <button class="hamburger hamburger--collapse c-mainmenu__hamburger" data-js="mainmenu-burger" type="button">
+                <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+            </button>
+        </div>
     </div>
 </header>

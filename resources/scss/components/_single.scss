@@ -2,25 +2,28 @@
 @use "../base/functions" as *;
 @use "../typography" as *;
 
-.c-error-page {
+.c-single {
 
   & {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
 
   }
 
   @at-root {
+
     &__content {
     }
 
     &__heading {
     }
 
-    &__message {
+    &__meta {
     }
+
+    &__body {
+    }
+
+    &__comments {
+    }
+
   }
 }

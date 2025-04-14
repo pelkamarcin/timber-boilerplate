@@ -1,0 +1,38 @@
+@use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
+
+.c-comment-form {
+
+  & {
+
+  }
+
+  @at-root {
+
+    &__heading {
+    }
+
+    &__form {
+    }
+
+    &__label {
+    }
+
+    &__input {
+      &_textarea {
+
+      }
+    }
+
+    &__send {
+    }
+
+    &__reset {
+    }
+
+    &__notice {
+    }
+
+  }
+}

@@ -3,8 +3,7 @@
 namespace Site\Blocks;
 
 class SfyBlocks {
-    public array $blocks =
-        [
+    public array $blocks = [
             'example-block',
         ];
 

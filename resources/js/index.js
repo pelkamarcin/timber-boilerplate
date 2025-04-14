@@ -1,7 +1,7 @@
 import '../scss/style.scss';
 import {addBrowserClasses} from './_utils.js';
 import {animations_module} from './modules/animations-module.js';
-import {example_module} from "./modules/example-module.js";
+import {mobile_menu} from './modules/mobile-menu.js';
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -11,5 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     addBrowserClasses();
 
     animations_module();
-    example_module();
+    mobile_menu();
+    // example_module();
 });

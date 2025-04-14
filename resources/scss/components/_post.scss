@@ -1,0 +1,17 @@
+@use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
+
+.c-post {
+
+  & {
+
+  }
+
+  @at-root {
+
+    &__element {
+    }
+
+  }
+}

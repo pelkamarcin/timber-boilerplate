@@ -1,0 +1,25 @@
+@use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
+
+.c-tease {
+
+  & {
+
+  }
+
+  @at-root {
+
+    &__heading {
+    }
+
+    &__excerpt {
+    }
+
+    &__thumbnail {
+      max-width: 100%;
+      height: auto;
+    }
+
+  }
+}

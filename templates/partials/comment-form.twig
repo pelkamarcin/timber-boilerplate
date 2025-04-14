@@ -29,6 +29,6 @@
         <input name="comment_parent" value="{{ comment.id|default('0') }}" type="hidden"/>
         <button type="submit" name="Submit" class="c-button c-comment-form__send">{{ __('Send','sfy') }}</button>
         <button type="reset" class="c-button c-comment-form__reset">{{ __('Cancel','sfy') }}</button>
-        <p>{{ __('Your comment will be revised by the site if needed.','sfy') }}</p>
+        <p class="c-comment-form__notice">{{ __('Your comment will be revised by the site if needed.','sfy') }}</p>
     </form>
 </div>

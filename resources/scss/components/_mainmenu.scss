@@ -11,6 +11,27 @@
   }
 
   @at-root {
+    &__nav {
+
+    }
+
+    &__burger-wrapper {
+
+      @include mq($from: xlarge) {
+        display: none;
+      }
+    }
+
+    &__hamburger {
+      z-index: 1000;
+      position: relative;
+
+      &.is-active {
+        opacity: 1;
+
+      }
+    }
+
     &__list {
       list-style: none !important;
       @include mq($from: large) {

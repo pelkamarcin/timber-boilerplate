@@ -2,11 +2,11 @@
     <h5 class="c-comment__author">{{ comment.author.name }}</h5>
     <div class="c-comment__content">{{ comment.content|wpautop }}</div>
 
-    <section class="c-comments c-comments_replies">
+    <section class="c-comments c-comments_replies c-comment__replies">
         {% include 'partials/comment-form.twig' with {comment: comment} %}
 
         {% if post.comments %}
-            <h4>{{ __('Replies','sfy') }}</h4>
+            <h4 class="c-comments__heading">{{ __('Replies','sfy') }}</h4>
             <ul class="c-comments__list">
                 {% for cmt in comment.children %}
                     <li class="c-comments__item c-comments__item_reply">

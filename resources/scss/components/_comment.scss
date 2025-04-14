@@ -1,0 +1,23 @@
+@use "sass-mq/mq" as *;
+@use "../base/functions" as *;
+@use "../typography" as *;
+
+.c-comment {
+
+  & {
+
+  }
+
+  @at-root {
+
+    &__author {
+    }
+
+    &__content {
+    }
+
+    &__replies {
+    }
+
+  }
+}

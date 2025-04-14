@@ -10,9 +10,9 @@
                 <span class="c-post-meta__divider">&bull;</span>
                 <time class="c-post-meta__date" datetime="{{ post.date|date('Y-m-d H:i:s') }}">{{ post.date }}</time>
             </p>
-            <div class="c-single__content">{{ post.content }}</div>
+            <div class="c-single__body">{{ post.content }}</div>
         </section>
-        <section class="c-comments">
+        <section class="c-comments c-single__comments">
             {% if post.comments %}
                 <h3 class="c-comments__heading">{{ __('Comments','sfy') }}</h3>
                 <ul class="c-comments__list">
