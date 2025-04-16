@@ -1,9 +1,10 @@
 @use '../../node_modules/sass-mq/mq' as *;
+@use "base/functions" as *;
 @use 'base/mq-settings';
 
-$ff-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$ff-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
+$ff-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$ff-accent: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$ff-secondary: $ff-main;
 
 $font-size-base: rem-calc(16px);
 
@@ -34,17 +35,20 @@ $font-styles: (
                 )
         )
 );
-@mixin u-set-typography($typeface-name: 'body', $style-name: 'regular') {
+@mixin u-set-typography($typeface-name: 'main', $style-name: 'regular') {
 
   $this-typeface: map-get($font-styles, $typeface-name);
   $this-style: map-get($this-typeface, $style-name);
 
-  @if $typeface-name == 'body' {
-    font-family: $ff-body;
+  @if $typeface-name == 'main' {
+    font-family: $ff-main;
   }
-  @if $typeface-name == 'heading' {
-    font-family: $ff-heading;
-    font-weight: 800;
+  @if $typeface-name == 'accent' {
+    font-family: $ff-accent;
+  }
+
+  @if $typeface-name == 'secondary' {
+    font-family: $ff-secondary;
   }
 
   @each $property, $value in $this-style {

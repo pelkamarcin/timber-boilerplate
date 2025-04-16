@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev" : "vite",
+    "create-block" : "node create-block.js"
   },
   "dependencies": {
     "@wordpress/base-styles" : "^5.22.0",
