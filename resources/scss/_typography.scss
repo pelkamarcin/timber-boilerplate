@@ -15,7 +15,7 @@ $font-size-base: rem-calc(16px);
 
 /* stylelint-disable indentation */
 $font-styles: (
-        'body': (// aka Helvetica Neue
+        'main': (// aka Helvetica Neue
                 'regular': (
                         font-size: $font-size-base,
                         line-height: 1.6
@@ -23,7 +23,7 @@ $font-styles: (
                 'menu':(
                 )
         ),
-        'heading': (// aka heading font
+        'accent': (// aka heading font
                 'main-title': (
                         font-size: rem-calc(20px),
                         line-height:1,
@@ -33,13 +33,19 @@ $font-styles: (
                 ),
                 'second-title':(
                 )
-        )
+        ),
+        'secondary': ()
 );
 @mixin u-set-typography($typeface-name: 'main', $style-name: 'regular') {
 
   $this-typeface: map-get($font-styles, $typeface-name);
+  @if $this-typeface == null {
+    $this-typeface: ();
+  }
   $this-style: map-get($this-typeface, $style-name);
-
+  @if $this-style == null {
+    $this-style: ();
+  }
   @if $typeface-name == 'main' {
     font-family: $ff-main;
   }
@@ -144,19 +150,19 @@ $font-styles: (
 }
 
 @mixin t-heading-main {
-  @include u-set-typography('heading', 'main-title');
+  @include u-set-typography('accent', 'main-title');
 }
 
 @mixin t-heading-second {
-  @include u-set-typography('heading', 'second-title');
+  @include u-set-typography('accent', 'second-title');
 }
 
 @mixin t-heading-third {
-  @include u-set-typography('heading', 'third-title');
+  @include u-set-typography('accent', 'third-title');
 }
 
 @mixin t-heading-fourth {
-  @include u-set-typography('heading', 'fourth-title');
+  @include u-set-typography('accent', 'fourth-title');
 }
 
 /* stylelint-enable indentation */
