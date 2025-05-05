@@ -64,12 +64,18 @@ $font-styles: (
           @if $subproperty == 'font-size' {
             $subvalue: rem-calc($subvalue);
           }
+          @if $subproperty == 'line-height' {
+            $subvalue: rem-calc($subvalue);
+          }
 
           #{$subproperty}: $subvalue;
         }
       }
     } @else {
       @if $property == 'font-size' {
+        $value: rem-calc($value);
+      }
+      @if $property == 'line-height' {
         $value: rem-calc($value);
       }
       #{$property}: $value;

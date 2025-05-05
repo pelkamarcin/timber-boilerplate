@@ -59,12 +59,10 @@
 
     <!--
       Check for valid text-domains provided in the $text_domain property
-
-      @todo Update a rule value to your project textdomain string
     -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain"
+            <property name="sfy"
                       type="array"
                       value="sfy"/>
         </properties>
@@ -72,8 +70,6 @@
 
     <!--
       Check for valid prefixes in functions names
-
-      @todo Update a rule value to your project textdomain string
     -->
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>

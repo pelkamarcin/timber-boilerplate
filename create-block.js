@@ -48,8 +48,8 @@ const __dirname = dirname(__filename);
     fs.writeFileSync(blockJsonPath, JSON.stringify(blockData, null, 2));
 
     // SCSS
-    const sourceScss = path.join(__dirname, 'resources/scss/blocks/_example-block.scss');
-    const destScss = path.join(__dirname, `resources/scss/blocks/_${slug}.scss`);
+    const sourceScss = path.join(__dirname, 'resources/scss/blocks/example-block.scss');
+    const destScss = path.join(__dirname, `resources/scss/blocks/${slug}.scss`);
     let scssContent = fs.readFileSync(sourceScss, 'utf8');
     scssContent = scssContent.replace(/c-example-block/g, `c-${slug}-block`);
     fs.writeFileSync(destScss, scssContent);
@@ -76,7 +76,7 @@ const __dirname = dirname(__filename);
 
     // Dodaj do GIT-a
     execSync(`git add src/Blocks/${slug}`, {stdio: 'inherit'});
-    execSync(`git add resources/scss/blocks/_${slug}.scss`, {stdio: 'inherit'});
+    execSync(`git add resources/scss/blocks/${slug}.scss`, {stdio: 'inherit'});
     execSync(`git add templates/blocks/sfy/${slug}.twig`, {stdio: 'inherit'});
     execSync(`git add src/Blocks/sfy-blocks.php`, {stdio: 'inherit'});
 
