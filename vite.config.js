@@ -5,6 +5,7 @@ import * as sass from 'sass';
 import * as fs from 'fs';
 import {glob} from 'glob';
 import * as path from 'path';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 
 dotenv.config();
@@ -22,6 +23,7 @@ export default defineConfig({
     },
     server: {
         allowedHosts: ['.local'],
+        // host: 'aurec.local',
         cors: true
     },
     build: {
@@ -36,6 +38,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        basicSsl(),
         sassGlobImports(),
         {
             name: 'blocks',

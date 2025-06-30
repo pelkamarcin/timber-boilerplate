@@ -6,6 +6,7 @@
     "create-block" : "node create-block.js"
   },
   "dependencies": {
+    "@vitejs/plugin-basic-ssl" : "^2.0.0",
     "@wordpress/base-styles" : "^5.22.0",
     "@wordpress/block-library" : "^9.22.0",
     "bootstrap" : "^5.3.5",

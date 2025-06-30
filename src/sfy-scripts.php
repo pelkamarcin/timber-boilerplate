@@ -15,7 +15,8 @@ class SfyScripts {
 
         if (
 //            wp_get_environment_type() === 'local' &&
-        is_array( wp_remote_get( 'http://localhost:5173/' ) ) // is Vite.js running
+
+        is_array( wp_remote_get( 'https://localhost:5173/', array( 'sslverify' => FALSE ) ) ) // is Vite.js running
         ) {
             wp_enqueue_script( 'vite', 'http://localhost:5173/@vite/client', [], time() );
             wp_enqueue_script( 'sfy', 'http://localhost:5173/resources/js/index.js', [], time() );
