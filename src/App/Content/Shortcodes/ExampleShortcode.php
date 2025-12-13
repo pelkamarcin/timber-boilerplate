@@ -1,8 +1,8 @@
 <?php
 
-namespace Site\Shortcodes;
+namespace Site\App\Content\Shortcodes;
 
-class SfyExampleShortcode extends SfyShortcodeBase {
+class ExampleShortcode extends ShortcodeBase {
 
 
     public function __construct() {

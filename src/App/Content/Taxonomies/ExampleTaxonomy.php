@@ -1,6 +1,6 @@
 <?php
 
-namespace Site\Taxonomies;
+namespace Site\App\Content\Taxonomies;
 
 class SfyExampleTaxonomy extends SfyTaxonomyBase {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Site\Taxonomies;
+namespace Site\App\Content\Taxonomies;
 
-class SfyTaxonomyBase {
+class TaxonomyBase {
     public array  $labels;
     public string $prepend            = 'sfy-';
     public array  $related_post_types = [];

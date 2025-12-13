@@ -12,6 +12,9 @@
     }
   },
   "autoload": {
+    "psr-4" : {
+      "Site\\App\\" : "src/App/"
+    },
     "classmap": [
       "src"
     ]

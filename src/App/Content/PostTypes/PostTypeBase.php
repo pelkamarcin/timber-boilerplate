@@ -1,6 +1,6 @@
 <?php
 
-namespace PostTypes;
+namespace Site\App\Content\PostTypes;
 
 
 class SfyPostTypeBase {

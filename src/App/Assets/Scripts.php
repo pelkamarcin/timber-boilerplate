@@ -1,8 +1,8 @@
 <?php
 
-namespace Site;
+namespace Site\App\Assets;
 
-class SfyScripts {
+class Scripts {
     public function __construct() {
 
         add_action( 'wp_enqueue_scripts', [ $this, 'script_enqueue' ], 10 );

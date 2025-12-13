@@ -1,8 +1,8 @@
 <?php
 
-namespace Site;
+namespace Site\App\Support;
 
-class SfyThemeSupport {
+class ThemeSupport {
     public function __construct() {
         $this->addSupports();
         add_action( 'after_setup_theme', [ $this, 'loadTextDomain' ] );

@@ -1,11 +1,11 @@
 <?php
 
-namespace Site\Shortcodes;
+namespace Site\App\Content\Shortcodes;
 
-class SfyShortcodes {
+class ShortcodeRegistry {
     public array $blocks =
         [
-            SfyExampleShortcode::class,
+            ExampleShortcode::class,
         ];
 
     public function __construct() {

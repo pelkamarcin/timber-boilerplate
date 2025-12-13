@@ -1,14 +1,10 @@
 <?php
 
-namespace PostTypes;
+namespace Site\App\Content\PostTypes;
 
-class SfyPostTypes {
+class PostTypeRegistry {
 
-    public array $post_types = [
-//        SfyExamplePostType::class,
-    ];
-
-    public function __construct() {
+    public function __construct( private array $post_types = [] ) {
         $this->register_post_types();
     }
 

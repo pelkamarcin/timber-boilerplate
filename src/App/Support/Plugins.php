@@ -1,8 +1,8 @@
 <?php
 
-namespace Site;
+namespace Site\App\Support;
 
-class SfyPlugins {
+class Plugins {
     public function __construct() {
         $this->polylang();
         $this->contact_form7();

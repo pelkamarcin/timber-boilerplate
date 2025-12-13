@@ -1,16 +1,10 @@
 <?php
 
-namespace Site\Blocks;
+namespace Site\App\Content\Blocks;
 
-class SfyBlocks {
-    public array $blocks = [
-            'example-block',
-        ];
-
-    public function __construct() {
-
+class BlockRegistry {
+    public function __construct( private array $blocks = [ 'example-block' ] ) {
         add_action( 'init', [ $this, 'register_blocks' ] );
-
     }
 
     public function register_blocks() {

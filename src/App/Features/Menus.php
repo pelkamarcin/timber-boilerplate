@@ -1,10 +1,10 @@
 <?php
 
-namespace Site;
+namespace Site\App\Features;
 
 use Timber\Timber;
 
-class SfyMenus {
+class Menus {
 
     private array $menus;
 

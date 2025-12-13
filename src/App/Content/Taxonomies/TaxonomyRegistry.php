@@ -1,17 +1,13 @@
 <?php
 
-namespace Site\Taxonomies;
-class SfyTaxonomies {
+namespace Site\App\Content\Taxonomies;
 
+class TaxonomyRegistry {
     public array $taxonomies = [
 //        SfyExampleTaxonomy::class,
     ];
 
     public function __construct() {
-        $this->register_taxonomies();
-    }
-
-    private function register_taxonomies() {
         foreach ( $this->taxonomies as $taxonomy ) {
             new $taxonomy();
         }

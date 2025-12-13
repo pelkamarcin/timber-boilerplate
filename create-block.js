@@ -29,8 +29,8 @@ const __dirname = dirname(__filename);
         slug = slugify(name);
     }
 
-    const sourceDir = path.join(__dirname, 'src/Blocks/example-block');
-    const destDir = path.join(__dirname, `src/Blocks/${slug}`);
+    const sourceDir = path.join(__dirname, 'src/App/Content/Blocks/example-block');
+    const destDir = path.join(__dirname, `src/App/Content/Blocks/${slug}`);
 
     if (fs.existsSync(destDir)) {
         console.error(`Folder docelowy już istnieje: ${destDir}`);
@@ -61,24 +61,35 @@ const __dirname = dirname(__filename);
     twigContent = twigContent.replace(/c-example-block/g, `c-${slug}-block`);
     fs.writeFileSync(twigDest, twigContent);
 
-    // Dodaj blok do src/Blocks/sfy-blocks.php
-    const phpPath = path.join(__dirname, 'src/Blocks/sfy-blocks.php');
-    let phpContent = fs.readFileSync(phpPath, 'utf8');
-    const pattern = /\$blocks\s*=\s*\[(.*?)\];/s;
-    phpContent = phpContent.replace(pattern, (match, inner) => {
-        const items = inner.split(',').map(i => i.trim()).filter(i => i);
-        if (!items.includes(`'${slug}'`)) {
-            items.push(`'${slug}'`);
-        }
-        return `$blocks = [\n            ${items.join(',\n            ')}\n        ];`;
-    });
-    fs.writeFileSync(phpPath, phpContent);
+    // Zaktualizuj rejestr bloków w BlockRegistry.php
+    const registryPath = path.join(__dirname, 'src/App/Content/Blocks/BlockRegistry.php');
+    let registryContent = fs.readFileSync(registryPath, 'utf8');
+    const registryPattern = /private\s+array\s+\$blocks\s*=\s*\[(.*?)];/s;
+    const registryMatch = registryContent.match(registryPattern);
+    if (!registryMatch) {
+        console.error('Nie udało się odnaleźć tablicy bloków w BlockRegistry.php');
+        process.exit(1);
+    }
+
+    const list = registryMatch[1]
+        .split(',')
+        .map(item => item.replace(/['"\s]/g, ''))
+        .filter(Boolean);
+
+    if (!list.includes(slug)) {
+        list.push(slug);
+    }
+
+    const newInner = list.map(item => `\n        '${item}'`).join(',');
+    const newRegistrySection = `private array $blocks = [${newInner}\n    ];`;
+    registryContent = registryContent.replace(registryPattern, newRegistrySection);
+    fs.writeFileSync(registryPath, registryContent);
 
     // Dodaj do GIT-a
-    execSync(`git add src/Blocks/${slug}`, {stdio: 'inherit'});
+    execSync(`git add src/App/Content/Blocks/${slug}`, {stdio: 'inherit'});
     execSync(`git add resources/scss/blocks/${slug}.scss`, {stdio: 'inherit'});
     execSync(`git add templates/blocks/sfy/${slug}.twig`, {stdio: 'inherit'});
-    execSync(`git add src/Blocks/sfy-blocks.php`, {stdio: 'inherit'});
+    execSync('git add src/App/Content/Blocks/BlockRegistry.php', {stdio: 'inherit'});
 
     console.log(`✅ Utworzono blok "${name}" ze slugiem "${slug}" i dodano do GIT.`);
     rl.close();

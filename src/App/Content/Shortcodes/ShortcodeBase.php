@@ -1,11 +1,11 @@
 <?php
 
-namespace Site\Shortcodes;
+namespace Site\App\Content\Shortcodes;
 
 use Timber\Timber;
 use Twig\Error\Error;
 
-class SfyShortcodeBase {
+class ShortcodeBase {
     public string $tag;
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Site;
+namespace Site\App\Assets;
 
-class SfyThumbnails {
+class ImageSizes {
     public function __construct() {
         $this->register_image_sizes();
     }

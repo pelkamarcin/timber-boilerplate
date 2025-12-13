@@ -1,8 +1,8 @@
 <?php
 
-namespace Site;
+namespace Site\App\Features;
 
-class SfyAjax {
+class Ajax {
     public array $actions = [
 //        'action_name',
     ];
