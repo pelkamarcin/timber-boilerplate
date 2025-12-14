@@ -1,0 +1,13 @@
+{#
+Generic button component.
+Params: label (string), url (string), variant (string, optional)
+#}
+{% set classes = [
+    'c-button',
+    variant ? 'c-button--' ~ variant : null
+]|filter(v => v) %}
+
+<a class="{{ classes|join(' ') }}" href="{{ url|default('#') }}">
+    {{ label|default('Click me') }}
+</a>
+

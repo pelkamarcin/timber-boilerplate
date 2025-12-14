@@ -1,5 +1,8 @@
 # Plan modernizacji motywu Timber Boilerplate
 
+> Status szczegółowy i odhaczanie wykonanych kroków znajdziesz w pliku `PROGRESS.md`. Aktualizuj oba dokumenty
+> równolegle: ten opisuje pełny zakres, a `PROGRESS.md` raportuje bieżący stan.
+
 Dokument zbiera działania potrzebne do uporządkowania architektury (PHP/Twig/JS/SCSS), maksymalnej optymalizacji
 wydajności (Lighthouse / Speed Index), minimalizacji wtyczek, wdrożenia strategii ikon (SVG sprite) oraz poprawy obsługi
 ACF Blocks z pełnym podglądem w edytorze. Każda sekcja zawiera konkretne kroki, zależności i przewidywany wpływ.

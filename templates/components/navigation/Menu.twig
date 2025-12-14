@@ -1,0 +1,16 @@
+{# Wrapper for a Timber menu object #}
+{% if menu %}
+    <nav class="c-menu c-menu--{{ location|default('primary') }}">
+        <ul class="c-menu__list">
+            {% for item in menu.items %}
+                <li class="c-menu__item {{ item.classes|join(' ') }}">
+                    <a class="c-menu__link"
+                       href="{{ item.link }}" {{ item.target ? 'target="%s"'|format(item.target)|raw }}>
+                        {{ item.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
+

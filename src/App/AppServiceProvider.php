@@ -15,27 +15,35 @@ use Site\App\Support\Plugins;
 use Site\App\Support\ThemeSupport;
 
 class AppServiceProvider implements ProviderInterface {
+    public function __construct( private array $contentConfig = [] ) {
+        $this->contentConfig = $contentConfig ?: require get_theme_file_path( 'config/content.php' );
+    }
+
     public function register(): void {
+        $contentConfig = $this->contentConfig;
+
         add_action( 'after_setup_theme', function (): void {
             new ThemeSupport();
         } );
 
-        add_action( 'init', function (): void {
-            new PostTypeRegistry();
-            new TaxonomyRegistry();
+        add_action( 'init', function () use ( $contentConfig ): void {
+            new PostTypeRegistry( $contentConfig['post_types'] );
+            new TaxonomyRegistry( $contentConfig['taxonomies'] );
         },          9 );
 
-        add_action( 'acf/init', function (): void {
-            new BlockRegistry();
+        add_action( 'acf/init', function () use ( $contentConfig ): void {
+            new BlockRegistry( $contentConfig['blocks'] );
         } );
     }
 
     public function boot(): void {
+        $contentConfig = $this->contentConfig;
+
         new Scripts();
         new ImageSizes();
         new Ajax();
         new Plugins();
-        new ShortcodeRegistry();
+        new ShortcodeRegistry( $contentConfig['shortcodes'] );
         new Menus();
     }
 }

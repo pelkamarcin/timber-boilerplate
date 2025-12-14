@@ -2,7 +2,7 @@
 
 namespace Site\App\Content\PostTypes;
 
-class SfyExamplePostType extends SfyPostTypeBase {
+class ExamplePostType extends PostTypeBase {
 
     public function __construct() {
         $this->post_type_name = 'example-name';

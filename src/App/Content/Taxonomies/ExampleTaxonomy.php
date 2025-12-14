@@ -2,7 +2,7 @@
 
 namespace Site\App\Content\Taxonomies;
 
-class SfyExampleTaxonomy extends SfyTaxonomyBase {
+class ExampleTaxonomy extends TaxonomyBase {
 
     public function __construct() {
         $this->labels             = [
