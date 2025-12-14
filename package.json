@@ -2,29 +2,30 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev" : "vite",
-    "create-block" : "node create-block.js"
+      "dev" : "vite",
+      "create-block" : "node create-block.js"
   },
   "dependencies": {
-    "@vitejs/plugin-basic-ssl" : "^2.0.0",
-    "@wordpress/base-styles" : "^5.22.0",
-    "@wordpress/block-library" : "^9.22.0",
-    "bootstrap" : "^5.3.5",
-    "dotenv" : "^16.5.0",
+      "@vitejs/plugin-basic-ssl" : "^2.0.0",
+      "@wordpress/base-styles" : "^6.12.0",
+      "@wordpress/block-library" : "^9.22.0",
+      "bootstrap" : "^5.3.5",
+      "dotenv" : "^16.5.0",
     "enter-view": "^2.0.1",
-    "glob" : "^11.0.1",
+      "glob" : "^11.0.1",
     "hamburgers": "^1.2.1",
     "jquery": "^3.7.1",
+      "jsdoc" : "^4.0.5",
     "normalize.css": "^8.0.1",
     "sass-mq": "^6.0.0",
     "sass-rem": "^4.0.0",
-    "swiper" : "^11.2.6",
-    "vite" : "^6.2.6",
-    "vite-plugin-sass" : "^0.1.0"
+      "swiper" : "^12.0.3",
+      "vite" : "^6.2.6",
+      "vite-plugin-sass" : "^0.1.0"
   },
   "devDependencies": {
-    "rollup-plugin-copy" : "^3.5.0",
-    "sass" : "^1.86.3",
-    "vite-plugin-sass-glob-import" : "^5.0.0"
+      "rollup-plugin-copy" : "^3.5.0",
+      "sass" : "^1.86.3",
+      "vite-plugin-sass-glob-import" : "^5.0.0"
   }
 }

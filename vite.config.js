@@ -6,9 +6,12 @@ import * as fs from 'fs';
 import {glob} from 'glob';
 import * as path from 'path';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import {fileURLToPath} from 'url';
 
 
 dotenv.config();
+
+const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
     publicDir: 'resources/public',
@@ -35,6 +38,12 @@ export default defineConfig({
         rollupOptions: {
             input: 'resources/js/index.js',
 
+        },
+    },
+    resolve: {
+        alias: {
+            '@js': path.resolve(rootDir, 'resources/js'),
+            '@styles': path.resolve(rootDir, 'resources/scss'),
         },
     },
     plugins: [

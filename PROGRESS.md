@@ -18,7 +18,7 @@ notatki.
 - [x] Struktura Twig (`templates/components`, `templates/blocks`)
 - [ ] Reorganizacja katalogu SCSS (7-1 + glob imports)
 - [ ] CSS variables-first (`:root` tokens)
-- [ ] Modułowa architektura JS + aliasy w Vite
+- [x] Modułowa architektura JS + aliasy w Vite
 - [ ] Aktualizacja dokumentacji (`README`)
 
 ## 2. Wydajność i pipeline Vite
@@ -73,7 +73,7 @@ notatki.
 
 ## Notatki dzienne
 
-- 2025-12-14: Architektura PHP potwierdzona + migracja Twigów do `templates/components` i `templates/pages`. Następny
-  krok: SCSS + JS struktura.
+- 2025-12-14: Architektura PHP potwierdzona + migracja Twigów do `templates/components` i `templates/pages`. Modułowy
+  stack JS + aliasy Vite gotowe; kolejny krok: SCSS.
 - 2025-12-13: Utworzono `PROGRESS.md` i powiązano z `IMPROVEMENT_PLAN.md`. Kolejne kroki: dokończyć refaktor
   architektury PHP.
