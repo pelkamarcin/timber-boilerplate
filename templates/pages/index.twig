@@ -2,10 +2,10 @@
 
 {% block content %}
     {% for post in posts %}
-        {% include ['partials/tease-' ~ post.type ~ '.twig', 'partials/tease.twig'] %}
+        {% include ['components/post/tease-' ~ post.type ~ '.twig', 'components/post/tease.twig'] %}
     {% endfor %}
 
-    {% include 'partials/posts-pagination.twig' with {
+    {% include 'components/navigation/posts-pagination.twig' with {
         pagination: posts.pagination({
             show_all: false,
             mid_size: 3,
@@ -15,3 +15,4 @@
         numbered: true
     } %}
 {% endblock %}
+

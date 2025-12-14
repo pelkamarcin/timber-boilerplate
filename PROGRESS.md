@@ -14,8 +14,8 @@ notatki.
 ## 1. Architektura + struktura modułów
 
 - [x] Dodany plan odniesienia w `IMPROVEMENT_PLAN.md`
-- [x] Refaktor struktury PHP (`Site\App\*`, autoload, bootstrap)
-- [ ] Struktura Twig (`templates/components`, `templates/blocks`)
+- [x] Refaktor struktury PHP (`Site\\App\\*`, autoload, bootstrap)
+- [x] Struktura Twig (`templates/components`, `templates/blocks`)
 - [ ] Reorganizacja katalogu SCSS (7-1 + glob imports)
 - [ ] CSS variables-first (`:root` tokens)
 - [ ] Modułowa architektura JS + aliasy w Vite
@@ -73,7 +73,7 @@ notatki.
 
 ## Notatki dzienne
 
-- 2025-12-14: Architektura PHP potwierdzona (nowy `App`, providerzy i autoload). Następny krok: porządek w strukturze
-  Twig.
+- 2025-12-14: Architektura PHP potwierdzona + migracja Twigów do `templates/components` i `templates/pages`. Następny
+  krok: SCSS + JS struktura.
 - 2025-12-13: Utworzono `PROGRESS.md` i powiązano z `IMPROVEMENT_PLAN.md`. Kolejne kroki: dokończyć refaktor
   architektury PHP.

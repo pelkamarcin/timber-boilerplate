@@ -4,6 +4,7 @@ namespace Site\App\Theme;
 
 use Site\App\App as ThemeApp;
 use Timber\Site as TimberSite;
+use Timber\Timber;
 
 /**
  * Class Site
@@ -16,6 +17,13 @@ class Site extends TimberSite {
     }
 
     private function bootstrap(): void {
+        Timber::init();
+        Timber::$dirname = [ 'templates', 'templates/components', 'templates/pages' ];
+
+        if ( !defined( 'WP_POST_REVISIONS' ) ) {
+            define( 'WP_POST_REVISIONS', 5 );
+        }
+
         $this->app->boot();
 
         add_filter( 'timber/context', [ $this, 'add_to_context_global' ] );

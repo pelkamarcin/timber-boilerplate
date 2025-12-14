@@ -2,7 +2,7 @@
 
 {% block content %}
     <article class="c-single c-post_{{ post.type }} s-textcontent" id="post-{{ post.id }}">
-        {% include 'partials/thumbnail.twig' with {'post': post, 'size':'fullhd', 'classes': 'c-single__thumbnail'} %}
+        {% include 'components/media/thumbnail.twig' with {'post': post, 'size':'fullhd', 'classes': 'c-single__thumbnail'} %}
         <section class="c-single__content">
             <h1 class="c-single__heading">{{ post.title }}</h1>
             <p class="c-single__meta c-post-meta">
@@ -18,7 +18,7 @@
                 <ul class="c-comments__list">
                     {% for cmt in post.comments %}
                         <li class="c-comments__item">
-                            {% include 'partials/comment.twig' with {
+                            {% include 'components/comments/comment.twig' with {
                                 comment: cmt
                             } %}
                         </li>
@@ -29,8 +29,9 @@
             {% if post.comment_status == 'closed' %}
                 <p>{{ __('comments for this post are closed','sfy') }}</p>
             {% else %}
-                {% include 'partials/comment-form.twig' %}
+                {% include 'components/comments/comment-form.twig' %}
             {% endif %}
         </section>
     </article>
 {% endblock %}
+

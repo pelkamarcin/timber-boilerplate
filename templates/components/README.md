@@ -1,13 +1,24 @@
 # Components
 
-Umieszczaj tutaj komponenty Twig wielokrotnego użytku w strukturze:
+Ten katalog przechowuje Twigowe komponenty wielokrotnego użytku. Struktura:
 
 ```
 components/
-  button/
-    button.twig
-  hero/
-    hero.twig
+  navigation/
+    menu.twig
+    posts-pagination.twig
+  media/
+    thumbnail.twig
+  post/
+    tease.twig
+  comments/
+    comment.twig
+    comment-form.twig
 ```
 
-Każdy komponent może mieć warianty (np. `hero--compact.twig`) i otrzymuje dane poprzez `with`/`include`.
+Zasady:
+
+- każdy komponent jest niezależny i przyjmujew dane przez `with`;
+- nazwy katalogów opisują przeznaczenie (navigation/media/post/comments);
+- nowe komponenty dodawaj jako `components/<sekcja>/<nazwa>.twig` i dokumentuj wymagane dane na górze pliku w
+  komentarzu.

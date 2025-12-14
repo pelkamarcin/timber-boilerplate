@@ -9,7 +9,7 @@
  * @since   Timber 0.1
  */
 
-$templates = array( 'search.twig', 'archive.twig', 'index.twig' );
+$templates = array( 'templates/pages/search.twig', 'templates/pages/archive.twig', 'templates/pages/index.twig' );
 
 $context          = Timber::context();
 $context['title'] = __( 'Search results for ', 'sfy' ) . get_search_query();

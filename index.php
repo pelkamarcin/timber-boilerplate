@@ -7,7 +7,7 @@
  * E.g., it puts together the home page when no home.php file exists
  */
 
-$templates = [ 'templates/index.twig' ];
+$templates = [ 'templates/pages/index.twig' ];
 
 if ( is_home() ) {
     array_unshift( $templates, 'templates/front-page.twig', 'templates/home.twig' );
