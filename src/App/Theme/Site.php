@@ -1,0 +1,78 @@
+<?php
+
+namespace Site\App\Theme;
+
+use Site\App\App as ThemeApp;
+use Timber\Site as TimberSite;
+
+/**
+ * Class Site
+ */
+class Site extends TimberSite {
+    public function __construct( private ThemeApp $app ) {
+        $this->bootstrap();
+
+        parent::__construct();
+    }
+
+    private function bootstrap(): void {
+        $this->app->boot();
+
+        add_filter( 'timber/context', [ $this, 'add_to_context_global' ] );
+        add_filter( 'login_head', [ $this, 'custom_login_logo' ] );
+        add_filter( 'body_class', [ $this, 'add_body_classes' ] );
+        add_filter( 'automatic_updates_is_vcs_checkout', '__return_false', 1 );
+        $this->remove_emojis();
+    }
+
+    public function add_to_context_global( $context ) {
+
+        if ( function_exists( 'pll_current_language' ) ) {
+            $context['lang'] = pll_current_language( 'slug' );
+        }
+
+        return $context;
+    }
+
+
+    public function custom_login_logo() {
+        $url = get_theme_file_uri( 'favicon.svg' );
+
+        $styles = [
+            sprintf( 'background-image: url(%s)', $url ),
+            'width: 200px',
+            'background-position: center',
+            'background-size: contain',
+        ];
+
+        printf(
+            '<style> .login h1 a { %s } </style>',
+            implode( ';', $styles )
+        );
+    }
+
+    private function remove_emojis() {
+        // Remove WP emoji code
+        remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+        remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
+        remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+        remove_action( 'admin_print_styles', 'print_emoji_styles' );
+    }
+
+    public function add_body_classes( $classes ) {
+        global $post;
+
+        if ( is_singular() ) {
+            $classes[] = sanitize_html_class( $post->post_name );
+        };
+        if ( is_array( $classes ) ) {
+            foreach ( $classes as $k => $v ) {
+                $classes[ $k ] = 'p-' . $v;
+            }
+        }
+
+        return $classes;
+    }
+
+}
