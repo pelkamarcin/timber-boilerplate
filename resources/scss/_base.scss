@@ -1,5 +1,5 @@
 @use 'typography' as *;
-@use 'sass-mq/mq' as *;
+@use 'base/mq-settings' as mq;
 
 /* stylelint-disable declaration-no-important, selector-max-universal */
 
@@ -14,7 +14,7 @@
   --sfy-heading-color: blue;
 
   // --bs-gutter-x: 10px;
-  @include mq($from: large) {
+  @include mq.sfy-mq($from: large) {
     //--bs-gutter-x: 40px;
   }
 }
@@ -22,8 +22,67 @@
 
 body {
   @include u-set-typography;
+  color: var(--sfy-text-color);
 }
 
+// Global heading styles
+h1, h2, h3, h4, h5, h6 {
+  color: var(--sfy-heading-color);
+  margin: 0 0 var(--gutter-size-y) 0;
+}
+
+h1 {
+  @include u-set-typography('accent', 'main-title');
+}
+
+h2 {
+  @include u-set-typography('accent', 'second-title');
+}
+
+h3 {
+  @include u-set-typography('accent', 'third-title');
+}
+
+h4 {
+  @include u-set-typography('accent', 'fourth-title');
+}
+
+h5 {
+  @include u-set-typography('accent', 'fifth-title');
+}
+
+h6 {
+  @include u-set-typography('accent', 'sixth-title');
+}
+
+// Global paragraph styles
+p {
+  margin: 0 0 var(--gutter-size-y) 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Global list styles
+ul, ol {
+  margin: 0 0 var(--gutter-size-y) 0;
+  padding-left: var(--gutter-size);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    margin-bottom: calc(var(--gutter-size-y) / 2);
+  }
+}
+
+ul {
+  list-style-type: disc;
+}
+
+// Links
 a {
   text-decoration: none;
   color: var(--sfy-link-color);
@@ -33,8 +92,22 @@ a {
   }
 }
 
-.s-textcontent {
-  @include t-textcontent;
+// Blockquotes
+blockquote {
+  font-style: italic;
+  margin: 0 0 var(--gutter-size-y) 0;
+  padding-left: var(--gutter-size);
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Iframes
+iframe {
+  max-width: 100%;
 }
 
 .is-page-loading * {

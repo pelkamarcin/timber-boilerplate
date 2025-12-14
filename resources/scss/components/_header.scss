@@ -1,6 +1,6 @@
-@use "sass-mq/mq" as *;
-@use "../base/functions" as *;
-@use "../typography" as *;
+@use '../base/mq-settings' as mq;
+@use '../base/functions' as *;
+@use '../typography' as *;
 
 // @z-index space: 80-90
 .c-header {
@@ -21,7 +21,7 @@
     }
 
     &__mainmenu {
-      @include mq($until: xlarge) {
+      @include mq.sfy-mq($until: xlarge) {
         transform: translateX(-100%);
         position: fixed;
         z-index: 999;

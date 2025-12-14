@@ -16,7 +16,7 @@ notatki.
 - [x] Dodany plan odniesienia w `IMPROVEMENT_PLAN.md`
 - [x] Refaktor struktury PHP (`Site\\App\\*`, autoload, bootstrap)
 - [x] Struktura Twig (`templates/components`, `templates/blocks`)
-- [ ] Reorganizacja katalogu SCSS (7-1 + glob imports)
+- [x] Reorganizacja katalogu SCSS (7-1 + glob imports)
 - [ ] CSS variables-first (`:root` tokens)
 - [x] Modułowa architektura JS + aliasy w Vite
 - [ ] Aktualizacja dokumentacji (`README`)

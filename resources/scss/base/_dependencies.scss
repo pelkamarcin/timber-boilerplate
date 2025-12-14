@@ -13,7 +13,15 @@ $hamburger-active-layer-color: #000;
 $hamburger-types: (collapse);
 
 
-$grid-breakpoints: map-merge((xs: 0), mq-settings.$breakpoints);
+$grid-breakpoints: (
+        xs: 0,
+        small: mq-settings.$sfy-small,
+        medium: mq-settings.$sfy-medium,
+        large: mq-settings.$sfy-large,
+        xlarge: mq-settings.$sfy-xlarge,
+        wide: mq-settings.$sfy-wide,
+        huge: mq-settings.$sfy-huge
+);
 
 // Wordpress breakpoints
 $break-huge: 1440px;

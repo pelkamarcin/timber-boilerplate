@@ -1,6 +1,6 @@
-@use 'sass-mq/mq' as *;
-@use "../base/functions" as *;
+@use '../base/functions' as *;
 @use '../typography' as *;
+@use '../base/mq-settings' as mq;
 
 // @z-index space: 80-90
 .c-mainmenu {
@@ -17,7 +17,7 @@
 
     &__burger-wrapper {
 
-      @include mq($from: xlarge) {
+      @include mq.sfy-mq($from: xlarge) {
         display: none;
       }
     }
@@ -34,7 +34,7 @@
 
     &__list {
       list-style: none !important;
-      @include mq($from: large) {
+      @include mq.sfy-mq($from: large) {
         width: 100%;
         display: flex;
         justify-content: flex-end;

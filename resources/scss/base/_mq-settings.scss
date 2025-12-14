@@ -1,16 +1,62 @@
-$breakpoints: (
-        small: 380px,
-        medium: 768px,
-        large: 1024px,
-        xlarge: 1280px,
-        xmlarge: 1430px,
-        xxlarge: 1700px,
-);
-$media-type: 'screen';
+// Our custom breakpoints
+$sfy-small: 380px;
+$sfy-medium: 768px;
+$sfy-large: 1024px;
+$sfy-xlarge: 1280px;
+$sfy-wide: 1430px;
+$sfy-huge: 1700px;
 
-@use '../../../node_modules/sass-mq/mq' with (
-  $breakpoints: $breakpoints,
-  $media-type: $media-type,
-  // Uncomment for debugging breakpoints
-  // $show-breakpoints: (large, xlarge),
-);
+// Simple mixin: $from = min-width, $until = max-width
+@mixin sfy-mq($from: null, $until: null) {
+  @if $from == small {
+    @media (min-width: #{$sfy-small}) {
+      @content;
+    }
+  } @else if $from == medium {
+    @media (min-width: #{$sfy-medium}) {
+      @content;
+    }
+  } @else if $from == large {
+    @media (min-width: #{$sfy-large}) {
+      @content;
+    }
+  } @else if $from == xlarge {
+    @media (min-width: #{$sfy-xlarge}) {
+      @content;
+    }
+  } @else if $from == wide {
+    @media (min-width: #{$sfy-wide}) {
+      @content;
+    }
+  } @else if $from == huge {
+    @media (min-width: #{$sfy-huge}) {
+      @content;
+    }
+  } @else if $until == small {
+    @media (max-width: #{$sfy-small - 1}) {
+      @content;
+    }
+  } @else if $until == medium {
+    @media (max-width: #{$sfy-medium - 1}) {
+      @content;
+    }
+  } @else if $until == large {
+    @media (max-width: #{$sfy-large - 1}) {
+      @content;
+    }
+  } @else if $until == xlarge {
+    @media (max-width: #{$sfy-xlarge - 1}) {
+      @content;
+    }
+  } @else if $until == wide {
+    @media (max-width: #{$sfy-wide - 1}) {
+      @content;
+    }
+  } @else if $until == huge {
+    @media (max-width: #{$sfy-huge - 1}) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

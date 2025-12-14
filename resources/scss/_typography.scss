@@ -1,6 +1,7 @@
-@use '../../node_modules/sass-mq/mq' as *;
+@use 'sass:map';
+@use 'sass:meta';
+@use 'base/mq-settings' as mq;
 @use "base/functions" as *;
-@use 'base/mq-settings';
 
 $ff-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $ff-accent: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -15,34 +16,64 @@ $font-size-base: rem-calc(16px);
 
 /* stylelint-disable indentation */
 $font-styles: (
-        'main': (// aka Helvetica Neue
+        'main': (
                 'regular': (
                         font-size: $font-size-base,
                         line-height: 1.6
                 ),
-                'menu':(
+                'menu': (
+                        font-size: rem-calc(16px),
+                        line-height: 1.4,
+                        font-weight: 500
                 )
         ),
-        'accent': (// aka heading font
+        'accent': (
                 'main-title': (
-                        font-size: rem-calc(20px),
-                        line-height:1,
+                        font-size: rem-calc(32px),
+                        line-height: 1.2,
+                        font-weight: 700,
                         large: (
-                                font-size: rem-calc(30px)
+                                font-size: rem-calc(48px)
                         )
                 ),
-                'second-title':(
+                'second-title': (
+                        font-size: rem-calc(28px),
+                        line-height: 1.3,
+                        font-weight: 600,
+                        large: (
+                                font-size: rem-calc(36px)
+                        )
+                ),
+                'third-title': (
+                        font-size: rem-calc(24px),
+                        line-height: 1.4,
+                        font-weight: 600
+                ),
+                'fourth-title': (
+                        font-size: rem-calc(20px),
+                        line-height: 1.4,
+                        font-weight: 600
+                ),
+                'fifth-title': (
+                        font-size: rem-calc(18px),
+                        line-height: 1.5,
+                        font-weight: 600
+                ),
+                'sixth-title': (
+                        font-size: rem-calc(16px),
+                        line-height: 1.5,
+                        font-weight: 600
                 )
         ),
         'secondary': ()
 );
 @mixin u-set-typography($typeface-name: 'main', $style-name: 'regular') {
 
-  $this-typeface: map-get($font-styles, $typeface-name);
+  $this-typeface: map.get($font-styles, $typeface-name);
   @if $this-typeface == null {
     $this-typeface: ();
   }
-  $this-style: map-get($this-typeface, $style-name);
+  $this-style: map.get($this-typeface, $style-name);
   @if $this-style == null {
     $this-style: ();
   }
@@ -58,8 +89,8 @@ $font-styles: (
   }
 
   @each $property, $value in $this-style {
-    @if map-has-key(mq-settings.$breakpoints, $property) and type-of($value) == 'map' {
-      @include mq($from: $property) {
+    @if $property == 'large' and meta.type-of($value) == 'map' {
+      @include mq.sfy-mq($from: large) {
         @each $subproperty, $subvalue in $value {
           @if $subproperty == 'font-size' {
             $subvalue: rem-calc($subvalue);
@@ -81,94 +112,6 @@ $font-styles: (
       #{$property}: $value;
     }
   }
-}
-
-
-@mixin t-textcontent {
-  /* stylelint-disable selector-max-type, selector-max-compound-selectors */
-
-  // preventing text styles leaking into widgets pasted into content area via shortcodes
-  & {
-    blockquote {
-      font-style: italic;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      color: var(--sfy-heading-color);
-    }
-
-    h1 {
-      @include t-heading-main;
-    }
-
-    h2 {
-      @include t-heading-second;
-    }
-
-    h3 {
-      @include t-heading-third;
-    }
-
-    h4 {
-      @include t-heading-fourth;
-    }
-
-    p, ul, ol {
-      color: var(--sfy-text-color);
-
-      &:not(:last-child),
-      &:not(:only-child) {
-        margin-bottom: var(--gutter-size-y);
-      }
-    }
-
-    h2, h3, h4, h5, h6, p, ul, ol {
-      &:first-child {
-        margin-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    ul li {
-      list-style-type: disc;
-    }
-
-    ul, ol {
-      li li {
-        padding-left: var(--gutter-size);
-      }
-    }
-  }
-  img {
-    max-width: 100%;
-    display: block;
-    height: auto;
-    margin: 0;
-  }
-  iframe {
-    width: 100%;
-  }
-
-  /* stylelint-enable selector-max-type, selector-max-compound-selectors */
-}
-
-@mixin t-heading-main {
-  @include u-set-typography('accent', 'main-title');
-}
-
-@mixin t-heading-second {
-  @include u-set-typography('accent', 'second-title');
-}
-
-@mixin t-heading-third {
-  @include u-set-typography('accent', 'third-title');
-}
-
-@mixin t-heading-fourth {
-  @include u-set-typography('accent', 'fourth-title');
 }
 
 /* stylelint-enable indentation */
