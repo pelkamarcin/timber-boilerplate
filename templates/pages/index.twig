@@ -1,0 +1,18 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    {% for post in posts %}
+        {% include ['components/post/tease-' ~ post.type ~ '.twig', 'components/post/tease.twig'] %}
+    {% endfor %}
+
+    {% include 'components/navigation/posts-pagination.twig' with {
+        pagination: posts.pagination({
+            show_all: false,
+            mid_size: 3,
+            end_size: 2
+        }),
+        before_after: true,
+        numbered: true
+    } %}
+{% endblock %}
+

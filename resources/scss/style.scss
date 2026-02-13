@@ -14,6 +14,7 @@
 @use 'base/normalize_tweaks';
 @use 'base';
 
-
-// !Components 
+// !Components
 @use 'components/*';
+
+@use 'base/elements_animations';

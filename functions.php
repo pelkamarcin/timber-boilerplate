@@ -12,16 +12,11 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/src/sfy-site.php';
+$config = require __DIR__ . '/config/app.php';
 
-if (!defined('WP_POST_REVISIONS')) {
-    define('WP_POST_REVISIONS', 5);
-}
+$themeApp = new Site\App\App( $config['providers'] );
+$themeApp->boot();
 
+require_once __DIR__ . '/src/App/Theme/Site.php';
 
-Timber\Timber::init();
-
-// Sets the directories (inside your theme) to find .twig files.
-Timber::$dirname = [ 'templates', 'views' ];
-
-new Site\SfySite();
+new Site\App\Theme\Site( $themeApp );

@@ -1,0 +1,30 @@
+@use '../base/mq-settings' as mq;
+@use "../base/functions" as *;
+@use '../typography' as *;
+
+.wp-block-media-text {
+
+  & {
+
+    > .wp-block-media-text__media {
+
+    }
+
+    > .wp-block-media-text__content {
+
+    }
+
+
+  }
+
+  @at-root {
+    &_modifier {
+    }
+
+    &__element {
+    }
+
+    &__element_modifier {
+    }
+  }
+}

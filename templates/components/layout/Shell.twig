@@ -1,0 +1,17 @@
+{#
+Layout shell: wrap page sections and expose slots for header/footer/main.
+Usage:
+{% include 'components/layout/Shell.twig' with { header: block('header'), main: block('content'), footer: block('footer') } %}
+#}
+<div class="l-shell">
+    <header class="l-shell__header">
+        {{ header|raw }}
+    </header>
+    <main class="l-shell__main">
+        {{ main|raw }}
+    </main>
+    <footer class="l-shell__footer">
+        {{ footer|raw }}
+    </footer>
+</div>
+

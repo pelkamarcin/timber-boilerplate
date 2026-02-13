@@ -7,4 +7,4 @@ $context         = Timber::context();
 $timber_post = Timber::get_post( false );
 $context['post'] = $timber_post;
 
-Timber::render( 'custom-templates/example.twig', $context );
+Timber::render( 'templates/pages/custom/example.twig', $context );

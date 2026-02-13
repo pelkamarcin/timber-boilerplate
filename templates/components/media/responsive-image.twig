@@ -1,0 +1,63 @@
+{#
+/**
+ * Responsive Image Component
+ *
+ * @param object image_group - Grupa ACF zawierająca:
+ *   - image.default_image (wymagane) - główny obrazek
+ *   - image.mobile_image (opcjonalne) - obrazek dla urządzeń mobilnych
+ * @param string|array classes - Klasy CSS dla obrazka
+ * @param array attributes - Dodatkowe atrybuty HTML
+ * @param string size - Rozmiar obrazka (default: 'full')
+ * @param string breakpoint - Breakpoint dla mobile image (default: '1023px', można użyć zmiennych CSS)
+ */
+#}
+
+{% if image_group and  image_group.default_image %}
+
+    {% set default_img = image_group.default_image %}
+    {% set mobile_img = image_group.mobile_image %}
+
+    {# Przygotowanie klas CSS #}
+    {% set img_classes = ['responsive-image'] %}
+    {% if classes %}
+        {% if classes is iterable %}
+            {% set img_classes = img_classes|merge(classes) %}
+        {% else %}
+            {% set img_classes = img_classes|merge([classes]) %}
+        {% endif %}
+    {% endif %}
+
+    {# Ustawienie domyślnego rozmiaru i breakpointu #}
+    {% set img_size = size ?? 'full' %}
+    {% set img_breakpoint = breakpoint ?? '1023px' %}
+
+    {% if mobile_img %}
+        {# Jeśli istnieje mobile_image, użyj dwóch osobnych img (pokazuj/ukrywaj przez CSS) #}
+        <div class="responsive-image-wrapper responsive-image-wrapper--dual">
+            {# Mobile image - widoczny tylko na mobile #}
+            {% set mobile_classes = img_classes|merge(['responsive-image--mobile']) %}
+            {% set mobile_attributes = {'class': mobile_classes|join(' ')} %}
+            {% if attributes %}
+                {% set mobile_attributes = mobile_attributes|merge(attributes) %}
+            {% endif %}
+            {{ fn('wp_get_attachment_image', mobile_img.ID, img_size, false, mobile_attributes) }}
+
+            {# Desktop image - widoczny tylko na desktop #}
+            {% set desktop_classes = img_classes|merge(['responsive-image--desktop']) %}
+            {% set desktop_attributes = {'class': desktop_classes|join(' ')} %}
+            {% if attributes %}
+                {% set desktop_attributes = desktop_attributes|merge(attributes) %}
+            {% endif %}
+            {{ fn('wp_get_attachment_image', default_img.ID, img_size, false, desktop_attributes) }}
+        </div>
+    {% else %}
+        {# Jeśli nie ma mobile_image, użyj tylko default_image #}
+        {% set img_attributes = {'class': img_classes|join(' ')} %}
+        {% if attributes %}
+            {% set img_attributes = img_attributes|merge(attributes) %}
+        {% endif %}
+        {{ fn('wp_get_attachment_image', default_img.ID, img_size, false, img_attributes) }}
+    {% endif %}
+
+{% endif %}
+

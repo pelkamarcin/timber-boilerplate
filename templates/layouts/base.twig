@@ -1,5 +1,4 @@
 {% block head %}
-
     {% include 'layouts/parts/html-header.twig' %}
 {% endblock %}
 
@@ -9,7 +8,7 @@
 <div class="c-page-wrapper">
 
     {% block header %}
-        {% include 'layouts/parts/header.twig' %}
+        {% include 'components/navigation/menu.twig' with { menu: mainmenu, baseclass: 'c-nav' } %}
     {% endblock %}
 
     <main class="c-content-area"
@@ -25,7 +24,6 @@
     </main>
 </div>
 
-{# a block ready to be filled with some default content (but blank for now) #}
 {% block footer_before '' %}
 
 {% block footer %}
