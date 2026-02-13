@@ -2,17 +2,19 @@
 @use "../base/functions" as *;
 @use '../typography' as *;
 
-.wp-block-separator {
+.wp-block-media-text {
 
   & {
 
-    &.is-style-wide {
-      width: 100%;
+    > .wp-block-media-text__media {
+
     }
 
-    &:not(.is-style-wide) {
-      width: rem-calc(200px);
+    > .wp-block-media-text__content {
+
     }
+
+
   }
 
   @at-root {

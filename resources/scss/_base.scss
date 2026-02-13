@@ -1,5 +1,6 @@
 @use 'typography' as *;
 @use 'base/mq-settings' as mq;
+@use 'base/functions' as *;
 
 /* stylelint-disable declaration-no-important, selector-max-universal */
 
@@ -19,6 +20,15 @@
   }
 }
 
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   @include u-set-typography;
@@ -126,4 +136,10 @@ iframe {
     color: var(--sfy-link-hover-color, var(--sfy-link-color));
   }
 
+}
+
+:root :where(.is-layout-flow) > *,
+:root :where(.is-layout-constrained) > *,
+.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  margin-block-start: 0 !important;
 }

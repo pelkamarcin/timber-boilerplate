@@ -20,6 +20,7 @@ class ThemeSupport {
         add_theme_support( 'menus' );
         add_theme_support( 'widgets' );
         add_theme_support( 'custom-header' );
+        add_theme_support( 'custom-logo' );
         /*
 		 * Let WordPress manage the document title.
 		 * By adding theme support, we declare that this theme does not use a

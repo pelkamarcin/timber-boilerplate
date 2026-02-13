@@ -42,8 +42,10 @@ class Plugins {
     }
 
     private function contact_form7() {
-
-        define( 'WPCF7_AUTOP', false ); // phpcs:ignore
+        // Avoid redefining constant if already set by CF7 or another source
+        if ( !defined( 'WPCF7_AUTOP' ) ) {
+            define( 'WPCF7_AUTOP', false ); // phpcs:ignore
+        }
         add_filter( 'wpcf7_autop_or_not', '__return_false' );
 
     }

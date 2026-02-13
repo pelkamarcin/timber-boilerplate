@@ -26,8 +26,7 @@ export default defineConfig({
     },
     server: {
         allowedHosts: ['.local'],
-        // host: 'aurec.local',
-        cors: true
+        cors: true,
     },
     build: {
         sourcemap: 'hidden',
@@ -37,7 +36,6 @@ export default defineConfig({
         outDir: `dist`,
         rollupOptions: {
             input: 'resources/js/index.js',
-
         },
     },
     resolve: {
@@ -91,7 +89,7 @@ async function compileBlocks(file = null) {
                         './node_modules'
                     ]
                 });
-            fs.writeFile(`src/Blocks/${name}/style.css`, result.css, () => {
+            fs.writeFile(`src/App/Content/Blocks/${name}/style.css`, result.css, () => {
                 savedFilesNo++;
                 if (savedFilesNo >= noOfFiles) {
                     resolve();

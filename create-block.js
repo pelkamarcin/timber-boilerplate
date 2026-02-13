@@ -61,35 +61,36 @@ const __dirname = dirname(__filename);
     twigContent = twigContent.replace(/c-example-block/g, `c-${slug}-block`);
     fs.writeFileSync(twigDest, twigContent);
 
-    // Zaktualizuj rejestr bloków w BlockRegistry.php
-    const registryPath = path.join(__dirname, 'src/App/Content/Blocks/BlockRegistry.php');
-    let registryContent = fs.readFileSync(registryPath, 'utf8');
-    const registryPattern = /private\s+array\s+\$blocks\s*=\s*\[(.*?)];/s;
-    const registryMatch = registryContent.match(registryPattern);
-    if (!registryMatch) {
-        console.error('Nie udało się odnaleźć tablicy bloków w BlockRegistry.php');
+    // Zaktualizuj listę bloków w config/content.php
+    const contentConfigPath = path.join(__dirname, 'config/content.php');
+    let contentConfig = fs.readFileSync(contentConfigPath, 'utf8');
+    const blocksPattern = /'blocks'\s*=>\s*\[(.*?)\]/s;
+    const blocksMatch = contentConfig.match(blocksPattern);
+
+    if (!blocksMatch) {
+        console.error('Nie udało się odnaleźć sekcji "blocks" w config/content.php');
         process.exit(1);
     }
 
-    const list = registryMatch[1]
+    const blocksList = blocksMatch[1]
         .split(',')
         .map(item => item.replace(/['"\s]/g, ''))
         .filter(Boolean);
 
-    if (!list.includes(slug)) {
-        list.push(slug);
+    if (!blocksList.includes(slug)) {
+        blocksList.push(slug);
     }
 
-    const newInner = list.map(item => `\n        '${item}'`).join(',');
-    const newRegistrySection = `private array $blocks = [${newInner}\n    ];`;
-    registryContent = registryContent.replace(registryPattern, newRegistrySection);
-    fs.writeFileSync(registryPath, registryContent);
+    const newBlocksInner = blocksList.map(item => `\n        '${item}'`).join(',');
+    const newBlocksSection = `'blocks' => [${newBlocksInner}\n    ]`;
+    contentConfig = contentConfig.replace(blocksPattern, newBlocksSection);
+    fs.writeFileSync(contentConfigPath, contentConfig);
 
     // Dodaj do GIT-a
     execSync(`git add src/App/Content/Blocks/${slug}`, {stdio: 'inherit'});
     execSync(`git add resources/scss/blocks/${slug}.scss`, {stdio: 'inherit'});
     execSync(`git add templates/blocks/sfy/${slug}.twig`, {stdio: 'inherit'});
-    execSync('git add src/App/Content/Blocks/BlockRegistry.php', {stdio: 'inherit'});
+    execSync('git add config/content.php', {stdio: 'inherit'});
 
     console.log(`✅ Utworzono blok "${name}" ze slugiem "${slug}" i dodano do GIT.`);
     rl.close();

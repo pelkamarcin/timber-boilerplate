@@ -24,8 +24,6 @@ class Site extends TimberSite {
             define( 'WP_POST_REVISIONS', 5 );
         }
 
-        $this->app->boot();
-
         add_filter( 'timber/context', [ $this, 'add_to_context_global' ] );
         add_filter( 'login_head', [ $this, 'custom_login_logo' ] );
         add_filter( 'body_class', [ $this, 'add_body_classes' ] );

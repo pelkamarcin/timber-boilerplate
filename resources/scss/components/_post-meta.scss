@@ -1,4 +1,4 @@
-@use "sass-mq/mq" as *;
+@use '../base/mq-settings' as mq;
 @use "../base/functions" as *;
 @use "../typography" as *;
 
