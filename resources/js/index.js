@@ -9,7 +9,7 @@ import {example_module} from '@js/modules/example-module';
 
 
 onDomReady(() => {
-    document.body.classList.remove('is-page-loading', 'no-js');
+    document.documentElement.classList.remove('is-page-loading', 'no-js');
 
     addBrowserClasses();
     animations_module();

@@ -14,7 +14,7 @@ if ( !empty( $block['anchor'] ) ) {
 $context['class_name'] = '';
 
 if ( !empty( $block['align'] ) ) {
-    $context['class_name'] .= ' u-align-' . $block['align'];
+    $context['class_name'] .= ' is-align-' . $block['align'];
 }
 $context['block'] = $block;
 $context['is_preview'] = $is_preview ?? false;

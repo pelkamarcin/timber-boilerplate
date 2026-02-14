@@ -1,0 +1,30 @@
+@use 'base/mq-settings' as mq;
+@use "base/functions" as *;
+
+// Block alignment and sizing configuration
+// Uses CSS variables from theme.json layout settings:
+// - --wp--style--root--layout-content-size: 1320px (default)
+// - --wp--style--root--layout-wide-size: 1600px (is-align-wide)
+// - Full width for is-align-full
+
+.c-block {
+  // Default width (contentSize from theme.json)
+  width: 100%;
+  max-width: var(--wp--style--root--layout-content-size, 1320px);
+  margin-left: auto;
+  margin-right: auto;
+
+  // Wide alignment
+  &.is-align-wide {
+    max-width: var(--wp--style--root--layout-wide-size, 1600px);
+  }
+
+  // Full width alignment
+  &.is-align-full {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+
+

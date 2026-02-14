@@ -1,5 +1,11 @@
 @use '../../../node_modules/sass-rem/index' as rem;
 
 @function rem-calc($val) {
+  // If value doesn't have a unit, add px by default
+  @if type-of($val) == 'number' and unitless($val) {
+    $val: $val * 1px;
+  }
   @return rem.convert($val);
 }
+
+
