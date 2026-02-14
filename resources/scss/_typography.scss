@@ -95,7 +95,7 @@ $font-styles: (
           @if $subproperty == 'font-size' {
             $subvalue: rem-calc($subvalue);
           }
-          @if $subproperty == 'line-height' {
+          @if $subproperty == 'line-height' and type-of($subvalue) != 'number' {
             $subvalue: rem-calc($subvalue);
           }
 
@@ -106,7 +106,7 @@ $font-styles: (
       @if $property == 'font-size' {
         $value: rem-calc($value);
       }
-      @if $property == 'line-height' {
+      @if $property == 'line-height' and type-of($value) != 'number' {
         $value: rem-calc($value);
       }
       #{$property}: $value;

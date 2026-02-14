@@ -7,6 +7,26 @@ class Scripts {
 
         add_action( 'wp_enqueue_scripts', [ $this, 'script_enqueue' ], 10 );
         add_filter( 'script_loader_tag', [ $this, 'scripts_as_modules' ], 10, 3 );
+        add_action( 'init', [ $this, 'redirect_assets_in_dev' ] );
+    }
+
+    public function redirect_assets_in_dev(): void {
+        // Sprawdzam czy Vite dev server działa
+        $vite_check = wp_remote_get( 'https://localhost:5173/', array( 'sslverify' => FALSE, 'timeout' => 1 ) );
+
+        if ( !is_array( $vite_check ) ) {
+            return; // Vite nie działa, nie robimy redirect
+        }
+
+        // Jeśli URL zawiera /assets/img/ - redirect na theme assets
+        if ( strpos( $_SERVER['REQUEST_URI'], '/assets/' ) === 0 ) {
+            $requested_path   = substr( $_SERVER['REQUEST_URI'], 1 ); // Usuń leading slash
+            $theme_asset_path = get_template_directory_uri() . '/' . $requested_path;
+
+            wp_safe_remote_get( $theme_asset_path );
+            wp_redirect( $theme_asset_path, 301 );
+            exit;
+        }
     }
 
     public function script_enqueue(): void {
@@ -65,3 +85,5 @@ class Scripts {
     }
 
 }
+
+
