@@ -3,11 +3,13 @@
 @use 'base/mq-settings' as mq;
 @use "base/functions" as *;
 
-// Font families - referencja do CSS custom properties generowanych z theme.json
-// Zmiana fontów = zmiana TYLKO w theme.json (jedno źródło prawdy)
-$ff-main: var(--wp--preset--font-family--mulish, 'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif);
-$ff-accent: var(--wp--preset--font-family--noto-serif, 'Noto Serif', Georgia, serif);
-$ff-secondary: $ff-main;
+// Font families - trojwarstwowy fallback:
+// 1. --sfy-font-{role}       - override per projekt (ustaw w _tokens.scss lub _base.scss)
+// 2. --wp--preset--font-...  - CSS custom property generowana przez WP z theme.json
+// 3. system fallback         - gdy nic nie jest zdefiniowane
+$ff-main: var(--sfy-font-main, var(--wp--preset--font-family--mulish, 'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif));
+$ff-accent: var(--sfy-font-accent, var(--wp--preset--font-family--noto-serif, 'Noto Serif', Georgia, serif));
+$ff-secondary: var(--sfy-font-secondary, $ff-main);
 
 $font-size-base: rem-calc(16px);
 

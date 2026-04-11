@@ -26,4 +26,10 @@
   // Layout (z theme.json layout)
   --sfy-content-width: var(--wp--style--root--layout-content-size, 1320px);
   --sfy-wide-width: var(--wp--style--root--layout-wide-size, 1600px);
+
+  // Fonty - override per projekt (pierwszy fallback w _typography.scss)
+  // Odkomentuj i ustaw jesli chcesz nadpisac font bez ruszania theme.json:
+  // --sfy-font-main: 'Inter', sans-serif;
+  // --sfy-font-accent: 'Playfair Display', serif;
+  // --sfy-font-secondary: var(--sfy-font-main);
 }
