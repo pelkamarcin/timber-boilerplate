@@ -21,6 +21,8 @@ export default defineConfig({
             scss: {
                 quietDeps: true,
                 silenceDeprecations: ['import'],
+                // wp-overrides PRZED node_modules - nadpisuje breakpointy WP naszymi
+                loadPaths: ['resources/scss/wp-overrides', 'node_modules'],
             }
         }
     },
@@ -35,7 +37,15 @@ export default defineConfig({
         manifest: true,
         outDir: `dist`,
         rollupOptions: {
-            input: 'resources/js/index.js',
+            input: {
+                main: 'resources/js/index.ts',
+                editor: 'resources/scss/editor.scss',
+            },
+            output: {
+                manualChunks: {
+                    swiper: ['swiper'],
+                },
+            },
         },
     },
     resolve: {

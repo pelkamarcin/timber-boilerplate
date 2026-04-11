@@ -8,6 +8,7 @@ return [
     'assets' => [
         \Site\App\Assets\Scripts::class,
         \Site\App\Assets\ImageSizes::class,
+        \Site\App\Assets\FontLoader::class,
     ],
 
     'features' => [
@@ -18,5 +19,6 @@ return [
     'support' => [
         \Site\App\Support\ThemeSupport::class,
         \Site\App\Support\Plugins::class,
+        \Site\App\Support\WooCommerce::class,
     ],
 ];

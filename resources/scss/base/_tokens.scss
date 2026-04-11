@@ -1,0 +1,29 @@
+/**
+ * Design Tokens - bridge theme.json ↔ SCSS
+ *
+ * WordPress generuje CSS custom properties z theme.json automatycznie.
+ * Ten plik definiuje aliasy dla wygody i czytelności w SCSS.
+ * Zmiana wartości = zmiana w theme.json (jedno źródło prawdy).
+ *
+ * Naming convention:
+ * --sfy-color-{name}     → kolory z theme.json palette
+ * --sfy-spacing-{size}   → spacing z theme.json spacingSizes
+ * --sfy-font-{role}      → font families z theme.json fontFamilies
+ */
+
+:root {
+  // Kolory (aliasy do WordPress custom properties z theme.json)
+  --sfy-color-blue: var(--wp--preset--color--blue, #004f7f);
+  --sfy-color-green: var(--wp--preset--color--green, #468300);
+  --sfy-color-grey: var(--wp--preset--color--grey, #515e63);
+  --sfy-color-dark: var(--wp--preset--color--dark, #001019);
+
+  // Spacing (aliasy do WordPress spacing z theme.json)
+  --sfy-spacing-small: var(--wp--preset--spacing--40, 1rem);
+  --sfy-spacing-medium: var(--wp--preset--spacing--50, 1.5rem);
+  --sfy-spacing-large: var(--wp--preset--spacing--60, 2rem);
+
+  // Layout (z theme.json layout)
+  --sfy-content-width: var(--wp--style--root--layout-content-size, 1320px);
+  --sfy-wide-width: var(--wp--style--root--layout-wide-size, 1600px);
+}

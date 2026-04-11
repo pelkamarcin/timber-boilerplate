@@ -3,8 +3,10 @@
 @use 'base/mq-settings' as mq;
 @use "base/functions" as *;
 
-$ff-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$ff-accent: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+// Font families - referencja do CSS custom properties generowanych z theme.json
+// Zmiana fontów = zmiana TYLKO w theme.json (jedno źródło prawdy)
+$ff-main: var(--wp--preset--font-family--mulish, 'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif);
+$ff-accent: var(--wp--preset--font-family--noto-serif, 'Noto Serif', Georgia, serif);
 $ff-secondary: $ff-main;
 
 $font-size-base: rem-calc(16px);
