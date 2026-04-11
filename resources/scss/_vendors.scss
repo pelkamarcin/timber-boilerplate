@@ -12,7 +12,7 @@
 //
 // Breakpointy WP są nadpisane w base/_wp-breakpoints-override.scss
 // żeby bloki core reagowały na te same breakpointy co reszta szablonu.
-@import '@wordpress/block-library/src/style';
-@import '@wordpress/block-library/src/theme';
+@import 'block-library/src/style';
+@import 'block-library/src/theme';
 
 /* stylelint-enable plugin/at-rule-import-path */
