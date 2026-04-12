@@ -4,7 +4,9 @@ namespace Site\App\Content\Blocks;
 
 class BlockRegistry {
     public function __construct( private array $blocks = [ 'example-block' ] ) {
-        add_action( 'init', [ $this, 'register_blocks' ] );
+        // Wywolujemy bezposrednio - klasa jest tworzona wewnatrz acf/init
+        // (ktory odpala sie podczas init), wiec hookowanie na init jest za pozno
+        $this->register_blocks();
     }
 
     public function register_blocks() {
