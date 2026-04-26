@@ -28,7 +28,7 @@ timber-boilerplate/
 |   |   |-- PostTypes/       # Custom post types (abstract base + registry)
 |   |   |-- Taxonomies/      # Custom taxonomies
 |   |   |-- Shortcodes/      # Shortcodes z Twig renderem
-|   |-- Features/            # Ajax, Menus
+|   |-- Features/            # Ajax, Menus, MaintenanceMode
 |   |-- Providers/           # Service provider interface
 |   |-- Support/             # ThemeSupport, Plugins, WooCommerce
 |   |-- Theme/               # Site.php (Timber init, context, body classes)
@@ -40,7 +40,8 @@ timber-boilerplate/
 |   |   |-- core/            # DOM helpers, pub-sub state
 |   |   |-- modules/         # Feature modules (animations, mobile-menu)
 |   |   |-- services/        # Analytics, HTTP
-|   |   |-- index.js         # Entry point
+|   |   |-- index.ts         # Entry point
+|   |   |-- types/           # TypeScript type definitions (WP, assets)
 |   |-- scss/
 |   |   |-- base/            # Functions, breakpoints, tokens, normalize
 |   |   |-- blocks/          # SCSS per ACF block (auto-kompilowane do CSS)
@@ -230,11 +231,57 @@ Splash uzywa CSS bundla motywu (Vite manifest) + tokenow `theme.json`. Logo auto
 
 Gdy aktywny: yellow notice w adminie + indicator (🔧) w toolbarze.
 
+## Performance / cleanup
+
+Z pudelka:
+- **Emoji scripts** - usuniete (`wp_head` i `admin`)
+- **WP block library CSS** - dequeue, importowane z npm do bundla (jeden plik zamiast kilkunastu requestow)
+- **Post revisions** - limit do 5 (oszczedza DB)
+- **Auto-updates VCS check** - blokowane (motyw pod gitem nie auto-aktualizuje WP)
+- **Vite dev server check** - tylko przy `WP_ENVIRONMENT_TYPE=local` (nie spowalnia produkcji o 2s)
+- **Code splitting** - Swiper laduje sie tylko przy uzyciu (`await import('swiper')`)
+- **Font preload** - automatyczny dla wariantow `400/700` zdefiniowanych w `theme.json`
+- **Preconnect** dla Google Fonts/Typekit gdy aktywne (z `config/fonts.php`)
+- **Custom image sizes** - `fullhd` (1920px), `square` (700x700, cropped)
+
+## Integracje pluginow (`Support/Plugins.php`)
+
+Z pudelka, aktywuja sie tylko gdy plugin jest zainstalowany:
+
+- **ACF** - Site Settings options page, ACF fields w globalnym Twig context (`{{ options.field_name }}`), text domain `sfy`
+- **Polylang** - automatyczne kopiowanie tytulu/contentu przy tworzeniu tlumaczenia, lang slug w Twig context
+- **Contact Form 7** - wylaczone `wpautop` (czystszy markup)
+- **WooCommerce** - patrz osobna sekcja
+
+## AJAX
+
+Klasa `src/App/Features/Ajax.php` to prosty registry akcji:
+
+```php
+public array $actions = [
+    'load_more_posts',  // → metody load_more_posts_ajax()
+];
+
+public function load_more_posts_ajax() {
+    // logika
+    wp_send_json_success([...]);
+}
+```
+
+Frontend uzywa `script_data.ajaxurl` (typowane w `wordpress.d.ts`).
+
+## Body classes & login
+
+- Body classes: prefix `p-` + slug aktualnego posta (`<body class="p-page p-about-us">`) - latwe stylowanie per-strona
+- Custom login logo: automatycznie z `favicon.svg` w katalogu motywu
+
 ## Tlumaczenia
 
 Text domain: `sfy`. Pliki w `languages/`.
 
 Uzyj [Loco Translate](https://wordpress.org/plugins/loco-translate/) do tlumaczenia stringow w adminie. Stringi JS sa lokalizowane przez `wp_localize_script` (obiekt `localized_strings`).
+
+ACF text domain ustawiony przez `acf_update_setting('l10n_textdomain', 'sfy')` - pola tlumacz w PO.
 
 ## Testy
 
