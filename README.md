@@ -198,6 +198,38 @@ Minimalny wrapper - strony WC uzywaja Twojego headera/footera (Twig layout), ale
 - `_woocommerce.scss` - nadpisania stylow
 - Domyslne style WC **zostaja** (general, layout, smallscreen)
 
+## Maintenance Mode
+
+Tryb konserwacji blokuje niezalogowanych z stronie i pokazuje brandowany splash (HTTP 503 + `Retry-After: 3600` - Google nie usuwa z indeksu). Zalogowani redaktorzy (capability `edit_posts`) widza strone normalnie.
+
+**3 sposoby wlaczenia (priorytet od gory):**
+
+1. **Stala w wp-config.php** (deploy-friendly):
+   ```php
+   define( 'SFY_MAINTENANCE_MODE', true );
+   ```
+2. **WP-CLI:**
+   ```bash
+   wp option update sfy_maintenance_mode 1
+   wp option update sfy_maintenance_mode 0
+   ```
+3. **Admin:** Ustawienia → Tryb konserwacji
+
+Stala ma pierwszenstwo nad opcja - dobre na deploy bo nie da sie przypadkiem wylaczyc z admina.
+
+**Bypass dla:** wp-admin, login, AJAX, REST, cron, robots.txt, favicon oraz zalogowanych z `edit_posts`.
+
+**Customizacja tresci splash-a:**
+```php
+add_filter( 'sfy_maintenance_eyebrow', fn() => 'Pre-launch' );
+add_filter( 'sfy_maintenance_title',   fn() => 'Coming soon.' );
+add_filter( 'sfy_maintenance_message', fn() => 'Wracamy 1 maja.' );
+```
+
+Splash uzywa CSS bundla motywu (Vite manifest) + tokenow `theme.json`. Logo automatycznie z `logo.svg` lub `favicon.svg` w katalogu motywu. Email kontaktowy z `admin_email`.
+
+Gdy aktywny: yellow notice w adminie + indicator (🔧) w toolbarze.
+
 ## Tlumaczenia
 
 Text domain: `sfy`. Pliki w `languages/`.
