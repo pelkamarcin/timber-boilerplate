@@ -13,6 +13,7 @@ return [
 
     'features' => [
         \Site\App\Features\Ajax::class,
+        \Site\App\Features\MaintenanceMode::class,
         \Site\App\Features\Menus::class,
     ],
 

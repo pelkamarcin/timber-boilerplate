@@ -10,6 +10,7 @@ use Site\App\Content\PostTypes\PostTypeRegistry;
 use Site\App\Content\Shortcodes\ShortcodeRegistry;
 use Site\App\Content\Taxonomies\TaxonomyRegistry;
 use Site\App\Features\Ajax;
+use Site\App\Features\MaintenanceMode;
 use Site\App\Features\Menus;
 use Site\App\Providers\ProviderInterface;
 use Site\App\Support\Plugins;
@@ -45,6 +46,7 @@ class AppServiceProvider implements ProviderInterface {
         new ImageSizes();
         new FontLoader();
         new Ajax();
+        new MaintenanceMode();
         new Plugins();
         new WooCommerce();
         new ShortcodeRegistry( $contentConfig['shortcodes'] );
