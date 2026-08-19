@@ -3,9 +3,13 @@
 @use 'base/mq-settings' as mq;
 @use "base/functions" as *;
 
-$ff-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$ff-accent: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$ff-secondary: $ff-main;
+// Font families - trojwarstwowy fallback:
+// 1. --sfy-font-{role}       - override per projekt (ustaw w _tokens.scss lub _base.scss)
+// 2. --wp--preset--font-...  - CSS custom property generowana przez WP z theme.json
+// 3. system fallback         - gdy nic nie jest zdefiniowane
+$ff-main: var(--sfy-font-main, var(--wp--preset--font-family--mulish, 'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif));
+$ff-accent: var(--sfy-font-accent, var(--wp--preset--font-family--noto-serif, 'Noto Serif', Georgia, serif));
+$ff-secondary: var(--sfy-font-secondary, $ff-main);
 
 $font-size-base: rem-calc(16px);
 
@@ -95,7 +99,7 @@ $font-styles: (
           @if $subproperty == 'font-size' {
             $subvalue: rem-calc($subvalue);
           }
-          @if $subproperty == 'line-height' and type-of($subvalue) != 'number' {
+          @if $subproperty == 'line-height' and meta.type-of($subvalue) != 'number' {
             $subvalue: rem-calc($subvalue);
           }
 
@@ -106,7 +110,7 @@ $font-styles: (
       @if $property == 'font-size' {
         $value: rem-calc($value);
       }
-      @if $property == 'line-height' and type-of($value) != 'number' {
+      @if $property == 'line-height' and meta.type-of($value) != 'number' {
         $value: rem-calc($value);
       }
       #{$property}: $value;

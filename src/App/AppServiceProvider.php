@@ -2,6 +2,7 @@
 
 namespace Site\App;
 
+use Site\App\Assets\FontLoader;
 use Site\App\Assets\ImageSizes;
 use Site\App\Assets\Scripts;
 use Site\App\Content\Blocks\BlockRegistry;
@@ -9,10 +10,12 @@ use Site\App\Content\PostTypes\PostTypeRegistry;
 use Site\App\Content\Shortcodes\ShortcodeRegistry;
 use Site\App\Content\Taxonomies\TaxonomyRegistry;
 use Site\App\Features\Ajax;
+use Site\App\Features\MaintenanceMode;
 use Site\App\Features\Menus;
 use Site\App\Providers\ProviderInterface;
 use Site\App\Support\Plugins;
 use Site\App\Support\ThemeSupport;
+use Site\App\Support\WooCommerce;
 
 class AppServiceProvider implements ProviderInterface {
     public function __construct( private array $contentConfig = [] ) {
@@ -41,8 +44,11 @@ class AppServiceProvider implements ProviderInterface {
 
         new Scripts();
         new ImageSizes();
+        new FontLoader();
         new Ajax();
+        new MaintenanceMode();
         new Plugins();
+        new WooCommerce();
         new ShortcodeRegistry( $contentConfig['shortcodes'] );
         new Menus();
     }

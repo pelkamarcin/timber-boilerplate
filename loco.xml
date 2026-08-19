@@ -16,5 +16,7 @@
     <exclude>
         <directory>node_modules</directory>
         <directory>vendor</directory>
+        <directory>dist</directory>
+        <directory>assets</directory>
     </exclude>
 </bundle>

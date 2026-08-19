@@ -1,0 +1,18 @@
+/**
+ * WooCommerce - nadpisania domyślnych stylów.
+ *
+ * WC layout i smallscreen styles są wyrejestrowane w WooCommerce.php.
+ * woocommerce-general zostaje jako baza - tu nadpisujemy co trzeba.
+ *
+ * Szablony WC zostają natywne PHP (w katalogu woocommerce/).
+ * Stylujemy po klasach WC: .woocommerce, .products, .product, itd.
+ */
+
+.c-woocommerce {
+  width: 100%;
+  max-width: var(--sfy-content-width, 1320px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter-size);
+  padding-right: var(--gutter-size);
+}

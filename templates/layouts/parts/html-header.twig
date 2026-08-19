@@ -4,8 +4,6 @@
     <meta charset="{{ site.charset }}">
     <meta name="description"
           content="{{ site.description }}">
-    <meta http-equiv="X-UA-Compatible"
-          content="IE=edge">
     {% set site_icon = fn('get_site_icon_url') %}
     {% if site_icon %}
         <link rel="icon" href="{{ site_icon }}"/>
@@ -14,9 +12,6 @@
     {% endif %}
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <link rel="pingback"
-          href="{{ site.pingback_url }}">
-    <link rel="profile" href="http://gmpg.org/xfn/11"/>
     {% do action('get_header') %}
     {{ fn('wp_head') }}
     {% block head_append '' %}

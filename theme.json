@@ -42,12 +42,58 @@
                 {
                     "name" : "Noto Serif",
                     "slug" : "noto-serif",
-                    "fontFamily" : "Noto Serif"
+                    "fontFamily" : "'Noto Serif', Georgia, serif",
+                    "fontFace" : [
+                        {
+                            "fontFamily" : "Noto Serif",
+                            "fontWeight" : "400",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/noto-serif-v22-latin-ext-regular.woff2"]
+                        },
+                        {
+                            "fontFamily" : "Noto Serif",
+                            "fontWeight" : "700",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/noto-serif-v22-latin-ext-700.woff2"]
+                        }
+                    ]
                 },
                 {
                     "name" : "Mulish",
                     "slug" : "mulish",
-                    "fontFamily" : "Mulish"
+                    "fontFamily" : "'Mulish', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    "fontFace" : [
+                        {
+                            "fontFamily" : "Mulish",
+                            "fontWeight" : "400",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/mulish-v13-latin-ext-regular.woff2"]
+                        },
+                        {
+                            "fontFamily" : "Mulish",
+                            "fontWeight" : "500",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/mulish-v13-latin-ext-500.woff2"]
+                        },
+                        {
+                            "fontFamily" : "Mulish",
+                            "fontWeight" : "600",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/mulish-v13-latin-ext-600.woff2"]
+                        },
+                        {
+                            "fontFamily" : "Mulish",
+                            "fontWeight" : "700",
+                            "fontStyle" : "normal",
+                            "fontDisplay" : "swap",
+                            "src" : ["file:./resources/fonts/mulish-v13-latin-ext-700.woff2"]
+                        }
+                    ]
                 }
             ]
         },
