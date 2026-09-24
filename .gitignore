@@ -17,6 +17,9 @@
 node_modules/
 vendor/
 
+# ignore Vite build output
+dist/
+
 # ignore OS generated files
 ehthumbs.db
 Thumbs.db
@@ -41,8 +44,7 @@ Thumbs.db
 # track these files, if they exist
 !.gitignore
 !.editorconfig
-!.jshintrc
-!.sass-lint.yml
+!.prettierrc.json
 !.stylelintrc.json
 !.gitattributes
 

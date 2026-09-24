@@ -1,12 +1,18 @@
 /* stylelint-disable plugin/at-rule-import-path */
 
 // CSS and Javascript dependencies
-// Thanks to sass-module-importer gulp plugin we can import css files from node_modules without renaming like this: "@import 'fullpage.js/dist/jquery.fullpage.min.css';"
-
 
 @import 'normalize.css/normalize.css';
 @import 'swiper/swiper-bundle.css';
 @import 'hamburgers/_sass/hamburgers/hamburgers';
 
+// WordPress core block styles - importowane z paczki npm zamiast ładowania z WP
+// (domyślne style WP są dequeue w ThemeSupport::dequeue_block_styles)
+// Importujemy SCSS źródła - daje to pełną kontrolę nad nadpisywaniem.
+//
+// Breakpointy WP są nadpisane w base/_wp-breakpoints-override.scss
+// żeby bloki core reagowały na te same breakpointy co reszta szablonu.
+@import 'block-library/src/style';
+@import 'block-library/src/theme';
 
 /* stylelint-enable plugin/at-rule-import-path */

@@ -1,9 +1,7 @@
-'use strict';
-
 export const http = {
-    async json(url, options = {}) {
+    async json<T = unknown>(url: string, options: RequestInit = {}): Promise<T> {
         const response = await fetch(url, {
-            headers: {'Accept': 'application/json'},
+            headers: { Accept: 'application/json' },
             ...options,
         });
 
@@ -11,6 +9,6 @@ export const http = {
             throw new Error(`Request failed: ${response.status}`);
         }
 
-        return response.json();
+        return response.json() as Promise<T>;
     },
 };

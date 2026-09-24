@@ -7,6 +7,7 @@ class ThemeSupport {
         $this->addSupports();
         add_action( 'after_setup_theme', [ $this, 'loadTextDomain' ] );
         add_filter( 'upload_mimes', [ $this, 'mime_types' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'dequeue_block_styles' ], 100 );
     }
 
     private function addSupports() {
@@ -63,6 +64,18 @@ class ThemeSupport {
         load_theme_textdomain( 'sfy', get_template_directory() . '/languages' );
     }
 
+
+    /**
+     * Wyrejestrowuje domyślne style bloków core z WordPressa.
+     * Importujemy je z @wordpress/block-library w naszym SCSS bundlu
+     * (resources/scss/_vendors.scss) - jeden plik CSS zamiast kilkunastu requestów.
+     */
+    public function dequeue_block_styles(): void {
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_style( 'wp-block-library-theme' );
+        // Classic themes support - nie potrzebne przy własnych stylach
+        wp_dequeue_style( 'classic-theme-styles' );
+    }
 
     public function mime_types( $mimes ) {
         $mimes['svg'] = 'image/svg+xml';

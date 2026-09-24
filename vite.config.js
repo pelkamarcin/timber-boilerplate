@@ -21,6 +21,13 @@ export default defineConfig({
             scss: {
                 quietDeps: true,
                 silenceDeprecations: ['import'],
+                // wp-overrides PRZED node_modules - nadpisuje breakpointy WP naszymi
+                // node_modules/@wordpress pozwala importowac block-library bez pakietowych exports
+                loadPaths: [
+                    'resources/scss/wp-overrides',
+                    'node_modules',
+                    'node_modules/@wordpress',
+                ],
             }
         }
     },
@@ -35,7 +42,19 @@ export default defineConfig({
         manifest: true,
         outDir: `dist`,
         rollupOptions: {
-            input: 'resources/js/index.js',
+            input: {
+                main: 'resources/js/index.ts',
+                editor: 'resources/scss/editor.scss',
+            },
+            output: {
+                // Swiper bedzie automatycznie w osobnym chunku gdy ktos go zaimportuje
+                // (dynamic import: const {Swiper} = await import('swiper'))
+                manualChunks(id) {
+                    if (id.includes('node_modules/swiper')) {
+                        return 'swiper';
+                    }
+                },
+            },
         },
     },
     resolve: {

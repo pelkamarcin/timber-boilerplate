@@ -3,14 +3,14 @@
     <div class="c-comment__content">{{ comment.content|wpautop }}</div>
 
     <section class="c-comments c-comments_replies c-comment__replies">
-        {% include 'partials/comment-form.twig' with {comment: comment} %}
+        {% include 'components/comments/comment-form.twig' with {comment: comment} %}
 
         {% if post.comments %}
             <h4 class="c-comments__heading">{{ __('Replies','sfy') }}</h4>
             <ul class="c-comments__list">
                 {% for cmt in comment.children %}
                     <li class="c-comments__item c-comments__item_reply">
-                        {% include 'partials/comment.twig' with {
+                        {% include 'components/comments/comment.twig' with {
                             comment: cmt
                         } %}
                     </li>

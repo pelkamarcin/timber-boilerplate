@@ -1,0 +1,19 @@
+/**
+ * WordPress breakpoints override.
+ *
+ * Ten plik "shadowuje" @wordpress/base-styles/_breakpoints.scss
+ * dzięki temu że resources/scss/wp-overrides jest PRZED node_modules w Sass loadPaths.
+ *
+ * Wartości zsynchronizowane z resources/scss/base/_mq-settings.scss.
+ * Zmiana breakpointów = zmiana w OBU plikach (tu i w _mq-settings.scss).
+ */
+
+$break-xhuge: 1920px;
+$break-huge: 1700px;        // = $sfy-huge
+$break-wide: 1430px;        // = $sfy-wide
+$break-xlarge: 1280px;      // = $sfy-xlarge
+$break-large: 1024px;       // = $sfy-large
+$break-medium: 768px;       // = $sfy-medium (WP default: 782px)
+$break-small: 600px;
+$break-mobile: 380px;       // = $sfy-small (WP default: 480px)
+$break-zoomed-in: 280px;

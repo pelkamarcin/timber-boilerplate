@@ -10,9 +10,9 @@
   --gutter-size-x: var(--gutter-size);
   --gutter-size-y: var(--gutter-size);
 
-  --sfy-text-color: black;
-  --sfy-link-color: red;
-  --sfy-heading-color: blue;
+  --sfy-text-color: var(--sfy-color-dark, #001019);
+  --sfy-link-color: var(--sfy-color-blue, #004f7f);
+  --sfy-heading-color: var(--sfy-color-dark, #001019);
 
   // --bs-gutter-x: 10px;
   @include mq.sfy-mq($from: large) {
