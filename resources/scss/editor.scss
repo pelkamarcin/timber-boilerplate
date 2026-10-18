@@ -1,7 +1,19 @@
 /**
  * Editor Styles - style widoczne w edytorze Gutenberg
- * Importuje bazowe style (typografia, kolory, tokeny) żeby bloki
- * wyglądały w edytorze tak samo jak na froncie.
+ * Importuje bazowe style (typografia, kolory, tokeny) i komponenty, żeby bloki
+ * (w tym podgląd bloków ACF: .acf-block-preview) wyglądały w edytorze tak samo jak na froncie.
+ *
+ * Plik jest wczytywany przez add_editor_style() (Scripts::register_editor_styles) -
+ * WP sam prefiksuje selektory klasą .editor-styles-wrapper, więc style nie
+ * przeciekają na UI Gutenberga (przyciski, panele, toolbar).
+ *
+ * Celowo NIE importujemy:
+ *  - vendors (normalize, block-library, swiper) - nadpisałyby UI edytora, core bloki mają własne style w edytorze,
+ *  - base/elements_animations - animacje wejścia (.t-anim-*) ukrywają elementy (opacity: 0)
+ *    do momentu odpalenia JS (IntersectionObserver), którego w edytorze nie ma - bloki byłyby niewidoczne.
+ *
+ * Style samych bloków (resources/scss/blocks/*.scss -> style.css) trafiają do edytora
+ * przez block.json ("style"), nie przez ten plik.
  */
 
 @use 'base/dependencies';
@@ -11,3 +23,6 @@
 @use 'base/normalize_tweaks';
 @use 'base';
 @use 'block';
+
+// !Components - współdzielone komponenty (c-*) używane wewnątrz bloków
+@use 'components/*';

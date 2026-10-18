@@ -1,6 +1,18 @@
-<div {{ anchor }} class="c-example-block {{ class_name }} {{ block.className }} u-animated-block t-anim-1">
-    {% if is_preview %}
-        <h2 class="c-example-block__preview">{{ block.title }}</h2>
+{# Lista klas jest skladana i escapowana w render.php (block_classes).
+   Timber ma autoescape WYLACZONY, wiec nie wstawiaj tu surowych zmiennych -
+   nowe klasy dopisuj do $block_classes w render.php, nie do tego atrybutu. #}
+<div {{ anchor }}class="{{ block_classes }}">
+    {% if fields.heading %}
+        <h2 class="c-example-block__heading">{{ fields.heading|e }}</h2>
     {% endif %}
-    {#    {{ fields.test }} #}
+
+    {% if fields.content %}
+        <div class="c-example-block__content">{{ fields.content|e|nl2br }}</div>
+    {% endif %}
+
+    {% if is_preview and not fields.heading and not fields.content %}
+        <p class="c-example-block__placeholder">
+            {{ __("Add a heading and content - use the pencil icon in the block toolbar.", "sfy") }}
+        </p>
+    {% endif %}
 </div>

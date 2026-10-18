@@ -18,11 +18,21 @@
     <arg value="ns"/>
 
     <!--
+      Default paths to check when phpcs is run without arguments (composer lint)
+    -->
+    <file>.</file>
+
+    <!--
       Exclude from checking package managers directiories
     -->
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>resources/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>dist/*</exclude-pattern>
+    <!--
+      WooCommerce template overrides - kopie szablonow WC, nie nasz kod
+    -->
+    <exclude-pattern>woocommerce/*</exclude-pattern>
 
     <!--
       Disallow using a short array syntax
@@ -43,8 +53,33 @@
         <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceAfterArrayOpener"/>
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceBeforeArrayCloser"/>
+        <!--
+          Sprzeczne z PSR-4 (autoloader Site\App\ -> src/App/): nazwy plikow klas,
+          brak prefiksu w nazwach klas i w namespace
+        -->
         <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
         <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound"/>
+        <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound"/>
+        <!--
+          Sprzeczne z konwencja projektu: zmienne i wlasciwosci klas sa camelCase
+          (np. $contentConfig, $themePath, $providerClass), tak samo jak nazwy klas
+          i namespace'ow wykluczone wyzej. WPCS wymaga snake_case, co dla kodu
+          obiektowego z PSR-4 oznaczaloby przepisanie calego src/ i tests/.
+          Decyzja: zostawiamy camelCase, wykluczamy caly sniff - obejmuje kody
+          VariableNotSnakeCase, PropertyNotSnakeCase, UsedPropertyNotSnakeCase
+          oraz InterpolatedVariableNotSnakeCase.
+          Nazwy funkcji/metod NIE sa wykluczone - tam obowiazuje snake_case
+          (patrz WordPress.NamingConventions.ValidFunctionName, wlaczony).
+        -->
+        <exclude name="WordPress.NamingConventions.ValidVariableName"/>
+        <!--
+          AGENTS.md deklaruje wprost: "WordPress coding standards (4 spaces,
+          Yoda conditions opcjonalne)". Sniff wymusza Yode, wiec jest sprzeczny
+          z jawna konwencja projektu - gdyby zostal wlaczony, kazdy nowy warunek
+          pisany zgodnie z AGENTS.md lamalby `composer lint`.
+        -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
         <!--
           Should be warnings
         -->
@@ -55,16 +90,33 @@
         -->
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
         <exclude name="WordPress.Arrays.ArrayIndentation"/>
+        <!--
+          Sniffy wycofane w php_codesniffer (wpcs 2.3 wciaga je przez
+          WordPress-Extra i phpcs wypisuje ostrzezenie o rulesecie).
+          - CallTimePassByReference: od PHP 5.4 `foo( &$bar )` to blad parsowania,
+            wiec sniff nic nie moze juz zlapac. Wylaczony bez zamiennika.
+          - Squiz.WhiteSpace.LanguageConstructSpacing: ma zamiennik 1:1,
+            Generic.WhiteSpace.LanguageConstructSpacing, dodany ponizej.
+          Do usuniecia przy podniesieniu wpcs do ^3 (wtedy znikaja z rulesetu same).
+        -->
+        <exclude name="Generic.Functions.CallTimePassByReference"/>
+        <exclude name="Squiz.WhiteSpace.LanguageConstructSpacing"/>
     </rule>
+
+    <!--
+      Zamiennik wycofanego Squiz.WhiteSpace.LanguageConstructSpacing
+    -->
+    <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
 
     <!--
       Check for valid text-domains provided in the $text_domain property
     -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="sfy"
-                      type="array"
-                      value="sfy"/>
+            <property name="text_domain"
+                      type="array">
+                <element value="sfy"/>
+            </property>
         </properties>
     </rule>
 
@@ -74,8 +126,9 @@
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <property name="prefixes"
-                      type="array"
-                      value="sfy"/>
+                      type="array">
+                <element value="sfy"/>
+            </property>
         </properties>
     </rule>
 
@@ -90,12 +143,14 @@
     </rule>
 
     <!--
-      Check for usage of deprecated functions
+      Check for usage of deprecated functions.
+      UWAGA: minimum_supported_version to minimalna wersja WORDPRESSA (nie PHP).
+      Motyw wymaga WP 6.2+ (patrz CLAUDE.md) - nizsza wartosc oslabia sniff (nie zlapie funkcji deprecated w 6.1-6.2).
     -->
     <rule ref="WordPress.WP.DeprecatedFunctions">
         <properties>
             <property name="minimum_supported_version"
-                      value="8.0"/>
+                      value="6.2"/>
         </properties>
     </rule>
 

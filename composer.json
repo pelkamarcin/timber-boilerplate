@@ -4,6 +4,7 @@
     "phpunit/phpunit": "^10.0"
   },
   "require": {
+    "php": ">=8.1",
     "wp-coding-standards/wpcs": "^2.3",
     "timber/timber": "^2.0"
   },

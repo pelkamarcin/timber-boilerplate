@@ -132,8 +132,12 @@ class ThemeConfigTest extends TestCase {
 
         $manifest = json_decode( file_get_contents( $manifestPath ), true );
         $this->assertNotNull( $manifest, 'Vite manifest contains invalid JSON' );
-        $this->assertArrayHasKey( 'resources/js/index.js', $manifest,
+        // Entry pointy z vite.config.js (rollupOptions.input) - main jest w TypeScripcie
+        $this->assertArrayHasKey( 'resources/js/index.ts', $manifest,
             'Main JS entry point missing from manifest'
+        );
+        $this->assertArrayHasKey( 'resources/scss/editor.scss', $manifest,
+            'Editor stylesheet entry point missing from manifest'
         );
     }
 

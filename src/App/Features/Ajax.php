@@ -4,7 +4,7 @@ namespace Site\App\Features;
 
 class Ajax {
     public array $actions = [
-//        'action_name',
+        // 'action_name',
     ];
 
     public function __construct() {

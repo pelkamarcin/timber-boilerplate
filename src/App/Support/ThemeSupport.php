@@ -4,13 +4,13 @@ namespace Site\App\Support;
 
 class ThemeSupport {
     public function __construct() {
-        $this->addSupports();
-        add_action( 'after_setup_theme', [ $this, 'loadTextDomain' ] );
+        $this->add_supports();
+        add_action( 'after_setup_theme', [ $this, 'load_text_domain' ] );
         add_filter( 'upload_mimes', [ $this, 'mime_types' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'dequeue_block_styles' ], 100 );
     }
 
-    private function addSupports() {
+    private function add_supports() {
         /*
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
@@ -34,10 +34,15 @@ class ThemeSupport {
 		 * to output valid HTML5.
 		 */
 
-        add_theme_support( 'html5', [ 'comment-form',
-                                      'comment-list',
-                                      'gallery',
-                                      'caption', ] );
+        add_theme_support(
+            'html5',
+            [
+                'comment-form',
+                'comment-list',
+                'gallery',
+                'caption',
+            ]
+        );
 
         /*
 		 * Enable support for Post Formats.
@@ -57,10 +62,9 @@ class ThemeSupport {
             )
         );
 
-
     }
 
-    public function loadTextDomain() {
+    public function load_text_domain() {
         load_theme_textdomain( 'sfy', get_template_directory() . '/languages' );
     }
 

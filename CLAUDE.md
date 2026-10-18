@@ -6,13 +6,13 @@ Bazowy szablon WordPress (boilerplate) oparty na Timber/Twig do budowania motywo
 
 ## Stack technologiczny
 
-- **PHP 8.0+** z PSR-4 autoloadingiem (namespace `Site\App\`)
+- **PHP 8.1+** z PSR-4 autoloadingiem (namespace `Site\App\`)
 - **Timber 2.0** (Twig templating dla WordPress)
 - **ACF Pro** (Advanced Custom Fields) - custom blocks, options pages
 - **Vite 6** - bundler z HMR
 - **TypeScript** (strict mode) - caly frontend JS
 - **SCSS** - 7-1 pattern, sass-mq, sass-rem, rozszerzony BEM z namespace prefixami
-- **WordPress 6.0+** z Gutenberg block editor
+- **WordPress 6.2+** z Gutenberg block editor (tyle wymaga ACF Pro 6.8; pelne ACF Blocks V3 = `api_version` 3 wymaga 6.3+; opisane nizej zachowanie edytora dotyczy WP 7.1+)
 
 ## Struktura katalogow
 
@@ -26,6 +26,7 @@ templates/       → Twig templates (layouts, pages, components, blocks)
 dist/            → Build output (nie edytowac recznie)
 woocommerce/     → WooCommerce template overrides (natywne PHP)
 tests/           → PHPUnit testy
+tasks/           → pliki zadan (plan, ustalenia, wyniki), 1 plik na zadanie
 ```
 
 ## Konwencje nazewnictwa
@@ -90,6 +91,23 @@ Bloki uzywa:
 - `resources/scss/blocks/{slug}.scss` - style (auto-kompilowane do style.css)
 - `templates/blocks/sfy/{slug}.twig` - template
 
+### ACF Blocks V3 (WP 7.1+, ACF Pro 6.8)
+
+- Blok z `block.json` bez `acf.blockVersion` dostaje na WP 7.1+ **V3**. Canvas edytora jest zawsze iframe'owany, formularza pol nie ma w canvasie (pola w sidebarze), stary przelacznik "Switch to Preview/Edit" nie istnieje.
+- Ikona olowka na toolbarze bloku = "Edit Block" → **Expanded Editor** (modal z polami). **Blok MUSI miec przynajmniej jedno pole ACF**, inaczej ACF ukrywa olowek.
+- Pola deklaruj w `block.json` przez `acf.fields` (ACF rejestruje z nich grupe pol; dziala po `git clone`, bez `acf-json`). Wzor: `example-block`. Generator kopiuje te pola do nowych blokow.
+- `acf.mode: "preview"` jest dzis **bez wplywu na UI** - to zabezpieczenie (V3 renderuje Placeholder zamiast podgladu przy `mode: "edit"` + `supports.mode: false`). Nie sugeruj, ze `mode` wlacza olowek. Na WP < 7.1 (sciezka V2) `mode` dziala jak dawniej.
+- `acf.blockVersion` swiadomie nie jest przypiete (jawna `3` wymaga WP >= 6.3, a deklarowane minimum to 6.2) - kwestia do rozstrzygniecia po podniesieniu minimum.
+- Kategoria `sfy-blocks` rejestrowana w `Content/Blocks/BlockCategories.php` (`block_categories_all`).
+- **Timber ma autoescape WYLACZONY** - w Twigu blokow zawsze `{{ fields.pole|e }}` (patrz `example-block.twig`), inaczej XSS.
+
+### Style w edytorze
+
+- Canvas jest iframe'owany → CSS z `enqueue_block_editor_assets` do niego **nie trafia**. Droga: `add_theme_support( 'editor-styles' )` + `add_editor_style( 'dist/<editor.scss z manifestu>' )` w `Scripts::register_editor_styles()` (`after_setup_theme`); WP prefiksuje selektory `:where(.editor-styles-wrapper)`.
+- `editor.scss` = wspolne komponenty (`components/*`), typografia, tokeny. NIE importuj do niego `vendors` (normalize psuje UI edytora) ani `base/elements_animations` (`opacity: 0` do odpalenia JS, w edytorze blok bylby niewidoczny).
+- Style bloku pisz w `resources/scss/blocks/{slug}.scss` - trafiaja do canvasu przez `block.json` (`"style": ["file:./style.css"]`).
+- JS frontu NIE jest wczytywany w edytorze (nie ma byc): `document.ready` odpala sie przed renderem podgladow AJAX-em, a parallax itp. potrafi rozwalic canvas. Komponenty zalezne od JS pokaza w podgladzie wszystkie elementy; w razie potrzeby minimalny CSS pod `.acf-block-preview`.
+
 ## Fonty
 
 Konfiguracja w `config/fonts.php`. Trzy zrodla: `local`, `google`, `typekit`.
@@ -115,6 +133,10 @@ npm run typecheck    # TypeScript type checking
 composer test        # PHPUnit testy
 composer lint        # PHPCS (PHP)
 ```
+
+`composer test`, `composer lint` i `npm run lint:css` przechodza czysto (exit 0). `phpcs`: zmienne i wlasciwosci camelCase (sniff `ValidVariableName` wykluczony), funkcje i metody snake_case (sniff wlaczony), Yoda opcjonalne.
+
+Znane kwestie: tablice `assets`/`features`/`support` w `config/app.php` to martwy kod (czytane sa tylko `providers`). `composer audit`: 17 advisories w `twig/twig` 3.22.1 (zaleznosc produkcyjna, w tym wykonanie kodu PHP) i `wp-coding-standards/wpcs` 2.3.0 - niezalatane, szczegoly i rekomendacja w README ("Znane kwestie / bezpieczenstwo").
 
 ## Wazne zasady
 

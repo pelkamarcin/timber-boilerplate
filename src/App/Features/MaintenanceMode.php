@@ -25,11 +25,11 @@ class MaintenanceMode {
     private const OPTION_KEY = 'sfy_maintenance_mode';
 
     public function __construct() {
-        add_action( 'template_redirect',  [ $this, 'maybe_show_splash' ], 1 );
-        add_action( 'admin_menu',         [ $this, 'register_settings_page' ] );
-        add_action( 'admin_init',         [ $this, 'register_setting' ] );
-        add_action( 'admin_notices',      [ $this, 'admin_notice' ] );
-        add_action( 'admin_bar_menu',     [ $this, 'admin_bar_indicator' ], 100 );
+        add_action( 'template_redirect', [ $this, 'maybe_show_splash' ], 1 );
+        add_action( 'admin_menu', [ $this, 'register_settings_page' ] );
+        add_action( 'admin_init', [ $this, 'register_setting' ] );
+        add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+        add_action( 'admin_bar_menu', [ $this, 'admin_bar_indicator' ], 100 );
     }
 
     public function is_enabled(): bool {
@@ -40,14 +40,24 @@ class MaintenanceMode {
     }
 
     private function should_bypass(): bool {
-        if ( is_admin() ) return true;
-        if ( wp_doing_ajax() ) return true;
-        if ( wp_doing_cron() ) return true;
-        if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) return true;
+        if ( is_admin() ) {
+            return true;
+        }
+        if ( wp_doing_ajax() ) {
+            return true;
+        }
+        if ( wp_doing_cron() ) {
+            return true;
+        }
+        if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+            return true;
+        }
 
         $request_uri = $_SERVER['REQUEST_URI'] ?? '';
         foreach ( [ '/wp-login.php', '/wp-register.php', '/wp-cron.php', '/robots.txt', '/favicon.ico' ] as $path ) {
-            if ( strpos( $request_uri, $path ) !== false ) return true;
+            if ( strpos( $request_uri, $path ) !== false ) {
+                return true;
+            }
         }
 
         if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
@@ -58,8 +68,12 @@ class MaintenanceMode {
     }
 
     public function maybe_show_splash(): void {
-        if ( ! $this->is_enabled() ) return;
-        if ( $this->should_bypass() ) return;
+        if ( ! $this->is_enabled() ) {
+            return;
+        }
+        if ( $this->should_bypass() ) {
+            return;
+        }
 
         status_header( 503 );
         nocache_headers();
@@ -91,7 +105,7 @@ class MaintenanceMode {
             : ( file_exists( get_theme_file_path( 'favicon.svg' ) ) ? $theme_uri . '/favicon.svg' : '' );
 
         $eyebrow = apply_filters( 'sfy_maintenance_eyebrow', __( 'Tryb konserwacji', 'sfy' ) );
-        $title   = apply_filters( 'sfy_maintenance_title',   __( 'Pracujemy nad ulepszeniami.', 'sfy' ) );
+        $title   = apply_filters( 'sfy_maintenance_title', __( 'Pracujemy nad ulepszeniami.', 'sfy' ) );
         $message = apply_filters( 'sfy_maintenance_message', __( 'Strona jest tymczasowo niedostępna — przygotowujemy ją do otwarcia. Wrócimy wkrótce.', 'sfy' ) );
 
         ?><!DOCTYPE html>
@@ -101,9 +115,17 @@ class MaintenanceMode {
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title><?php echo esc_html( $site_name . ' — ' . $eyebrow ); ?></title>
     <meta name="robots" content="noindex"/>
-    <?php if ( $css_url ) : ?>
-        <link rel="stylesheet" href="<?php echo esc_url( $css_url ); ?>"/>
-    <?php endif; ?>
+        <?php
+        /*
+         * Splash renderuje sie na template_redirect i konczy exit-em - wp_head()
+         * nigdy sie nie wykona, wiec wp_enqueue_style() nic by tu nie wypisalo.
+         * Dlatego arkusz motywu wchodzi surowym <link>.
+         */
+        if ( $css_url ) {
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- patrz komentarz wyzej.
+            printf( '<link rel="stylesheet" href="%s"/>', esc_url( $css_url ) );
+        }
+        ?>
     <style>
         html, body { margin: 0; padding: 0; }
         body {
@@ -196,7 +218,9 @@ class MaintenanceMode {
     }
 
     public function render_settings_page(): void {
-        if ( ! current_user_can( 'manage_options' ) ) return;
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         $constant_set = defined( 'SFY_MAINTENANCE_MODE' );
         $enabled      = $this->is_enabled();
@@ -273,8 +297,12 @@ add_filter( 'sfy_maintenance_message', fn() => 'Wracamy 1 maja.' );</code></pre>
 
     // ─── Admin notice + toolbar indicator when active ─────────
     public function admin_notice(): void {
-        if ( ! $this->is_enabled() ) return;
-        if ( ! current_user_can( 'manage_options' ) ) return;
+        if ( ! $this->is_enabled() ) {
+            return;
+        }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
 
         echo '<div class="notice notice-warning">';
         echo '<p><strong>' . esc_html__( 'Tryb konserwacji jest włączony.', 'sfy' ) . '</strong> ';
@@ -285,8 +313,12 @@ add_filter( 'sfy_maintenance_message', fn() => 'Wracamy 1 maja.' );</code></pre>
     }
 
     public function admin_bar_indicator( $wp_admin_bar ): void {
-        if ( ! $this->is_enabled() ) return;
-        if ( ! is_object( $wp_admin_bar ) ) return;
+        if ( ! $this->is_enabled() ) {
+            return;
+        }
+        if ( ! is_object( $wp_admin_bar ) ) {
+            return;
+        }
 
         $wp_admin_bar->add_node( [
             'id'    => 'sfy-maintenance',

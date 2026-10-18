@@ -10,12 +10,16 @@
 .c-block {
   // Default width (contentSize from theme.json)
   width: 100%;
+  // Fallback = contentSize z theme.json (px celowo: szerokosc layoutu nie skaluje sie z rozmiarem fontu)
+  // stylelint-disable-next-line meowtec/no-px
   max-width: var(--wp--style--root--layout-content-size, 1320px);
   margin-left: auto;
   margin-right: auto;
 
   // Wide alignment
   &.is-align-wide {
+    // Fallback = wideSize z theme.json (px celowo, j.w.)
+    // stylelint-disable-next-line meowtec/no-px
     max-width: var(--wp--style--root--layout-wide-size, 1600px);
   }
 

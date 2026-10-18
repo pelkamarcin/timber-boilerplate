@@ -3,18 +3,17 @@
 namespace Site\App\Content\Shortcodes;
 
 class ShortcodeRegistry {
-    public array $blocks =
-        [
-            ExampleShortcode::class,
-        ];
 
-    public function __construct() {
+    /**
+     * @param array<int, class-string> $shortcodes Lista klas shortcodow z config/content.php
+     */
+    public function __construct( private array $shortcodes = [] ) {
         $this->register_shortcodes();
     }
 
     private function register_shortcodes(): void {
-        foreach ( $this->blocks as $block ) {
-            new $block();
+        foreach ( $this->shortcodes as $shortcode ) {
+            new $shortcode();
         }
     }
 }

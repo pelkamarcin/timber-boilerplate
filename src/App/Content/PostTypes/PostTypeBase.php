@@ -2,10 +2,9 @@
 
 namespace Site\App\Content\PostTypes;
 
-
 class PostTypeBase {
-    public array  $labels;
-    public string $prepend        = 'sfy-';
+    public array $labels;
+    public string $prepend = 'sfy-';
     public string $post_type_name = 'base-post-type';
 
     public array $options = [

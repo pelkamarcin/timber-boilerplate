@@ -16,7 +16,7 @@ class Plugins {
     }
 
 
-// Make sure Polylang copies the title when creating a translation
+    // Make sure Polylang copies the title when creating a translation
     public function polylang_editor_title( $title ) {
         // Polylang sets the 'from_post' parameter
         if ( isset( $_GET['from_post'] ) ) {
@@ -51,7 +51,6 @@ class Plugins {
     }
 
     private function acf() {
-
 
         add_action( 'acf/init', [ $this, 'acf_init' ] );
         add_filter( 'timber/context', [ $this, 'acf_timber' ] );
