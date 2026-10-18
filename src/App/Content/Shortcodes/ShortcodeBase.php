@@ -32,6 +32,4 @@ class ShortcodeBase {
         $output = ob_get_clean();
         return $output;
     }
-
-
 }

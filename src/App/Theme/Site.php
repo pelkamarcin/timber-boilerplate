@@ -76,5 +76,4 @@ class Site extends TimberSite {
 
         return $classes;
     }
-
 }

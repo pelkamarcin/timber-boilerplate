@@ -53,4 +53,3 @@ class Container {
         return $instance;
     }
 }
-

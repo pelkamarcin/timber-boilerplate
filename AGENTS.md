@@ -16,7 +16,7 @@ To jest bazowy szablon WordPress (Timber/Twig + ACF + Vite + TypeScript). Przecz
 ### PHP
 
 - Namespace: `Site\App\` (PSR-4 z `src/App/`)
-- Prefix funkcji/zmiennych globalnych: `sfy_`
+- Prefix funkcji/zmiennych globalnych: `sfy_` - **min. 4 znaki**. WPCS 3 odrzuca krotszy prefiks, a gdy zaden prefiks nie jest poprawny, sniff `PrefixAllGlobals` wylacza sie po cichu dla wszystkich plikow (lint przechodzi mimo niezaprefiksowanych globali). Zmieniajac prefiks w `phpcs.xml`, zachowaj >= 4 znaki
 - Text domain: `sfy`
 - Minimum PHP: 8.1 (wymog zaleznosci: timber/timber 2.3 `^8.1`, twig/twig `>=8.1`; constructor promotion, named arguments, readonly OK)
 - Nowe klasy rejestruj w `config/app.php` i `AppServiceProvider.php`
@@ -53,6 +53,7 @@ To jest bazowy szablon WordPress (Timber/Twig + ACF + Vite + TypeScript). Przecz
 - Bloki extends: `{% extends 'layouts/base.twig' %}`
 - Kontekst WP dostepny przez Timber context (`post`, `site`, `menus` itd.)
 - **Timber ma autoescape WYLACZONY** (`'autoescape' => false` w `vendor/timber/timber/src/Loader.php`). `{{ fields.cokolwiek }}` bez `|e` jest wektorem XSS. W kazdym nowym bloku escapuj reczne wartosci pol: `{{ fields.heading|e }}`, a dla tekstu z nowymi liniami `{{ fields.content|e|nl2br }}` (wzor: `templates/blocks/sfy/example-block.twig`). Wyjatek tylko dla pol z zaufanym HTML (np. wysiwyg) - swiadomie i z komentarzem
+- `{% apply spaceless %}` (uzyte w `components/navigation/menu.twig` i `posts-pagination.twig`) jest deprecated od Twiga 3.12 i wypada w Twig 4.0. Nie uzywaj w nowym kodzie formy filtra `{{ zmienna|spaceless }}`: od Twiga 3.26 na surowej zmiennej **escapuje wyjscie** (`pre_escape => 'html'`), wiec zachowuje sie inaczej niz `{% apply spaceless %}`. Dzis bez wplywu, bo motyw uzywa tylko formy `{% apply %}`
 
 ## Tworzenie nowych elementow
 
@@ -121,7 +122,11 @@ npm run build        # Sprawdz czy build przechodzi
 
 Stan wyjsciowy: `composer test`, `composer lint` (`vendor/bin/phpcs`) i `npm run lint:css` koncza sie bez bledow i naruszen (exit 0). Kazde nowe naruszenie to regresja z Twojej zmiany. Narzedzia instaluje zwykly `composer install` (tylko po zgodzie uzytkownika).
 
-Zaleznosci maja niezalatane luki (`composer audit`: `twig/twig` 3.22.1 i `wp-coding-standards/wpcs` 2.3.0) - nie podnos wersji przy okazji innych zadan, to osobna zmiana (patrz README, "Znane kwestie / bezpieczenstwo").
+`composer audit` jest czysty. Nie obnizaj progu `twig/twig` (`^3.27.1`) ani `wpcs` (`^3.4.1`). `timber/timber` zostaje na 2.3.x swiadomie (2.4+ wymaga PHP 8.2, motyw deklaruje 8.1+) - jego podniesienie to osobna decyzja (patrz README, "Zaleznosci i bezpieczenstwo").
+
+Przy modyfikacji `phpcs.xml`: **nie usuwaj dyrektywy `installed_paths` i nie skracaj jej do samego `wpcs`** - ma zostac z trzema sciezkami: `vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra,vendor/wp-coding-standards/wpcs`. Same `wpcs` psuje `Universal.*` ("Referenced sniff ... does not exist"), a brak dyrektywy zostawia ruleset zalezny od `CodeSniffer.conf` generowanego przez plugin Composera (`vendor/` jest w `.gitignore`; przy `composer install --no-plugins`, np. w CI, sciezki bylyby puste). Plugin `dealerdirect/phpcodesniffer-composer-installer` i tak musi zostac w `config.allow-plugins`. Sciezki sa relatywne do katalogu roboczego (nie rulesetu): `composer lint` jest bezpieczny, `vendor/bin/phpcs --standard=<sciezka>/phpcs.xml` z obcego katalogu nie zadziala. Minimalna wersje WP ustawiaj globalnie przez `<config name="minimum_wp_version" .../>`. Wykluczenia sa waskie (np. tylko `tests/*`) - nie rozszerzaj ich globalnie.
+
+PhpStorm: `.idea/php.xml` i `.idea/workspace.xml` maja zahardkodowana sciezke `vendor/wp-coding-standards/wpcs` - po przejsciu na WPCS 3 konfiguracja PHPCS w IDE wymaga recznego przestawienia; `composer lint` tego nie wykryje.
 
 ## Struktura manifestu Vite
 

@@ -45,7 +45,7 @@ tasks/           → pliki zadan (plan, ustalenia, wyniki), 1 plik na zadanie
 - Max 1 poziom zagniezdzen elementow (nie `.c-post__title__link`)
 
 ### PHP
-- Prefix: `sfy` (do zmiany per projekt)
+- Prefix: `sfy` (do zmiany per projekt); prefiks globali PHP to `sfy_` (min. 4 znaki - wymog WPCS 3, krotszy wylacza sniff `PrefixAllGlobals` po cichu)
 - Text domain: `sfy`
 - Post types: `sfy-{name}`
 - Bloki ACF: `sfy/{name}`
@@ -136,7 +136,7 @@ composer lint        # PHPCS (PHP)
 
 `composer test`, `composer lint` i `npm run lint:css` przechodza czysto (exit 0). `phpcs`: zmienne i wlasciwosci camelCase (sniff `ValidVariableName` wykluczony), funkcje i metody snake_case (sniff wlaczony), Yoda opcjonalne.
 
-Znane kwestie: tablice `assets`/`features`/`support` w `config/app.php` to martwy kod (czytane sa tylko `providers`). `composer audit`: 17 advisories w `twig/twig` 3.22.1 (zaleznosc produkcyjna, w tym wykonanie kodu PHP) i `wp-coding-standards/wpcs` 2.3.0 - niezalatane, szczegoly i rekomendacja w README ("Znane kwestie / bezpieczenstwo").
+Znane kwestie: tablice `assets`/`features`/`support` w `config/app.php` to martwy kod (czytane sa tylko `providers`). `composer audit` jest czysty (`twig/twig` `^3.27.1` w `require`, `wpcs` `^3.4.1` w `require-dev`). `timber/timber` zostaje na 2.3.x swiadomie (2.4+ wymaga PHP 8.2, motyw deklaruje 8.1+) - szczegoly w README ("Zaleznosci i bezpieczenstwo"). `phpcs.xml`: `installed_paths` ustawione na trzy sciezki (`phpcsutils`, `phpcsextra`, `wpcs` - nie usuwaj, nie skracaj do samego `wpcs`), `minimum_wp_version` 6.2, prefiks globali `sfy_`.
 
 ## Wazne zasady
 

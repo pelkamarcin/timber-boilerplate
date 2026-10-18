@@ -79,7 +79,7 @@ timber-boilerplate/
 
 ### Setup
 
-1. Zamien prefix `sfy` na wlasny w plikach PHP, Twig, SCSS, phpcs.xml i theme.json
+1. Zamien prefix `sfy` na wlasny w plikach PHP, Twig, SCSS, phpcs.xml i theme.json (prefiks globali PHP w `phpcs.xml` musi miec min. 4 znaki, np. `abcd_` - patrz "Linting")
 2. Zamien text domain `sfy` w `style.css`, `ThemeSupport.php` i `Plugins.php`
 3. Ustaw `WP_ENVIRONMENT_TYPE` w wp-config.php:
    ```php
@@ -360,20 +360,37 @@ Konwencje nazewnictwa w `phpcs.xml`:
 | Funkcje i metody | snake_case (`add_supports`, `load_text_domain`) | `ValidFunctionName` **wlaczony** |
 | Warunki Yoda | opcjonalne (zgodnie z AGENTS.md) | `WordPress.PHP.YodaConditions` wykluczony - lint ich nie wymusza |
 
-`wp-coding-standards/wpcs` jest w wersji 2.3 (lista deprecated funkcji tylko do WP 4.8, 2 przestarzale sniffy, ktore `phpcs.xml` wylacza). Podniesienie do `^3` wymaga przegladu `phpcs.xml` - patrz tez "Znane kwestie / bezpieczenstwo".
+Ruleset opiera sie na `wp-coding-standards/wpcs` `^3.4.1` (w `require-dev`). Co trzeba wiedziec, modyfikujac `phpcs.xml`:
 
-## Znane kwestie / bezpieczenstwo
+| Temat | Stan |
+|-------|------|
+| `installed_paths` | **Ustawione, z trzema sciezkami:** `vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra,vendor/wp-coding-standards/wpcs`. Same `wpcs` nie wystarcza - WPCS 3 korzysta z `Universal.*` (PHPCSExtra) i PHPCSUtils, a brak ktorejs sciezki konczy sie seria "Referenced sniff ... does not exist". Bez dyrektywy ruleset zalezalby wylacznie od `CodeSniffer.conf` zapisywanego przez plugin Composera, a `vendor/` jest w `.gitignore` - przy instalacji z `--no-plugins` (typowe w CI) sciezki bylyby puste. Kompromis: sciezki sa relatywne i phpcs rozwiazuje je wzgledem **katalogu roboczego**, nie rulesetu; `composer lint` zawsze startuje z katalogu motywu, ale `vendor/bin/phpcs --standard=<sciezka>/phpcs.xml` odpalone z obcego katalogu nie zadziala |
+| `config.allow-plugins` w `composer.json` | Musi zawierac `dealerdirect/phpcodesniffer-composer-installer`. Bez tego Composer po cichu pomija plugin i sciezki standardow nigdy sie nie ustawiaja |
+| Minimalna wersja WP | Globalnie: `<config name="minimum_wp_version" value="6.2"/>`. Stara property `minimum_supported_version` nie istnieje w WPCS 3 i wywala ruleset. `<config>` nadpisuje domyslne 6.7 dla wszystkich sniffow wersyjnych naraz (zgodnie z deklarowanym minimum motywu) |
+| Zmapowane nazwy | `Generic.Arrays.DisallowShortArraySyntax` → `Universal.Arrays.DisallowShortArraySyntax`. Wykluczenia sniffow, ktorych WPCS 3 nie ma, zostaly usuniete |
 
-`composer audit` zglasza **17 advisories w 2 paczkach**. **Nie zostalo to naprawione w ramach ostatnich zmian.**
+Wykluczenia wprowadzone przy przejsciu na WPCS 3 sa **waskie, nie globalne**:
 
-| Paczka | Zainstalowana | Typ | Problem | Wersja bezpieczna |
-|--------|---------------|-----|---------|-------------------|
-| `twig/twig` (pod Timberem) | 3.22.1 | zaleznosc **produkcyjna** | m.in. `CVE-2026-46640` (wykonanie dowolnego kodu PHP przez kompilacje referencji makra `_self.(<string>)`, dotyczy `>=3.15.0,<3.26.0`) i `CVE-2026-46633` (wstrzykniecie kodu PHP przez nazwe szablonu w `{% use %}`); reszta to glownie obejscia sandboxa Twiga (`<3.27.0`) | `>=3.27.0` |
-| `wp-coding-standards/wpcs` | 2.3.0 | narzedzie lintujace, dzis w `require` | `CVE-2026-45293` (wykonanie dowolnego kodu, `>=0.14.1,<3.4.1`) | `^3.4.1` |
+| Wykluczenie | Zakres | Powod |
+|-------------|--------|-------|
+| 4 sniffy struktury plikow i skladni nawiasowej namespace'ow (`Universal.Namespaces.DisallowCurlyBraceSyntax`, `Universal.Namespaces.OneDeclarationPerFile`, `Universal.Files.SeparateFunctionsFromOO`, `Generic.Files.OneObjectStructurePerFile`) | tylko `tests/*` | Testy stubuja globalne funkcje WP (`add_filter`, `__`) w namespace testowanej klasy, zeby dzialac bez bootowania WordPressa. To nosnik dzialania testow, nie kwestia stylu. W `src/` sniffy pozostaja aktywne |
+| `WordPress.Security.EscapeOutput.ExceptionNotEscaped` | tylko `src/App/Container/Container.php` (nowy plik w tym katalogu nie dostaje wyciszonego sniffa bez decyzji) | Kontener DI nie uzywa funkcji WP, a `tests/ContainerTest.php` lapie `RuntimeException` bez WordPressa - dodanie `esc_html()` wysadziloby testy |
 
-Rekomendacja:
-1. Podniesc `twig/twig` do `>=3.27.0`. To zmiana zaleznosci produkcyjnej pod Timberem - wymaga osobnej weryfikacji szablonow, dlatego nie zostala wykonana przy okazji.
-2. Podniesc `wp-coding-standards/wpcs` do `^3.4.1` (wymaga przegladu `phpcs.xml`, patrz "Linting") i przeniesc go z `require` do `require-dev`.
+**Prefiks globali PHP: `sfy_` (property `prefixes` w `PrefixAllGlobals`).** WPCS 3 wymaga prefiksu o dlugosci **min. 4 znakow**, a prefiks krotszy nie jest tylko raportowany, lecz odrzucany - przy braku jakiegokolwiek poprawnego prefiksu sniff `PrefixAllGlobals` wylacza sie po cichu dla wszystkich plikow (niezaprefiksowane funkcje i stale przechodza bez slowa; dotyczy tez wykluczenia samego komunikatu `ShortPrefixPassed`). Dlatego prefiks to `sfy_`, a sniff jest aktywny. Text domain (`sfy`), post types (`sfy-*`) i bloki (`sfy/*`) nie zmieniaja sie - `prefixes` dotyczy wylacznie nazw globalnych w PHP.
+
+**PhpStorm:** `.idea/php.xml` i `.idea/workspace.xml` trzymaja zahardkodowana sciezke `vendor/wp-coding-standards/wpcs`. Po przejsciu na WPCS 3 IDE nie lintuje poprawnie, dopoki konfiguracji PHPCS nie przestawisz recznie (sciezki standardow ustawia teraz plugin Composera). `composer lint` tego nie wykryje.
+
+## Zaleznosci i bezpieczenstwo
+
+`composer audit` nie zglasza zadnych advisories. Zaleznosci zostaly podniesione jako higiena bezpieczenstwa (wczesniej 17 advisories w `twig/twig` i `wp-coding-standards/wpcs`); nie byly one realnie eksploatowalne w tym motywie - wiekszosc dotyczyla sandboxa Twiga, ktorego Timber nie uzywa, a dwa powazniejsze wymagaja szablonu kontrolowanego przez atakujacego, tu szablony sa w repo.
+
+| Paczka | Wersja | Uwagi |
+|--------|--------|-------|
+| `twig/twig` | 3.30.0, w `require` jako `^3.27.1` | Wczesniej zaleznosc przechodnia bez wpisu w `composer.json`. 3.27.0 to minimalna wersja lataca wszystkie advisories Twiga; zapis `^3.27.1` utrwala ten prog jako intencje bezpieczenstwa, zamiast sztywno pinowac wersje |
+| `wp-coding-standards/wpcs` | 3.4.1, w `require-dev` | 3.4.1 lata `CVE-2026-45293`. To narzedzie lintujace, wiec nie nalezy do `require`. Doszly zaleznosci deweloperskie: `phpcsstandards/phpcsutils`, `phpcsstandards/phpcsextra`, `dealerdirect/phpcodesniffer-composer-installer` |
+| `timber/timber` | 2.3.3 (bez zmian) | **Swiadoma decyzja:** Timber 2.4.0 podnosi minimum PHP do `^8.2`, a motyw deklaruje PHP 8.1+. Podniesienie Timbera to osobna decyzja, nie efekt uboczny luk w Twigu. Sam Timber tez podnosi prog Twiga (2.4.1 wymaga `^3.26`, 2.5.1 `^3.27`), wiec nasz `^3.27.1` jest zgodny z kierunkiem upstreamu |
+
+Szablon `{% apply spaceless %}` (`templates/components/navigation/menu.twig:9`, `posts-pagination.twig:9`) jest deprecated od Twiga 3.12 i wypada w Twig 4.0 - przyszly bloker aktualizacji, nie regresja.
 
 ## Dev notes
 

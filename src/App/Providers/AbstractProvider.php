@@ -9,4 +9,3 @@ abstract class AbstractProvider implements ProviderInterface {
     public function boot(): void {
     }
 }
-

@@ -61,7 +61,6 @@ class ThemeSupport {
                 'audio',
             )
         );
-
     }
 
     public function load_text_domain() {

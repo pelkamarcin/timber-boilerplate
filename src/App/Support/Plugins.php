@@ -12,7 +12,6 @@ class Plugins {
     private function polylang() {
         add_filter( 'default_title', [ $this, 'polylang_editor_title' ] );
         add_filter( 'default_content', [ $this, 'polylang_editor_content' ] );
-
     }
 
 
@@ -47,7 +46,6 @@ class Plugins {
             define( 'WPCF7_AUTOP', false ); // phpcs:ignore
         }
         add_filter( 'wpcf7_autop_or_not', '__return_false' );
-
     }
 
     private function acf() {
@@ -82,5 +80,4 @@ class Plugins {
             acf_update_setting( 'l10n_textdomain', 'sfy' );
         }
     }
-
 }
