@@ -6,6 +6,7 @@ use Site\App\Assets\FontLoader;
 use Site\App\Assets\ImageSizes;
 use Site\App\Assets\Scripts;
 use Site\App\Content\Blocks\BlockCategories;
+use Site\App\Content\Blocks\BlockPreviewGuard;
 use Site\App\Content\Blocks\BlockRegistry;
 use Site\App\Content\PostTypes\PostTypeRegistry;
 use Site\App\Content\Shortcodes\ShortcodeRegistry;
@@ -55,5 +56,10 @@ class AppServiceProvider implements ProviderInterface {
         new ShortcodeRegistry( $contentConfig['shortcodes'] ?? [] );
         new Menus();
         new BlockCategories();
+        // Hookowane bezwarunkowo: callbacki same wychodza natychmiast, gdy
+        // $is_preview jest falsy, wiec render frontowy nie przechodzi przez
+        // procesor ani o bajt. Gate na is_admin() bylby zawodny - podglady
+        // blokow ACF jada tez przez REST (is_admin() === false).
+        new BlockPreviewGuard();
     }
 }

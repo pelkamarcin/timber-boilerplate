@@ -148,6 +148,24 @@ Dotyczy WP 7.1+ z ACF Pro 6.8 (starsze WP: patrz nizej). Bloki rejestrowane z `b
 
 **Znana kwestia do rozstrzygniecia:** `acf.blockVersion` nie jest przypiete jawnie. Jawna `3` wymaga WP >= 6.3 dla `api_version` 3, a motyw deklaruje minimum 6.2. Po podniesieniu minimum do 6.3+ mozna przypiac `"blockVersion": 3` i miec to samo zachowanie na kazdym hostingu.
 
+### Linki w podgladzie bloku (`BlockPreviewGuard`)
+
+**Problem.** Od WP 7.1 canvas edytora jest iframe'em, a podglad bloku ACF to zwykly HTML wstrzykniety do niego. WP przechwytuje klikniecia tylko w kotwice `#`, i to tylko gdy klikniety jest wprost element `<a>` (sprawdza cel klikniecia, nie najblizszy link). Kazdy inny link nawiguje caly canvas - w iframe laduje sie strona frontowa albo wp-admin, a edytor ginie razem z niezapisanymi zmianami (w konsoli potrafi wyjsc `SecurityError`). Najgorszy przypadek to galeria z lightboxem (`<a href="plik.jpg">`): WP wylacza `pointer-events` na obrazkach, wiec klik w zdjecie trafia w otaczajacy link. Kotwice `href="#"` **nie sa bezpieczne jako kategoria** - wystarczy ikona albo `<span>` wewnatrz linku i przechwycenie WP nie dziala.
+
+**Rozwiazanie.** `src/App/Content/Blocks/BlockPreviewGuard.php` (rejestrowana w `AppServiceProvider`) podpina sie pod pare akcji ACF `acf/blocks/pre_block_template_render` i `acf/blocks/post_block_template_render`. W podgladzie buforuje wyjscie szablonu i ustawia atrybut `inert=""` na kazdym elemencie najwyzszego poziomu (sciezka glowna: parser drzewa `WP_HTML_Processor`, dostepny od WP 6.4; `WP_HTML_Tag_Processor` to zapas na WP 6.2-6.3 i na markup, ktorego parser drzewa nie obsluguje; tylko w tej sciezce zapasowej elementy bez tagu zamykajacego, np. `<p>`, `<li>`, `<td>`, na najwyzszym poziomie moga zostac bez atrybutu). `inert` jednym atrybutem wylacza klikniecia, fokus i Tab+Enter dla calego poddrzewa (`pointer-events: none` w CSS zostawialoby linki fokusowalne). Poza edytorem klasa nie otwiera nawet bufora - front nie zmienia sie ani o bajt.
+
+**Dziala automatycznie** dla kazdego bloku z `npm run create-block` (generator uzywa `renderTemplate`) - autor bloku nie musi nic robic.
+
+**Koszt:** w podgladzie bloku nie da sie zaznaczyc ani skopiowac tekstu, a blok wypada z drzewa dostepnosci. Klikniecie nadal zaznacza sam blok. Redaktor to zauwazy.
+
+**Ograniczenia:**
+- Bloki z PHP-owym `render_callback` zamiast `renderTemplate` w `block.json` **nie sa objete** (ACF wola callback inna galezia, z pominieciem tych akcji).
+- Bloki z `<InnerBlocks />` sa swiadomie pomijane - `inert` jest nieodwracalny na potomku i zablokowalby edycje blokow zagniezdzonych.
+- Bloki z wlaczonym ACF `auto_inline_editing` sa pomijane - `inert` zepsulby edycje inline.
+- Szablon zwracajacy na najwyzszym poziomie `<svg>` moze nie byc chroniony (`inert` jest zdefiniowany dla `HTMLElement`, nie `SVGElement`).
+
+Wartosc atrybutu jest **pusta** celowo (`inert=""`) - szczegoly w `AGENTS.md` i w komentarzu klasy.
+
 ### Kategoria blokow
 
 Kategoria `sfy-blocks` jest rejestrowana przez `src/App/Content/Blocks/BlockCategories.php` (filtr `block_categories_all`) i trafia na poczatek listy w inserterze. Blok wskazuje ja w `block.json` (`"category": "sfy-blocks"`).

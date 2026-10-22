@@ -99,7 +99,8 @@ Bloki uzywa:
 - `acf.mode: "preview"` jest dzis **bez wplywu na UI** - to zabezpieczenie (V3 renderuje Placeholder zamiast podgladu przy `mode: "edit"` + `supports.mode: false`). Nie sugeruj, ze `mode` wlacza olowek. Na WP < 7.1 (sciezka V2) `mode` dziala jak dawniej.
 - `acf.blockVersion` swiadomie nie jest przypiete (jawna `3` wymaga WP >= 6.3, a deklarowane minimum to 6.2) - kwestia do rozstrzygniecia po podniesieniu minimum.
 - Kategoria `sfy-blocks` rejestrowana w `Content/Blocks/BlockCategories.php` (`block_categories_all`).
-- **Timber ma autoescape WYLACZONY** - w Twigu blokow zawsze `{{ fields.pole|e }}` (patrz `example-block.twig`), inaczej XSS.
+- **Timber ma autoescape WYLACZONY** - w Twigu blokow zawsze `{{ fields.pole|e }}` (patrz `example-block.twig`), inaczej XSS. Dla atrybutow `href`/`src` uzywaj `|e('esc_url')`.
+- **`BlockPreviewGuard`** (`Content/Blocks/BlockPreviewGuard.php`, rejestrowana w `AppServiceProvider`): w podgladzie bloku ustawia `inert=""` na elementach najwyzszego poziomu wyjscia szablonu, bo klik w link w iframe'owanym canvasie nawiguje caly edytor. Wartosc MUSI byc pusta (`inert="true"` zjada mapper ACF → React i atrybut znika). Front nietkniety (poza podgladem nawet bufor sie nie otwiera). Poza zakresem: bloki z PHP-owym `render_callback`, z `<InnerBlocks />` i z `auto_inline_editing`. Koszt: w podgladzie nie da sie zaznaczyc tekstu.
 
 ### Style w edytorze
 

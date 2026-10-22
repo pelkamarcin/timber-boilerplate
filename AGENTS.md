@@ -53,6 +53,8 @@ To jest bazowy szablon WordPress (Timber/Twig + ACF + Vite + TypeScript). Przecz
 - Bloki extends: `{% extends 'layouts/base.twig' %}`
 - Kontekst WP dostepny przez Timber context (`post`, `site`, `menus` itd.)
 - **Timber ma autoescape WYLACZONY** (`'autoescape' => false` w `vendor/timber/timber/src/Loader.php`). `{{ fields.cokolwiek }}` bez `|e` jest wektorem XSS. W kazdym nowym bloku escapuj reczne wartosci pol: `{{ fields.heading|e }}`, a dla tekstu z nowymi liniami `{{ fields.content|e|nl2br }}` (wzor: `templates/blocks/sfy/example-block.twig`). Wyjatek tylko dla pol z zaufanym HTML (np. wysiwyg) - swiadomie i z komentarzem
+- Wartosci trafiajace do atrybutow `href`/`src` escapuj przez `|e('esc_url')` (escaper Timbera = WP `esc_url()`), nie przez `|e('html_attr')` - ten drugi przepuszcza `javascript:`. Wzor: `templates/components/ui/Button.twig`
+- **`is_preview` w kontekscie Twiga:** w podgladzie edytora `is_preview` jest ustawione. `{% include 'x.twig' only %}` / `with {...} only` **odcina kontekst rodzica**, wiec komponent nie zobaczy `is_preview`. Przekaz jawnie: `{% include 'x.twig' with { is_preview: is_preview } only %}`. W obecnych szablonach motywu nie ma ani jednego `only` - to ostrzezenie na przyszlosc, nie opis stanu
 - `{% apply spaceless %}` (uzyte w `components/navigation/menu.twig` i `posts-pagination.twig`) jest deprecated od Twiga 3.12 i wypada w Twig 4.0. Nie uzywaj w nowym kodzie formy filtra `{{ zmienna|spaceless }}`: od Twiga 3.26 na surowej zmiennej **escapuje wyjscie** (`pre_escape => 'html'`), wiec zachowuje sie inaczej niz `{% apply spaceless %}`. Dzis bez wplywu, bo motyw uzywa tylko formy `{% apply %}`
 
 ## Tworzenie nowych elementow
@@ -68,6 +70,15 @@ NIE twórz blokow recznie - uzyj generatora. On tworzy wszystkie pliki i rejestr
 - Pola deklaruj w `block.json` przez `acf.fields` (nie w bazie / `acf-json`) - generator kopiuje je z `example-block`. Nie usuwaj ich z nowego bloku bez zastapienia wlasnymi.
 - `acf.mode` zostaw `"preview"`. Na WP 7.1+ (ACF Blocks V3) nie steruje zadnym przelacznikiem i nie wlacza olowka; `"edit"` + `supports.mode: false` daje Placeholder zamiast podgladu.
 - Kategoria bloku: `sfy-blocks` (rejestrowana w `Content/Blocks/BlockCategories.php`).
+
+#### Linki w podgladzie bloku (`BlockPreviewGuard`)
+
+- Klik w link w podgladzie bloku nawiguje caly iframe'owany canvas (WP przechwytuje tylko kotwice `#` klikniete wprost w `<a>`; `<span>` wewnatrz `<a href="#">` juz nawiguje). Dlatego `src/App/Content/Blocks/BlockPreviewGuard.php` ustawia w podgladzie `inert=""` na kazdym elemencie najwyzszego poziomu wyjscia szablonu. **Nie owijaj linkow w `{% if is_preview %}`** i nie neutralizuj `href` recznie - zabezpieczenie jest centralne i dziala dla kazdego bloku z `renderTemplate` (czyli z generatora). Nie traktuj `href="#"` jako bezpiecznego.
+- Jesli chcesz w podgladzie innego markupu, uzyj `is_preview` (patrz sekcja Twig - uwaga na `include ... only`).
+- **NIE zmieniaj `inert=""` na `inert="true"`** (`BlockPreviewGuard::INERT_VALUE` ma byc pustym stringiem). ACF konwertuje HTML podgladu na elementy Reacta i po drodze mapuje atrybuty, zamieniajac stringi `"true"`/`"false"` na booleany; React 18 odrzuca boolean dla nieznanego atrybutu, wiec `inert="true"` znika, zanim dotrze do canvasu - cala ochrona cicho przestaje dzialac. Zmierzone: `inert={true}` odrzucony, `inert="true"` (string) renderowany, `inert=""` renderowany.
+- Ogolnie: **kazdy** atrybut dodawany serwerowo do HTML podgladu bloku przechodzi przez mapper ACF, ktory zjada `"true"`/`"false"` i probuje parsowac wartosci zaczynajace sie od `[` lub `{` jako JSON. Atrybuty `data-*` sa pomijane i przechodza bez zmian.
+- Poza zakresem ochrony: bloki z PHP-owym `render_callback` zamiast `renderTemplate` w `block.json` (nie rob tak w nowych blokach), bloki z `<InnerBlocks />` i z `auto_inline_editing` (pomijane swiadomie - `inert` jest nieodwracalny na potomku), szablon zwracajacy `<svg>` na najwyzszym poziomie.
+- Koszt, o ktorym wiedza redaktorzy: w podgladzie nie da sie zaznaczyc ani skopiowac tekstu.
 
 ### Nowy post type
 

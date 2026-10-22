@@ -229,6 +229,14 @@ const __dirname = dirname(__filename);
     fs.writeFileSync(destScss, scssContent);
 
     // Twig
+    //
+    // Szablon jest kopiowany 1:1 z example-block.twig, wiec nowy blok dziedziczy
+    // tez komentarz o linkach w podgladzie. Zabezpieczenie przed wywaleniem
+    // edytora po klikniecie w <a> jest globalne i serwerowe
+    // (src/App/Content/Blocks/BlockPreviewGuard.php dopisuje inert="" do
+    // korzenia wyjscia szablonu, gdy $is_preview), wiec wygenerowany blok dostaje
+    // je bez ani jednej linii w szablonie - nie trzeba owijac linkow w
+    // {% if is_preview %}, podmieniac href na "#" ani dodawac pointer-events: none.
     const twigSource = path.join(__dirname, 'templates/blocks/sfy/example-block.twig');
     const twigDest = path.join(__dirname, `templates/blocks/sfy/${slug}.twig`);
     let twigContent = fs.readFileSync(twigSource, 'utf8');
