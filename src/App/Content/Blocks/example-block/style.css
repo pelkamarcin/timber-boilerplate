@@ -1,2 +1,18 @@
-/* stylelint-disable indentation */
-/* stylelint-enable indentation */
+.c-example-block {
+  padding-block: var(--sfy-spacing-medium, var(--wp--preset--spacing--50, 1.5rem));
+}
+.c-example-block__heading {
+  margin-block: 0 var(--sfy-spacing-small, var(--wp--preset--spacing--40, 1rem));
+}
+
+.c-example-block__content {
+  margin-block: 0;
+}
+
+.c-example-block__placeholder {
+  margin-block: 0;
+  padding: var(--sfy-spacing-medium, var(--wp--preset--spacing--50, 1.5rem));
+  border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
+  opacity: 0.75;
+  text-align: center;
+}

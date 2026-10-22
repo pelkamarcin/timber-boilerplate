@@ -14,25 +14,27 @@ use Timber\Timber;
 
 $templates = [ 'templates/pages/archive.twig', 'templates/pages/index.twig' ];
 
-$title = 'Archive';
+// Nie uzywamy $title - to globalna zmienna WordPressa (wp-admin/admin-header.php
+// i filtry tytulu), a pliki szablonow dzialaja w zakresie globalnym.
+$archive_title = 'Archive';
 if ( is_day() ) {
-    $title = 'Archive: ' . get_the_date( 'D M Y' );
+    $archive_title = 'Archive: ' . get_the_date( 'D M Y' );
 } elseif ( is_month() ) {
-    $title = 'Archive: ' . get_the_date( 'M Y' );
+    $archive_title = 'Archive: ' . get_the_date( 'M Y' );
 } elseif ( is_year() ) {
-    $title = 'Archive: ' . get_the_date( 'Y' );
+    $archive_title = 'Archive: ' . get_the_date( 'Y' );
 } elseif ( is_tag() ) {
-    $title = single_tag_title( '', false );
+    $archive_title = single_tag_title( '', false );
 } elseif ( is_category() ) {
-    $title = single_cat_title( '', false );
+    $archive_title = single_cat_title( '', false );
 } elseif ( is_post_type_archive() ) {
-    $title = post_type_archive_title( '', false );
+    $archive_title = post_type_archive_title( '', false );
     array_unshift( $templates, 'templates/pages/archive-' . get_post_type() . '.twig' );
 }
 
 $context = Timber::context(
     [
-        'title' => $title,
+        'title' => $archive_title,
     ]
 );
 

@@ -5,6 +5,8 @@ namespace Site\App;
 use Site\App\Assets\FontLoader;
 use Site\App\Assets\ImageSizes;
 use Site\App\Assets\Scripts;
+use Site\App\Content\Blocks\BlockCategories;
+use Site\App\Content\Blocks\BlockPreviewGuard;
 use Site\App\Content\Blocks\BlockRegistry;
 use Site\App\Content\PostTypes\PostTypeRegistry;
 use Site\App\Content\Shortcodes\ShortcodeRegistry;
@@ -19,7 +21,9 @@ use Site\App\Support\WooCommerce;
 
 class AppServiceProvider implements ProviderInterface {
     public function __construct( private array $contentConfig = [] ) {
-        $this->contentConfig = $contentConfig ?: require get_theme_file_path( 'config/content.php' );
+        $this->contentConfig = empty( $contentConfig )
+            ? require get_theme_file_path( 'config/content.php' )
+            : $contentConfig;
     }
 
     public function register(): void {
@@ -30,12 +34,12 @@ class AppServiceProvider implements ProviderInterface {
         } );
 
         add_action( 'init', function () use ( $contentConfig ): void {
-            new PostTypeRegistry( $contentConfig['post_types'] );
-            new TaxonomyRegistry( $contentConfig['taxonomies'] );
-        },          9 );
+            new PostTypeRegistry( $contentConfig['post_types'] ?? [] );
+            new TaxonomyRegistry( $contentConfig['taxonomies'] ?? [] );
+        }, 9 );
 
         add_action( 'acf/init', function () use ( $contentConfig ): void {
-            new BlockRegistry( $contentConfig['blocks'] );
+            new BlockRegistry( $contentConfig['blocks'] ?? [] );
         } );
     }
 
@@ -49,7 +53,13 @@ class AppServiceProvider implements ProviderInterface {
         new MaintenanceMode();
         new Plugins();
         new WooCommerce();
-        new ShortcodeRegistry( $contentConfig['shortcodes'] );
+        new ShortcodeRegistry( $contentConfig['shortcodes'] ?? [] );
         new Menus();
+        new BlockCategories();
+        // Hookowane bezwarunkowo: callbacki same wychodza natychmiast, gdy
+        // $is_preview jest falsy, wiec render frontowy nie przechodzi przez
+        // procesor ani o bajt. Gate na is_admin() bylby zawodny - podglady
+        // blokow ACF jada tez przez REST (is_admin() === false).
+        new BlockPreviewGuard();
     }
 }

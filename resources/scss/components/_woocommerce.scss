@@ -10,6 +10,8 @@
 
 .c-woocommerce {
   width: 100%;
+  // Fallback = contentSize z theme.json (px celowo: szerokosc layoutu nie skaluje sie z rozmiarem fontu)
+  // stylelint-disable-next-line meowtec/no-px
   max-width: var(--sfy-content-width, 1320px);
   margin-left: auto;
   margin-right: auto;

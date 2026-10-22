@@ -1,4 +1,4 @@
-/* stylelint-disable meowtec/no-px */
+// stylelint-disable meowtec/no-px
 @use 'mq-settings';
 
 
@@ -33,4 +33,4 @@ $break-small: 1023px;
 $break-mobile: 480px;
 $break-zoomed-in: 280px;
 
-/* stylelint-enable meowtec/no-px */
+// stylelint-enable meowtec/no-px

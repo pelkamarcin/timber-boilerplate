@@ -8,7 +8,7 @@ class Scripts {
         add_action( 'wp_enqueue_scripts', [ $this, 'script_enqueue' ], 10 );
         add_filter( 'script_loader_tag', [ $this, 'scripts_as_modules' ], 10, 3 );
         add_action( 'init', [ $this, 'redirect_assets_in_dev' ] );
-        add_action( 'enqueue_block_editor_assets', [ $this, 'editor_styles' ] );
+        add_action( 'after_setup_theme', [ $this, 'register_editor_styles' ] );
     }
 
     public function redirect_assets_in_dev(): void {
@@ -91,7 +91,28 @@ class Scripts {
         ];
     }
 
-    public function editor_styles(): void {
+    /**
+     * Rejestruje style edytora (dist/editor-*.css) przez add_editor_style().
+     *
+     * Dlaczego nie wp_enqueue_style() na enqueue_block_editor_assets:
+     *  - od WP 7.1 canvas edytora jest ZAWSZE iframe (wczesniej: gdy wszystkie bloki mialy apiVersion >= 3).
+     *    Do iframe trafiaja tylko: arkusze z enqueue_block_assets (_wp_get_iframed_editor_assets,
+     *    wp-includes/block-editor.php) oraz settings["styles"] z add_editor_style() (get_block_editor_theme_styles).
+     *    enqueue_block_editor_assets laduje wylacznie w chrome edytora (wp-admin) - podglad blokow ACF
+     *    (.acf-block-preview) bylby bez styli motywu,
+     *  - w dokumencie nadrzednym takie style nie sa prefiksowane i globalne reguly (body, h1, a, ul...) psuja UI wp-admin.
+     * add_editor_style() dziala w iframe, a WP prefiksuje selektory (:where(.editor-styles-wrapper));
+     * body/html/:root sa mapowane na wrapper - style nie wyciekaja na UI Gutenberga.
+     * Sciezka jest relatywna do motywu (get_theme_file_path), podkatalog dist/ dziala; hash z manifestu Vite
+     * jest odczytywany na after_setup_theme.
+     *
+     * Style samych blokow (style.css z block.json) WP wczytuje do edytora osobno.
+     *
+     * Celowo bez guardu is_admin(): add_editor_style() jedynie dopisuje sciezke do $editor_styles i flage motywu
+     * (koszt pomijalny), a ustawienia edytora moga byc budowane poza wp-admin (wtyczka Gutenberg, REST, headless),
+     * gdzie is_admin() === false i canvas zostalby po cichu bez styli motywu.
+     */
+    public function register_editor_styles(): void {
         $manifest_path = get_theme_file_path( 'dist/.vite/manifest.json' );
 
         if ( ! file_exists( $manifest_path ) ) {
@@ -101,10 +122,8 @@ class Scripts {
         $manifest = json_decode( file_get_contents( $manifest_path ), true );
 
         if ( isset( $manifest['resources/scss/editor.scss']['file'] ) ) {
-            $css_file      = 'dist/' . $manifest['resources/scss/editor.scss']['file'];
-            $css_file_path = get_theme_file_path( $css_file );
-            $css_file_uri  = get_theme_file_uri( $css_file );
-            wp_enqueue_style( 'sfy-editor', $css_file_uri, [], '1.0.' . filemtime( $css_file_path ) );
+            add_theme_support( 'editor-styles' );
+            add_editor_style( 'dist/' . $manifest['resources/scss/editor.scss']['file'] );
         }
     }
 
@@ -115,7 +134,4 @@ class Scripts {
 
         return $tag;
     }
-
 }
-
-

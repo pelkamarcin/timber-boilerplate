@@ -15,7 +15,7 @@ class ExamplePostType extends PostTypeBase {
         $this->options = [
             'public' => true,
             'has_archive' => true,
-            'supports' => array( 'title', 'editor', 'thumbnail', ),
+            'supports' => array( 'title', 'editor', 'thumbnail' ),
             //                           'taxonomies' => array('states'),
         ];
         parent::__construct();

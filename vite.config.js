@@ -97,25 +97,23 @@ export default defineConfig({
 
 async function compileBlocks(file = null) {
     const blocksFiles = file && file.includes('resources/scss/block') ? [file] : await glob('resources/scss/blocks/*.scss');
-    return new Promise((resolve, reject) => {
-        const noOfFiles = blocksFiles.length;
-        let savedFilesNo = 0;
-        blocksFiles.forEach((item) => {
+
+    await Promise.all(
+        blocksFiles.map(async (item) => {
             const name = path.parse(item).name;
-            const result = sass.compile(item,
-                {
-                    loadPaths: [
-                        './node_modules'
-                    ]
-                });
-            fs.writeFile(`src/App/Content/Blocks/${name}/style.css`, result.css, () => {
-                savedFilesNo++;
-                if (savedFilesNo >= noOfFiles) {
-                    resolve();
-                }
+            const outDir = path.join('src/App/Content/Blocks', name);
+
+            // SCSS bez odpowiadajacego katalogu bloku - wczesniej konczylo sie cichym bledem zapisu
+            if (!fs.existsSync(outDir)) {
+                console.warn(`[blocks] Pomijam ${item} - brak katalogu bloku ${outDir}`);
+                return;
+            }
+
+            const result = sass.compile(item, {
+                loadPaths: ['./node_modules'],
             });
-        });
-    });
 
-
+            await fs.promises.writeFile(path.join(outDir, 'style.css'), result.css);
+        })
+    );
 }

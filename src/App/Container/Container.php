@@ -41,7 +41,7 @@ class Container {
                 } elseif ( $parameter->isDefaultValueAvailable() ) {
                     $dependencies[] = $parameter->getDefaultValue();
                 } else {
-                    throw new RuntimeException( "Unable to resolve parameter " . $parameter->getName() . " for {$class}" );
+                    throw new RuntimeException( 'Unable to resolve parameter ' . $parameter->getName() . " for {$class}" );
                 }
             }
 
@@ -53,4 +53,3 @@ class Container {
         return $instance;
     }
 }
-
