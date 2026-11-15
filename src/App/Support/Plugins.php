@@ -12,11 +12,10 @@ class Plugins {
     private function polylang() {
         add_filter( 'default_title', [ $this, 'polylang_editor_title' ] );
         add_filter( 'default_content', [ $this, 'polylang_editor_content' ] );
-
     }
 
 
-// Make sure Polylang copies the title when creating a translation
+    // Make sure Polylang copies the title when creating a translation
     public function polylang_editor_title( $title ) {
         // Polylang sets the 'from_post' parameter
         if ( isset( $_GET['from_post'] ) ) {
@@ -47,11 +46,9 @@ class Plugins {
             define( 'WPCF7_AUTOP', false ); // phpcs:ignore
         }
         add_filter( 'wpcf7_autop_or_not', '__return_false' );
-
     }
 
     private function acf() {
-
 
         add_action( 'acf/init', [ $this, 'acf_init' ] );
         add_filter( 'timber/context', [ $this, 'acf_timber' ] );
@@ -83,5 +80,4 @@ class Plugins {
             acf_update_setting( 'l10n_textdomain', 'sfy' );
         }
     }
-
 }

@@ -24,7 +24,10 @@
   --sfy-spacing-large: var(--wp--preset--spacing--60, 2rem);
 
   // Layout (z theme.json layout)
+  // Fallbacki = contentSize/wideSize z theme.json (px celowo: szerokosc layoutu nie skaluje sie z rozmiarem fontu)
+  // stylelint-disable-next-line meowtec/no-px
   --sfy-content-width: var(--wp--style--root--layout-content-size, 1320px);
+  // stylelint-disable-next-line meowtec/no-px
   --sfy-wide-width: var(--wp--style--root--layout-wide-size, 1600px);
 
   // Fonty - override per projekt (pierwszy fallback w _typography.scss)

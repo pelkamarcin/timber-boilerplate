@@ -69,13 +69,17 @@ class FontLoader {
             case 'google':
                 $url = $this->config['google_url'] ?? '';
                 if ( ! empty( $url ) ) {
-                    wp_enqueue_style( 'sfy-fonts', $url, [], null );
+                    // Wersja null celowo: URL Google Fonts ma wlasne parametry
+                    // cache'ujace, a ?ver= doklejony przez WP tylko je zasmieca.
+                    wp_enqueue_style( 'sfy-fonts', $url, [], null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
                 }
                 break;
 
             case 'typekit':
                 $kit_id = $this->config['typekit_id'] ?? '';
                 if ( ! empty( $kit_id ) ) {
+                    // Wersja null celowo - jak wyzej, Typekit wersjonuje kit po ID.
+                    // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
                     wp_enqueue_style(
                         'sfy-fonts',
                         'https://use.typekit.net/' . sanitize_key( $kit_id ) . '.css',

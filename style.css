@@ -4,6 +4,9 @@ Theme Name:   Timber Boilerplate Theme
 Theme URI:    https://siteforyou.pl
 Description:  This is a boilerplate theme using Timber
 Version:      1.0
+Requires at least: 6.2
+Requires PHP:      8.1
+Tested up to:      7.1
 Author:       Marcin Pełka biuro@siteforyou.pl
 Text Domain:  sfy
 Domain Path:  /languages/

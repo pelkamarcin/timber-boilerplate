@@ -4,15 +4,12 @@
 
 .wp-block-separator {
 
-  & {
+  &.is-style-wide {
+    width: 100%;
+  }
 
-    &.is-style-wide {
-      width: 100%;
-    }
-
-    &:not(.is-style-wide) {
-      width: rem-calc(200px);
-    }
+  &:not(.is-style-wide) {
+    width: rem-calc(200px);
   }
 
   @at-root {

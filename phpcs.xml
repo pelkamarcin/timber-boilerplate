@@ -2,10 +2,22 @@
 <ruleset name="WordPress Theme Boilerplate"
          namespace="WordPress\Theme\Boilerplate">
     <!--
-      Provide installation path to the WordPress Coding Standards
+      Sciezki do standardow - WSZYSTKIE TRZY, w kolejnosci zaleznosci.
+      WPCS 3 nie jest samowystarczalny: WordPress-Core referuje sniffy
+      Universal.* i NormalizedArrays.* (PHPCSExtra) i opiera sie na
+      PHPCSUtils. Dyrektywa wskazujaca tylko vendor/wp-coding-standards/wpcs
+      zepsulaby ruleset seria "Referenced sniff ... does not exist" - ale
+      wniosek "wiec nie ustawiamy wcale" z tego nie wynika.
+
+      Dyrektywa jest tu potrzebna, bo bez niej ruleset zalezy wylacznie od
+      vendor/squizlabs/php_codesniffer/CodeSniffer.conf zapisywanego przez
+      plugin dealerdirect/phpcodesniffer-composer-installer, a vendor/ jest
+      w .gitignore. Przy `composer install` z opcja `no-plugins` (typowe w CI
+      i obrazach dockerowych) plugin nie wystartuje, CodeSniffer.conf nie
+      powstanie i installed_paths bedzie puste.
     -->
     <config name="installed_paths"
-            value="vendor/wp-coding-standards/wpcs"/>
+            value="vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra,vendor/wp-coding-standards/wpcs"/>
 
     <!--
       Check only files with .php extension
@@ -18,16 +30,26 @@
     <arg value="ns"/>
 
     <!--
+      Default paths to check when phpcs is run without arguments (composer lint)
+    -->
+    <file>.</file>
+
+    <!--
       Exclude from checking package managers directiories
     -->
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>resources/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>dist/*</exclude-pattern>
+    <!--
+      WooCommerce template overrides - kopie szablonow WC, nie nasz kod
+    -->
+    <exclude-pattern>woocommerce/*</exclude-pattern>
 
     <!--
       Disallow using a short array syntax
     -->
-    <rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
+    <rule ref="Universal.Arrays.DisallowShortArraySyntax.Found">
         <type>warning</type>
     </rule>
 
@@ -41,10 +63,33 @@
         <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceAfter"/>
         <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine"/>
         <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
-        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceAfterArrayOpener"/>
-        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.NoSpaceBeforeArrayCloser"/>
+        <!--
+          Sprzeczne z PSR-4 (autoloader Site\App\ -> src/App/): nazwy plikow klas,
+          brak prefiksu w nazwach klas i w namespace
+        -->
         <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
         <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound"/>
+        <exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound"/>
+        <!--
+          Sprzeczne z konwencja projektu: zmienne i wlasciwosci klas sa camelCase
+          (np. $contentConfig, $themePath, $providerClass), tak samo jak nazwy klas
+          i namespace'ow wykluczone wyzej. WPCS wymaga snake_case, co dla kodu
+          obiektowego z PSR-4 oznaczaloby przepisanie calego src/ i tests/.
+          Decyzja: zostawiamy camelCase, wykluczamy caly sniff - obejmuje kody
+          VariableNotSnakeCase, PropertyNotSnakeCase, UsedPropertyNotSnakeCase
+          oraz InterpolatedVariableNotSnakeCase.
+          Nazwy funkcji/metod NIE sa wykluczone - tam obowiazuje snake_case
+          (patrz WordPress.NamingConventions.ValidFunctionName, wlaczony).
+        -->
+        <exclude name="WordPress.NamingConventions.ValidVariableName"/>
+        <!--
+          AGENTS.md deklaruje wprost: "WordPress coding standards (4 spaces,
+          Yoda conditions opcjonalne)". Sniff wymusza Yode, wiec jest sprzeczny
+          z jawna konwencja projektu - gdyby zostal wlaczony, kazdy nowy warunek
+          pisany zgodnie z AGENTS.md lamalby `composer lint`.
+        -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
         <!--
           Should be warnings
         -->
@@ -62,20 +107,40 @@
     -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="sfy"
-                      type="array"
-                      value="sfy"/>
+            <property name="text_domain"
+                      type="array">
+                <element value="sfy"/>
+            </property>
         </properties>
     </rule>
 
     <!--
       Check for valid prefixes in functions names
+
+      Prefiks MUSI miec co najmniej 4 znaki: WPCS 3 ma
+      PrefixAllGlobalsSniff::MIN_PREFIX_LENGTH = 4 (w 2.x bylo 3), a krotszy
+      prefiks nie jest tylko raportowany - jest ODRZUCANY. W
+      validate_prefixes() leci addError('ShortPrefixPassed') + `continue`,
+      wiec prefiks nie wchodzi na liste validated_prefixes, a potem
+      `if ( empty( $this->validated_prefixes ) ) { return; }` konczy sniff dla
+      KAZDEGO pliku. Przy samym 'sfy' (3 znaki) sniff byl martwy - globalna
+      funkcja bez prefiksu i niezaprefiksowana stala przechodzily bez slowa.
+      Dlatego 'sfy_', a nie 'sfy': cztery znaki przechodza walidacje dlugosci,
+      a dopasowanie idzie przez stripos( $name, $prefix ) === 0 (:1177), wiec
+      lapie wszystkie realne globale `sfy_*`.
+      Zgodne z AGENTS.md:19 ("Prefix funkcji/zmiennych globalnych: `sfy_`").
+
+      UWAGA: ta property dotyczy WYLACZNIE nazw globalnych funkcji, klas,
+      stalych i zmiennych w PHP. Nie ma zadnego zwiazku z text domain
+      (patrz WordPress.WP.I18n powyzej - tam zostaje 'sfy'), ze slugami
+      post types `sfy-*` ani z nazwami blokow `sfy/*`.
     -->
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <property name="prefixes"
-                      type="array"
-                      value="sfy"/>
+                      type="array">
+                <element value="sfy_"/>
+            </property>
         </properties>
     </rule>
 
@@ -90,14 +155,26 @@
     </rule>
 
     <!--
-      Check for usage of deprecated functions
+      Minimalna wspierana wersja WORDPRESSA (nie PHP) dla sniffow sprawdzajacych
+      deprecacje. Motyw wymaga WP 6.2+ (patrz CLAUDE.md).
+
+      W WPCS 3 property nazywa sie `minimum_wp_version` (w 2.x bylo
+      `minimum_supported_version`) - stara nazwa wywala caly ruleset bledem
+      "property does not exist", a nie tylko ostrzezeniem.
+
+      Ustawione globalnie przez <config>, a nie jako property jednego sniffa,
+      bo:
+      - wartosc czyta kilka sniffow (DeprecatedFunctions, DeprecatedClasses,
+        DeprecatedParameters, DeprecatedParameterValues, WP.Capabilities),
+        a nie tylko DeprecatedFunctions,
+      - <config> nadpisuje i default, i property per-sniff
+        (patrz MinimumWPVersionTrait::set_minimum_wp_version()), wiec
+        ustawienie per-sniff zostawiloby pozostale sniffy na domyslnym 6.7 -
+        czyli na wersji, ktorej motyw wcale nie wymaga.
+      Jeden spojny prog dla calego rulesetu zamiast dwoch rozjezdzonych.
     -->
-    <rule ref="WordPress.WP.DeprecatedFunctions">
-        <properties>
-            <property name="minimum_supported_version"
-                      value="8.0"/>
-        </properties>
-    </rule>
+    <config name="minimum_wp_version"
+            value="6.2"/>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
@@ -129,4 +206,51 @@
     </rule>
     <rule ref="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket"/>
     <rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket"/>
+
+    <!--
+      =====================================================================
+      Sniffy nowe w WPCS 3, wykluczone dla tests/ ze wzgledow architektury
+      =====================================================================
+      Testy jednostkowe celowo NIE laduja WordPressa (phpunit.xml bootuje
+      tylko vendor/autoload.php). Globalne funkcje WP (add_filter, __,
+      register_post_type, ...) sa podstawiane jako funkcje w namespace
+      testowanej klasy - PHP szuka funkcji najpierw w biezacym namespace,
+      wiec kod produkcyjny dostaje stub bez zadnej zmiany w src/.
+      Ta technika WYMAGA skladni nawiasowej namespace'ow i dwoch deklaracji
+      namespace w jednym pliku (namespace klasy + namespace Tests), a przy
+      kilku stubowanych klasach takze kilku struktur OO i funkcji obok nich.
+      Wykluczenia sa zawezone wzorcem do tests/* - w src/ te sniffy
+      pozostaja aktywne.
+    -->
+    <rule ref="Universal.Namespaces.DisallowCurlyBraceSyntax">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Universal.Namespaces.OneDeclarationPerFile">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Universal.Files.SeparateFunctionsFromOO">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Files.OneObjectStructurePerFile">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
+    <!--
+      ExceptionNotEscaped (nowy w WPCS 3) traktuje komunikat wyjatku jako
+      output i wymaga esc_html(). Container to czysty PHP - zero funkcji
+      WordPressa (tylko Reflection + RuntimeException) - i jest testowany
+      bez WordPressa (tests/ContainerTest.php:52 lapie RuntimeException przy
+      bootstrapie zlozonym wylacznie z vendor/autoload.php).
+      Dodanie esc_html() wysadziloby `composer test` bledem
+      "Call to undefined function esc_html()" i sprzegloby kontener DI
+      z WordPressem. Dane w komunikacie to nazwa klasy z config/app.php
+      i nazwa parametru konstruktora - zrodla deweloperskie, nie wejscie
+      uzytkownika.
+      Wykluczenie wskazuje KONKRETNY PLIK, nie katalog - inaczej kazdy nowy
+      plik w src/App/Container/ dostawalby wyciszony sniff bezpieczenstwa
+      bez niczyjej decyzji.
+    -->
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+        <exclude-pattern>src/App/Container/Container.php</exclude-pattern>
+    </rule>
 </ruleset>

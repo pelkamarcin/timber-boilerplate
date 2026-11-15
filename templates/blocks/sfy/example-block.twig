@@ -1,6 +1,44 @@
-<div {{ anchor }} class="c-example-block {{ class_name }} {{ block.className }} u-animated-block t-anim-1">
-    {% if is_preview %}
-        <h2 class="c-example-block__preview">{{ block.title }}</h2>
+{# Lista klas jest skladana i escapowana w render.php (block_classes).
+   Timber ma autoescape WYLACZONY, wiec nie wstawiaj tu surowych zmiennych -
+   nowe klasy dopisuj do $block_classes w render.php, nie do tego atrybutu.
+
+   LINKI W PODGLADZIE: NIC NIE MUSISZ ROBIC.
+   Klikniecie <a> w podgladzie bloku nawigowaloby caly canvas edytora (od WP 6.3
+   jest to iframe) i edytor ginalby razem z niezapisanymi zmianami. Zabezpieczenie
+   jest centralne i serwerowe: Site\App\Content\Blocks\BlockPreviewGuard dopisuje
+   inert="" do korzenia wyjscia KAZDEGO bloku ACF, gdy render idzie do
+   edytora ($is_preview). Na froncie nie zmienia sie ani jeden bajt.
+   (Wartosc jest pusta, a nie "true", celowo - uzasadnienie w INERT_VALUE.)
+   `inert` wylacza klikniecia, fokus i kolejnosc Tab dla calego poddrzewa, wiec:
+
+   - NIE owijaj <a> w {% if is_preview %} - to martwa robota i rozjezdza
+     podglad z frontem,
+   - NIE podmieniaj href na "#" - klikniecie w element ZAGNIEZDZONY w <a href="#">
+     mimo wszystko nawiguje canvas (WP sprawdza event.target, nie closest('a')),
+   - NIE dodawaj regul `pointer-events: none` - link zostaje fokusowalny,
+     wiec Tab + Enter to omija.
+
+   Wyjatki (blok zostaje nietkniety, bo podglad musi byc interaktywny):
+   ACF `auto_inline_editing` oraz szablon z placeholderem <InnerBlocks />.
+
+   Jesli mimo to chcesz w podgladzie INNEGO markupu niz na froncie, `is_preview`
+   jest w kontekscie (ustawiane w render.php) - patrz warunek z placeholderem nizej.
+   UWAGA: `include ... only` odcina kontekst rodzica i `is_preview` trzeba wtedy
+   przekazac jawnie (vendor/twig/twig/src/Node/IncludeNode.php:109-113 kompiluje
+   `with X only` do CoreExtension::toArray(X), bez merge'owania $context):
+       {% include 'components/ui/Button.twig' with { is_preview: is_preview } only %} #}
+<div {{ anchor }}class="{{ block_classes }}">
+    {% if fields.heading %}
+        <h2 class="c-example-block__heading">{{ fields.heading|e }}</h2>
     {% endif %}
-    {#    {{ fields.test }} #}
+
+    {% if fields.content %}
+        <div class="c-example-block__content">{{ fields.content|e|nl2br }}</div>
+    {% endif %}
+
+    {% if is_preview and not fields.heading and not fields.content %}
+        <p class="c-example-block__placeholder">
+            {{ __("Add a heading and content - use the pencil icon in the block toolbar.", "sfy") }}
+        </p>
+    {% endif %}
 </div>

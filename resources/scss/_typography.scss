@@ -18,7 +18,6 @@ $font-size-base: rem-calc(16px);
 // The 3rd level of the map corresponds to font property combinations that frequently go together. Any arbitrary word goes as a group name. The properties are usually font-size and line-height but can be also any other. Please avoid including color and other non typography properties here, though.
 // Usage: @include u-set-typography($typeface, $style-name);
 
-/* stylelint-disable indentation */
 $font-styles: (
         'main': (
                 'regular': (
@@ -74,11 +73,11 @@ $font-styles: (
 @mixin u-set-typography($typeface-name: 'main', $style-name: 'regular') {
 
   $this-typeface: map.get($font-styles, $typeface-name);
-  @if $this-typeface == null {
+  @if not $this-typeface {
     $this-typeface: ();
   }
   $this-style: map.get($this-typeface, $style-name);
-  @if $this-style == null {
+  @if not $this-style {
     $this-style: ();
   }
   @if $typeface-name == 'main' {
@@ -117,5 +116,3 @@ $font-styles: (
     }
   }
 }
-
-/* stylelint-enable indentation */

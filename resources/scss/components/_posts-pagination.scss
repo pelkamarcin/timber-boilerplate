@@ -4,10 +4,8 @@
 
 .c-posts-pagination {
 
-  & {
-    display: flex;
-    gap: rem-calc(10px);
-  }
+  display: flex;
+  gap: rem-calc(10px);
 
   @at-root {
     &__item {

@@ -28,4 +28,3 @@ class App {
         return $this->container;
     }
 }
-

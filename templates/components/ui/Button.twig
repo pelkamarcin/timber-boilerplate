@@ -1,13 +1,24 @@
 {#
 Generic button component.
 Params: label (string), url (string), variant (string, optional)
+
+Timber ma autoescape WYLACZONY (vendor/timber/timber/src/Loader.php:329),
+wiec KAZDA zmienna wstawiana w szablonie potrzebuje wlasnego escapera.
+Ten komponent jest wzorcem do kopiowania, wiec escapowanie jest tu jawne:
+
+- `label|e` - escaper 'html' (Twig domyslny), bo wartosc idzie do tekstu elementu.
+- `url|e('esc_url')` - escaper zarejestrowany przez Timbera
+  (vendor/timber/timber/src/Twig.php:609), czyli natywne WP esc_url().
+  Samo `|e('html_attr')` tu NIE wystarcza: escapowalo by cudzyslowy, ale
+  przepuscilo `javascript:alert(1)` jako href. esc_url() odrzuca protokoly
+  poza biala lista (wp_allowed_protocols) i dopiero potem escapuje encje.
 #}
 {% set classes = [
     'c-button',
     variant ? 'c-button--' ~ variant : null
 ]|filter(v => v) %}
 
-<a class="{{ classes|join(' ') }}" href="{{ url|default('#') }}">
-    {{ label|default('Click me') }}
+<a class="{{ classes|join(' ') }}" href="{{ url|default('#')|e('esc_url') }}">
+    {{ label|default('Click me')|e }}
 </a>
 

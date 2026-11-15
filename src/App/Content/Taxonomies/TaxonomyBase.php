@@ -3,10 +3,10 @@
 namespace Site\App\Content\Taxonomies;
 
 class TaxonomyBase {
-    public array  $labels;
-    public string $prepend            = 'sfy-';
-    public array  $related_post_types = [];
-    public string $taxonomy_name      = 'base-post-type';
+    public array $labels;
+    public string $prepend = 'sfy-';
+    public array $related_post_types = [];
+    public string $taxonomy_name = 'base-post-type';
 
     public array $options = [
         'hierarchical' => true,

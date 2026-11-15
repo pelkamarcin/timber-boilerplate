@@ -2,17 +2,17 @@
 @use 'base/mq-settings' as mq;
 @use 'base/functions' as *;
 
-/* stylelint-disable declaration-no-important, selector-max-universal */
+// stylelint-disable selector-max-universal
 
 
 :root {
-  --gutter-size: 30px;
+  --gutter-size: #{rem-calc(30)};
   --gutter-size-x: var(--gutter-size);
   --gutter-size-y: var(--gutter-size);
 
-  --sfy-text-color: var(--sfy-color-dark, #001019);
-  --sfy-link-color: var(--sfy-color-blue, #004f7f);
-  --sfy-heading-color: var(--sfy-color-dark, #001019);
+  --sfy-text-color: var(--sfy-color-dark);
+  --sfy-link-color: var(--sfy-color-blue);
+  --sfy-heading-color: var(--sfy-color-dark);
 
   // --bs-gutter-x: 10px;
   @include mq.sfy-mq($from: large) {
@@ -75,6 +75,10 @@ p {
 }
 
 // Global list styles
+ul {
+  list-style-type: disc;
+}
+
 ul, ol {
   margin: 0 0 var(--gutter-size-y) 0;
   padding-left: var(--gutter-size);
@@ -86,10 +90,6 @@ ul, ol {
   li {
     margin-bottom: calc(var(--gutter-size-y) / 2);
   }
-}
-
-ul {
-  list-style-type: disc;
 }
 
 // Links

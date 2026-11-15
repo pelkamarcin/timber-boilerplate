@@ -6,15 +6,10 @@ use Timber\Timber;
 
 class Menus {
 
-    private array $menus;
-
     public function __construct() {
-
-        $this->menus = [
-            'mainmenu' => __( 'Menu in the header', 'sfy' ),
-        ];
-
-        add_filter( 'after_setup_theme', [ $this, 'register_menus' ] );
+        // Zadnego __() w konstruktorze - obiekt powstaje w boot() (functions.php),
+        // czyli przed after_setup_theme i przed init. Tlumaczenia dopiero w callbacku.
+        add_action( 'after_setup_theme', [ $this, 'register_menus' ] );
         add_filter( 'timber/context', [ $this, 'add_to_context' ] );
     }
 
@@ -32,7 +27,9 @@ class Menus {
         return $context;
     }
 
-    public function register_menus() {
-        register_nav_menus( $this->menus );
+    public function register_menus(): void {
+        register_nav_menus( [
+            'mainmenu' => __( 'Menu in the header', 'sfy' ),
+        ] );
     }
 }

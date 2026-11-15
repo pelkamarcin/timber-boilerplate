@@ -6,13 +6,13 @@ Bazowy szablon WordPress (boilerplate) oparty na Timber/Twig do budowania motywo
 
 ## Stack technologiczny
 
-- **PHP 8.0+** z PSR-4 autoloadingiem (namespace `Site\App\`)
+- **PHP 8.1+** z PSR-4 autoloadingiem (namespace `Site\App\`)
 - **Timber 2.0** (Twig templating dla WordPress)
 - **ACF Pro** (Advanced Custom Fields) - custom blocks, options pages
 - **Vite 6** - bundler z HMR
 - **TypeScript** (strict mode) - caly frontend JS
 - **SCSS** - 7-1 pattern, sass-mq, sass-rem, rozszerzony BEM z namespace prefixami
-- **WordPress 6.0+** z Gutenberg block editor
+- **WordPress 6.2+** z Gutenberg block editor (tyle wymaga ACF Pro 6.8; pelne ACF Blocks V3 = `api_version` 3 wymaga 6.3+; opisane nizej zachowanie edytora dotyczy WP 7.1+)
 
 ## Struktura katalogow
 
@@ -26,6 +26,7 @@ templates/       → Twig templates (layouts, pages, components, blocks)
 dist/            → Build output (nie edytowac recznie)
 woocommerce/     → WooCommerce template overrides (natywne PHP)
 tests/           → PHPUnit testy
+tasks/           → pliki zadan (plan, ustalenia, wyniki), 1 plik na zadanie
 ```
 
 ## Konwencje nazewnictwa
@@ -44,7 +45,7 @@ tests/           → PHPUnit testy
 - Max 1 poziom zagniezdzen elementow (nie `.c-post__title__link`)
 
 ### PHP
-- Prefix: `sfy` (do zmiany per projekt)
+- Prefix: `sfy` (do zmiany per projekt); prefiks globali PHP to `sfy_` (min. 4 znaki - wymog WPCS 3, krotszy wylacza sniff `PrefixAllGlobals` po cichu)
 - Text domain: `sfy`
 - Post types: `sfy-{name}`
 - Bloki ACF: `sfy/{name}`
@@ -90,6 +91,24 @@ Bloki uzywa:
 - `resources/scss/blocks/{slug}.scss` - style (auto-kompilowane do style.css)
 - `templates/blocks/sfy/{slug}.twig` - template
 
+### ACF Blocks V3 (WP 7.1+, ACF Pro 6.8)
+
+- Blok z `block.json` bez `acf.blockVersion` dostaje na WP 7.1+ **V3**. Canvas edytora jest zawsze iframe'owany, formularza pol nie ma w canvasie (pola w sidebarze), stary przelacznik "Switch to Preview/Edit" nie istnieje.
+- Ikona olowka na toolbarze bloku = "Edit Block" → **Expanded Editor** (modal z polami). **Blok MUSI miec przynajmniej jedno pole ACF**, inaczej ACF ukrywa olowek.
+- Pola deklaruj w `block.json` przez `acf.fields` (ACF rejestruje z nich grupe pol; dziala po `git clone`, bez `acf-json`). Wzor: `example-block`. Generator kopiuje te pola do nowych blokow.
+- `acf.mode: "preview"` jest dzis **bez wplywu na UI** - to zabezpieczenie (V3 renderuje Placeholder zamiast podgladu przy `mode: "edit"` + `supports.mode: false`). Nie sugeruj, ze `mode` wlacza olowek. Na WP < 7.1 (sciezka V2) `mode` dziala jak dawniej.
+- `acf.blockVersion` swiadomie nie jest przypiete (jawna `3` wymaga WP >= 6.3, a deklarowane minimum to 6.2) - kwestia do rozstrzygniecia po podniesieniu minimum.
+- Kategoria `sfy-blocks` rejestrowana w `Content/Blocks/BlockCategories.php` (`block_categories_all`).
+- **Timber ma autoescape WYLACZONY** - w Twigu blokow zawsze `{{ fields.pole|e }}` (patrz `example-block.twig`), inaczej XSS. Dla atrybutow `href`/`src` uzywaj `|e('esc_url')`.
+- **`BlockPreviewGuard`** (`Content/Blocks/BlockPreviewGuard.php`, rejestrowana w `AppServiceProvider`): w podgladzie bloku ustawia `inert=""` na elementach najwyzszego poziomu wyjscia szablonu, bo klik w link w iframe'owanym canvasie nawiguje caly edytor. Wartosc MUSI byc pusta (`inert="true"` zjada mapper ACF → React i atrybut znika). Front nietkniety (poza podgladem nawet bufor sie nie otwiera). Poza zakresem: bloki z PHP-owym `render_callback`, z `<InnerBlocks />` i z `auto_inline_editing`. Koszt: w podgladzie nie da sie zaznaczyc tekstu.
+
+### Style w edytorze
+
+- Canvas jest iframe'owany → CSS z `enqueue_block_editor_assets` do niego **nie trafia**. Droga: `add_theme_support( 'editor-styles' )` + `add_editor_style( 'dist/<editor.scss z manifestu>' )` w `Scripts::register_editor_styles()` (`after_setup_theme`); WP prefiksuje selektory `:where(.editor-styles-wrapper)`.
+- `editor.scss` = wspolne komponenty (`components/*`), typografia, tokeny. NIE importuj do niego `vendors` (normalize psuje UI edytora) ani `base/elements_animations` (`opacity: 0` do odpalenia JS, w edytorze blok bylby niewidoczny).
+- Style bloku pisz w `resources/scss/blocks/{slug}.scss` - trafiaja do canvasu przez `block.json` (`"style": ["file:./style.css"]`).
+- JS frontu NIE jest wczytywany w edytorze (nie ma byc): `document.ready` odpala sie przed renderem podgladow AJAX-em, a parallax itp. potrafi rozwalic canvas. Komponenty zalezne od JS pokaza w podgladzie wszystkie elementy; w razie potrzeby minimalny CSS pod `.acf-block-preview`.
+
 ## Fonty
 
 Konfiguracja w `config/fonts.php`. Trzy zrodla: `local`, `google`, `typekit`.
@@ -115,6 +134,10 @@ npm run typecheck    # TypeScript type checking
 composer test        # PHPUnit testy
 composer lint        # PHPCS (PHP)
 ```
+
+`composer test`, `composer lint` i `npm run lint:css` przechodza czysto (exit 0). `phpcs`: zmienne i wlasciwosci camelCase (sniff `ValidVariableName` wykluczony), funkcje i metody snake_case (sniff wlaczony), Yoda opcjonalne.
+
+Znane kwestie: tablice `assets`/`features`/`support` w `config/app.php` to martwy kod (czytane sa tylko `providers`). `composer audit` jest czysty (`twig/twig` `^3.27.1` w `require`, `wpcs` `^3.4.1` w `require-dev`). `timber/timber` zostaje na 2.3.x swiadomie (2.4+ wymaga PHP 8.2, motyw deklaruje 8.1+) - szczegoly w README ("Zaleznosci i bezpieczenstwo"). `phpcs.xml`: `installed_paths` ustawione na trzy sciezki (`phpcsutils`, `phpcsextra`, `wpcs` - nie usuwaj, nie skracaj do samego `wpcs`), `minimum_wp_version` 6.2, prefiks globali `sfy_`.
 
 ## Wazne zasady
 

@@ -11,9 +11,26 @@
         "example",
         "sfy"
     ],
+    "textdomain" : "sfy",
     "acf" : {
-        "mode" : "edit",
-        "renderTemplate" : "render.php"
+        "mode" : "preview",
+        "renderTemplate" : "render.php",
+        "fields" : [
+            {
+                "name" : "heading",
+                "label" : "Heading",
+                "type" : "text",
+                "instructions" : "Title shown at the top of the block.",
+                "placeholder" : "e.g. Why us?"
+            },
+            {
+                "name" : "content",
+                "label" : "Content",
+                "type" : "textarea",
+                "instructions" : "Short paragraph below the heading.",
+                "rows" : 4
+            }
+        ]
     },
     "supports" : {
         "anchor" : true,

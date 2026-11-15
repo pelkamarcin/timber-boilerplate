@@ -42,18 +42,14 @@ class Site extends TimberSite {
 
 
     public function custom_login_logo() {
-        $url = get_theme_file_uri( 'favicon.svg' );
-
-        $styles = [
-            sprintf( 'background-image: url(%s)', $url ),
-            'width: 200px',
-            'background-position: center',
-            'background-size: contain',
-        ];
-
         printf(
-            '<style> .login h1 a { %s } </style>',
-            implode( ';', $styles )
+            '<style> .login h1 a {'
+            . ' background-image: url(%s);'
+            . ' width: 200px;'
+            . ' background-position: center;'
+            . ' background-size: contain;'
+            . ' } </style>',
+            esc_url( get_theme_file_uri( 'favicon.svg' ) )
         );
     }
 
@@ -80,5 +76,4 @@ class Site extends TimberSite {
 
         return $classes;
     }
-
 }
